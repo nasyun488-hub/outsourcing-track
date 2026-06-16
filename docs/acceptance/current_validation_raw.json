@@ -1,0 +1,173 @@
+{
+  "generated_at": "2026-06-12T02:14:11",
+  "order_id": "DEMO_PENDING_001",
+  "steps": [
+    {
+      "name": "重置模拟数据",
+      "ok": true,
+      "detail": "接收\\t订单 DEMO_DONE_001 已完成归档；订单 DEMO_SPLIT_001 末道尚未接收。\\nDEMO_N_U005_1\\tU005\\t下道待处理\\t订单 DEMO_SPLIT_001 已从精加工A厂分两批发出70件，并由热处理B厂接收。\",\n  \"consistency_raw\": \"check_name\\tbad_count\\norder_without_3_processes\\t0\\ncheck_name\\tbad_count\\norder_status_mismatch\\t0\\ncheck_name\\tbad_count\\nrecord_qty_invalid\\t0\\ncheck_name\\tbad_count\\ndownstream_receive_exceeds_prev_ship\\t0\\ncheck_name\\tbad_count\\nmojibake_notifications\\t0\"\n}\nRESULT_FILE=/home/takemehome/outsourcing-track/docs/acceptance/demo-data-result.json\n"
+    },
+    {
+      "name": "后端健康检查",
+      "ok": true,
+      "detail": {
+        "status": "ok"
+      }
+    },
+    {
+      "name": "DB基线读取",
+      "ok": true,
+      "detail": {
+        "order": "DEMO_PENDING_001\tpending\t80\tF002",
+        "records": "DEMO_PENDING_R1\tDEMO_PENDING_P1\tF002\tpending\tnone\t0\t0\nDEMO_PENDING_R2\tDEMO_PENDING_P2\tF003\tpending\tnone\t0\t0\nDEMO_PENDING_R3\tDEMO_PENDING_P3\tF001\tpending\tnone\t0\t0"
+      }
+    },
+    {
+      "name": "按厂家获取真实登录Token",
+      "ok": true,
+      "detail": {
+        "F002": "[TOKEN_REDACTED]",
+        "F003": "[TOKEN_REDACTED]",
+        "F001": "[TOKEN_REDACTED]"
+      }
+    },
+    {
+      "name": "批量扫码接口去重与异常",
+      "ok": false,
+      "detail": {
+        "total": 3,
+        "success_count": 0,
+        "fail_count": 3,
+        "items": [
+          {
+            "qr_code": "DEMO_PENDING_R1",
+            "record_id": null,
+            "jump_type": "not_found",
+            "message": "无法识别的二维码格式",
+            "record_status": null,
+            "lock_type": null,
+            "factory_id": null
+          },
+          {
+            "qr_code": "DEMO_PENDING_R2",
+            "record_id": null,
+            "jump_type": "not_found",
+            "message": "无法识别的二维码格式",
+            "record_status": null,
+            "lock_type": null,
+            "factory_id": null
+          },
+          {
+            "qr_code": "BAD_CODE",
+            "record_id": null,
+            "jump_type": "not_found",
+            "message": "无法识别的二维码格式",
+            "record_status": null,
+            "lock_type": null,
+            "factory_id": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "R1接收80",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "R1发出80",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "R2接收80",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "R2退回20给R1",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "退件后毛数量保留/有效数量折算",
+      "ok": true,
+      "detail": {
+        "R1": {
+          "record_id": "DEMO_PENDING_R1",
+          "order_id": "DEMO_PENDING_001",
+          "process_id": "DEMO_PENDING_P1",
+          "process_seq": "1",
+          "process_name": "首道精加工",
+          "factory_id": "F002",
+          "factory_name": "精加工A厂",
+          "record_status": "shipped",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 80,
+          "total_ship_qty": 80,
+          "gross_receive_qty": 80,
+          "gross_ship_qty": 80,
+          "returned_in_qty": 0,
+          "returned_out_qty": 20,
+          "prev_ship_qty": 80,
+          "current_receive_qty": 80,
+          "current_ship_qty": 60,
+          "available_receive_qty": 0,
+          "available_ship_qty": 20,
+          "partial_receive": false,
+          "partial_ship": true,
+          "last_receive_time": "2026-06-11T18:14:19",
+          "last_ship_time": "2026-06-11T18:14:19",
+          "created_at": "2026-06-11T18:14:14",
+          "updated_at": "2026-06-11T18:14:20"
+        },
+        "R2": {
+          "record_id": "DEMO_PENDING_R2",
+          "order_id": "DEMO_PENDING_001",
+          "process_id": "DEMO_PENDING_P2",
+          "process_seq": "2",
+          "process_name": "二道热处理",
+          "factory_id": "F003",
+          "factory_name": "热处理B厂",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 80,
+          "total_ship_qty": 0,
+          "gross_receive_qty": 80,
+          "gross_ship_qty": 0,
+          "returned_in_qty": 20,
+          "returned_out_qty": 0,
+          "prev_ship_qty": 60,
+          "current_receive_qty": 60,
+          "current_ship_qty": 0,
+          "available_receive_qty": 0,
+          "available_ship_qty": 60,
+          "partial_receive": true,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-11T18:14:20",
+          "last_ship_time": null,
+          "created_at": "2026-06-11T18:14:14",
+          "updated_at": "2026-06-11T18:14:20"
+        }
+      }
+    },
+    {
+      "name": "退件后未重发禁止超有效量发出",
+      "ok": true,
+      "detail": {
+        "detail": "发出数量(80)超过可发出量(60)"
+      }
+    },
+    {
+      "name": "R1补发20",
+      "ok": true,
+      "detail": null
+    }
+  ],
+  "bugs": [
+    {
+      "error": "POST /api/records/ship got 400: {'detail': '发出数量(80)超过可发出量(60)'}",
+      "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 93, in <module>\n  File \"<stdin>\", line 25, in api\nAssertionError: POST /api/records/ship got 400: {'detail': '发出数量(80)超过可发出量(60)'}\n"
+    }
+  ]
+}

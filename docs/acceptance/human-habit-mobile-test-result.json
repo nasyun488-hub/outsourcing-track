@@ -1,0 +1,299 @@
+{
+  "generated_at": "2026-06-10T22:37:32.062929",
+  "method": "API-assisted mobile human-habit simulation",
+  "frontend": "http://192.168.3.93:8081",
+  "api": "http://localhost:8000/api",
+  "test_accounts": [
+    {
+      "phone": "13800138000",
+      "name": "企业管理员",
+      "role": "enterprise_admin",
+      "factory": "测试企业"
+    },
+    {
+      "phone": "13800138001",
+      "name": "A厂管理员",
+      "role": "primary_admin",
+      "factory": "外协工序A厂"
+    },
+    {
+      "phone": "13800138003",
+      "name": "A厂操作员",
+      "role": "primary_operator",
+      "factory": "外协工序A厂"
+    },
+    {
+      "phone": "13800138002",
+      "name": "B厂管理员",
+      "role": "cooperative_admin",
+      "factory": "外协工序B厂"
+    },
+    {
+      "phone": "13800138004",
+      "name": "B厂操作员",
+      "role": "cooperative_operator",
+      "factory": "外协工序B厂"
+    }
+  ],
+  "summary": {
+    "total": 42,
+    "passed": 41,
+    "failed": 1
+  },
+  "results": [
+    {
+      "name": "手机访问SPA路由 /",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机访问SPA路由 /login",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机访问SPA路由 /kanban",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机访问SPA路由 /scan",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机访问SPA路由 /receive/MADM_R1",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机访问SPA路由 /ship/MADM_R1",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机访问SPA路由 /view/MADM_R1",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机访问SPA路由 /bad/path",
+      "status": "PASS",
+      "detail": "HTTP 200, 405 bytes",
+      "evidence": {}
+    },
+    {
+      "name": "手机首页静态资源加载",
+      "status": "PASS",
+      "detail": "[('/assets/index-Db_96XXD.js', 200, 373612), ('/assets/index-BLQHIiS8.css', 200, 199058)]",
+      "evidence": {
+        "asset_count": 2
+      }
+    },
+    {
+      "name": "未登录访问看板应被拦截",
+      "status": "PASS",
+      "detail": "HTTP 403",
+      "evidence": {}
+    },
+    {
+      "name": "输错验证码不能登录",
+      "status": "PASS",
+      "detail": "HTTP 401, {\"detail\":\"手机号或验证码错误\"}",
+      "evidence": {}
+    },
+    {
+      "name": "重复点击获取验证码可用最后一次验证码",
+      "status": "PASS",
+      "detail": "codes returned: True,True",
+      "evidence": {}
+    },
+    {
+      "name": "登录账号 企业管理员(13800138000)",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "evidence": {}
+    },
+    {
+      "name": "企业管理员打开首页/身份信息",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"user_id\":\"U001\",\"factory_id\":\"F001\",\"phone\":\"13800138000\",\"name\":\"ä¼ä¸šç®¡ç†å‘˜\",\"role\":\"enterprise_admin\",\"status\":\"active\",\"last_login\":\"2026-06-10T14:37:",
+      "evidence": {}
+    },
+    {
+      "name": "企业管理员打开看板统计",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"pending\":11,\"in_progress\":7,\"completed\":3,\"overdue_count\":7}",
+      "evidence": {}
+    },
+    {
+      "name": "企业管理员打开订单列表",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"page\":1,\"page_size\":20,\"items\":[{\"order_no\":\"MADM_FLOW_001\",\"product_name\":\"\",\"quantity\":100,\"unit\":\"\",\"status\":\"in_progress\",\"delivery_date\":null,",
+      "evidence": {}
+    },
+    {
+      "name": "企业管理员打开通知",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":0,\"unread_count\":0,\"items\":[]}",
+      "evidence": {}
+    },
+    {
+      "name": "登录账号 A厂管理员(13800138001)",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "evidence": {}
+    },
+    {
+      "name": "A厂管理员打开首页/身份信息",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"user_id\":\"U002\",\"factory_id\":\"F002\",\"phone\":\"13800138001\",\"name\":\"AåŽ‚ç®¡ç†å‘˜\",\"role\":\"primary_admin\",\"status\":\"active\",\"last_login\":\"2026-06-10T14:37:31\",\"",
+      "evidence": {}
+    },
+    {
+      "name": "A厂管理员打开看板统计",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"pending\":11,\"in_progress\":7,\"completed\":3,\"overdue_count\":7}",
+      "evidence": {}
+    },
+    {
+      "name": "A厂管理员打开订单列表",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"page\":1,\"page_size\":20,\"items\":[{\"order_no\":\"MADM_FLOW_001\",\"product_name\":\"\",\"quantity\":100,\"unit\":\"\",\"status\":\"in_progress\",\"delivery_date\":null,",
+      "evidence": {}
+    },
+    {
+      "name": "A厂管理员打开通知",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":0,\"unread_count\":0,\"items\":[]}",
+      "evidence": {}
+    },
+    {
+      "name": "登录账号 A厂操作员(13800138003)",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "evidence": {}
+    },
+    {
+      "name": "A厂操作员打开首页/身份信息",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"user_id\":\"U003\",\"factory_id\":\"F002\",\"phone\":\"13800138003\",\"name\":\"AåŽ‚æ“ä½œå‘˜\",\"role\":\"primary_operator\",\"status\":\"active\",\"last_login\":\"2026-06-10T14:37:31",
+      "evidence": {}
+    },
+    {
+      "name": "A厂操作员打开看板统计",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"pending\":11,\"in_progress\":7,\"completed\":3,\"overdue_count\":7}",
+      "evidence": {}
+    },
+    {
+      "name": "A厂操作员打开订单列表",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"page\":1,\"page_size\":20,\"items\":[{\"order_no\":\"MADM_FLOW_001\",\"product_name\":\"\",\"quantity\":100,\"unit\":\"\",\"status\":\"in_progress\",\"delivery_date\":null,",
+      "evidence": {}
+    },
+    {
+      "name": "A厂操作员打开通知",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":0,\"unread_count\":0,\"items\":[]}",
+      "evidence": {}
+    },
+    {
+      "name": "登录账号 B厂管理员(13800138002)",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "evidence": {}
+    },
+    {
+      "name": "B厂管理员打开首页/身份信息",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"user_id\":\"U004\",\"factory_id\":\"F003\",\"phone\":\"13800138002\",\"name\":\"BåŽ‚ç®¡ç†å‘˜\",\"role\":\"cooperative_admin\",\"status\":\"active\",\"last_login\":\"2026-06-10T14:37:3",
+      "evidence": {}
+    },
+    {
+      "name": "B厂管理员打开看板统计",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"pending\":11,\"in_progress\":7,\"completed\":3,\"overdue_count\":7}",
+      "evidence": {}
+    },
+    {
+      "name": "B厂管理员打开订单列表",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"page\":1,\"page_size\":20,\"items\":[{\"order_no\":\"MADM_FLOW_001\",\"product_name\":\"\",\"quantity\":100,\"unit\":\"\",\"status\":\"in_progress\",\"delivery_date\":null,",
+      "evidence": {}
+    },
+    {
+      "name": "B厂管理员打开通知",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":0,\"unread_count\":0,\"items\":[]}",
+      "evidence": {}
+    },
+    {
+      "name": "登录账号 B厂操作员(13800138004)",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "evidence": {}
+    },
+    {
+      "name": "B厂操作员打开首页/身份信息",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"user_id\":\"U005\",\"factory_id\":\"F003\",\"phone\":\"13800138004\",\"name\":\"BåŽ‚æ“ä½œå‘˜\",\"role\":\"cooperative_operator\",\"status\":\"active\",\"last_login\":\"2026-06-10T14:3",
+      "evidence": {}
+    },
+    {
+      "name": "B厂操作员打开看板统计",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"pending\":11,\"in_progress\":7,\"completed\":3,\"overdue_count\":7}",
+      "evidence": {}
+    },
+    {
+      "name": "B厂操作员打开订单列表",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":21,\"page\":1,\"page_size\":20,\"items\":[{\"order_no\":\"MADM_FLOW_001\",\"product_name\":\"\",\"quantity\":100,\"unit\":\"\",\"status\":\"in_progress\",\"delivery_date\":null,",
+      "evidence": {}
+    },
+    {
+      "name": "B厂操作员打开通知",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"total\":0,\"unread_count\":0,\"items\":[]}",
+      "evidence": {}
+    },
+    {
+      "name": "扫码原始记录ID会提示格式不识别（GET真实接口）",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"qr_code\":\"MADM_R1\",\"record_id\":null,\"jump_type\":\"not_found\",\"message\":\"无法识别的二维码格式\",\"record_status\":null,\"lock_type\":null,\"factory_id\":null}",
+      "evidence": {}
+    },
+    {
+      "name": "A厂操作员打开工序详情",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"record_id\":\"MADM_R1\",\"order_id\":\"MADM_FLOW_001\",\"process_id\":\"MADM_P1\",\"factory_id\":\"F002\",\"record_status\":\"shipped\",\"lock_type\":\"relation_lock\",\"total_receive_qty\":100,\"total_ship_qty\":100,\"partial_receive\":true,\"part",
+      "evidence": {}
+    },
+    {
+      "name": "过量接收应被阻止或不改变业务",
+      "status": "PASS",
+      "detail": "HTTP 422, {\"detail\":[{\"type\":\"missing\",\"loc\":[\"body\",\"receive_qty\"],\"msg\":\"Field required\",\"input\":{\"record_id\":\"MADM_R1\",\"quantity\":999999,\"operator_id\":\"U003\",\"receive_time\":\"2026-06-10T22",
+      "evidence": {}
+    },
+    {
+      "name": "B厂用户可直接查看A厂工序详情（权限边界问题）",
+      "status": "FAIL",
+      "detail": "HTTP 200，跨厂可读详情；建议详情/扫码接口加 factory_id 权限过滤。",
+      "evidence": {}
+    },
+    {
+      "name": "扫码规范二维码 record_MADM_R1 可跳转",
+      "status": "PASS",
+      "detail": "HTTP 200, {\"qr_code\":\"record_MADM_R1\",\"record_id\":\"MADM_R1\",\"jump_type\":\"view\",\"message\":\"跳转到view页面\",\"record_status\":\"shipped\",\"lock_type\":\"relation_lock\",\"factory_id\":\"F002\"}",
+      "evidence": {}
+    }
+  ]
+}

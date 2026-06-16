@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-06-10T18:04:48.446Z",
+  "summary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "登录页可访问",
+      "pass": true,
+      "actual": "外包跟踪系统",
+      "severity": ""
+    },
+    {
+      "name": "UI发送验证码",
+      "pass": true,
+      "actual": {
+        "status": 200,
+        "hasCode": true
+      },
+      "severity": ""
+    },
+    {
+      "name": "UI验证码登录并保存token",
+      "pass": true,
+      "actual": {
+        "status": 200,
+        "token": true
+      },
+      "severity": ""
+    },
+    {
+      "name": "首页页面真实渲染",
+      "pass": true,
+      "actual": "ä¼ä¸šç®¡ç†å‘˜\nenterprise_admin\n-\n扫码\n快捷入口\n我的通知\n1条未读\n看板\n退出登录",
+      "severity": ""
+    },
+    {
+      "name": "看板页面真实渲染",
+      "pass": true,
+      "actual": "26\n全部订单\n12\n待处理\n10\n进行中\n4\n已完成\n全部\n待处理\n进行中\n已完成\nMADM_FLOW_001\n进行中\n产品名称:\n-\n数量:\n100 件\nDEMO_OVERDUE_001\n进行中\n产品名称:\n-\n数量:\n60 件\n超48",
+      "severity": ""
+    },
+    {
+      "name": "通知页面真实渲染",
+      "pass": true,
+      "actual": "通知中心\n全部已读\n1\nç³»ç»Ÿæµ‹è¯•æ•°æ®å·²åˆ·æ–°\n8小时前\næ¨¡æ‹Ÿä¸šåŠ¡æ•°æ®å·²é‡æ–°ç”Ÿæˆï¼Œå¯å¼€å§‹å…¨æµç¨‹éªŒæ”¶ã€‚\nè¶…æœŸè®¢å",
+      "severity": ""
+    },
+    {
+      "name": "导出页面真实渲染",
+      "pass": true,
+      "actual": "导出订单\n开始日期\n结束日期\n订单号\n厂家\n快捷选择:\n今天\n本周\n本月\n清除\n导出Excel\n导出文件为Excel格式，包含订单号、厂家、工序、数量、时间等完整信息",
+      "severity": ""
+    },
+    {
+      "name": "人员管理页面真实渲染",
+      "pass": true,
+      "actual": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\nä¼ä¸šç®¡ç†å‘˜\n企业管理员\næ€»è£…ä¸»åŽ‚\n已启用\nä¸»åŽ‚ç®¡ç†å‘˜\n主厂管理员\næ€»è£…ä¸»åŽ‚\n已启用\nAåŽ‚æ“ä½œå‘˜\n主厂操作",
+      "severity": ""
+    },
+    {
+      "name": "厂家管理页面真实渲染",
+      "pass": true,
+      "actual": "厂家管理\næ€»è£…ä¸»åŽ‚\nä¸€å·åŽ‚åŒº\n13800138000\n已启用\nç²¾åŠ å·¥AåŽ‚\näºŒå·åŽ‚åŒº\n13800138002\n已启用\nçƒ­å¤„ç†BåŽ‚\nä¸‰å·åŽ‚åŒº\n138",
+      "severity": ""
+    },
+    {
+      "name": "看板统计/订单非空",
+      "pass": true,
+      "actual": "26\n全部订单\n12\n待处理\n10\n进行中\n4\n已完成\n全部\n待处理\n进行中\n已完成\nMADM_FLOW_001\n进行中\n产品名称:\n-\n数量:\n100 件\nDEMO_OVERDUE_001\n进行中\n产品名称:\n-\n数量:\n60 件\n超48小时未发出\nDEMO_PENDING_001\n待处理\n产品名称:\n-\n数量:\n80 件\nDEMO_RECEIVED_001\n进行中\n产品名称:\n-\n数量:\n50",
+      "severity": ""
+    },
+    {
+      "name": "扫码手动输入跳转接收页",
+      "pass": true,
+      "actual": "http://localhost:8081/receive/DEMO_PENDING_R1",
+      "severity": ""
+    },
+    {
+      "name": "详情页锁状态/批次渲染",
+      "pass": true,
+      "actual": "订单详情\n刷新\nDEMO_SPLIT_001\n已接收\n第道工序：\n厂家：\n录入锁定\n接收记录\n2026/06/10 17:02\n×70\n批次1\n发出记录\n\n暂无发出记录\n\n接收\n发出",
+      "severity": ""
+    },
+    {
+      "name": "前端无JS错误",
+      "pass": true,
+      "actual": [],
+      "severity": ""
+    }
+  ],
+  "consoleErrors": [
+    "相机启动失败: NotFoundError: Requested device not found"
+  ]
+}

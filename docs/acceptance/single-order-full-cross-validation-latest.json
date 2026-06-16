@@ -1,0 +1,525 @@
+{
+  "generated_at": "2026-06-12T02:05:10",
+  "order_id": "DEMO_PENDING_001",
+  "checks": [
+    {
+      "name": "DB基线：订单待处理且3道工序均为pending",
+      "pass": true,
+      "detail": "1\tDEMO_PENDING_R1\tF002\tpending\tnone\t0\t0\n2\tDEMO_PENDING_R2\tF003\tpending\tnone\t0\t0\n3\tDEMO_PENDING_R3\tF001\tpending\tnone\t0\t0"
+    },
+    {
+      "name": "看板订单API可读取样本订单",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "看板详情API返回3道工序",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "count": 3
+      }
+    },
+    {
+      "name": "扫码枪批量解析：去重、权限隔离、成功/失败计数正确",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "total": 3,
+          "success_count": 1,
+          "fail_count": 2,
+          "items": [
+            {
+              "qr_code": "record_DEMO_PENDING_R1",
+              "record_id": "DEMO_PENDING_R1",
+              "jump_type": "receive",
+              "message": "跳转到receive页面",
+              "record_status": "pending",
+              "lock_type": "none",
+              "factory_id": "F002"
+            },
+            {
+              "qr_code": "record_DEMO_PENDING_R2",
+              "record_id": null,
+              "jump_type": "not_found",
+              "message": "无权查看该流转记录",
+              "record_status": null,
+              "lock_type": null,
+              "factory_id": null
+            },
+            {
+              "qr_code": "bad_code",
+              "record_id": null,
+              "jump_type": "not_found",
+              "message": "无法识别的二维码格式",
+              "record_status": null,
+              "lock_type": null,
+              "factory_id": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "权限隔离：非本厂不能操作R1",
+      "pass": true,
+      "detail": {
+        "status": 400,
+        "body": {
+          "detail": "您不属于该厂家，无权操作"
+        }
+      }
+    },
+    {
+      "name": "首道超量接收被拒绝",
+      "pass": true,
+      "detail": {
+        "status": 400,
+        "body": {
+          "detail": "接收数量(81)超过可接收量(80)"
+        }
+      }
+    },
+    {
+      "name": "R1接收80成功",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "current_receive_qty": 80
+      }
+    },
+    {
+      "name": "R1发出80成功",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "current_ship_qty": 80
+      }
+    },
+    {
+      "name": "R2接收80成功",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "current_receive_qty": 80
+      }
+    },
+    {
+      "name": "R2发出80成功",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "current_ship_qty": 80
+      }
+    },
+    {
+      "name": "R3接收80成功",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "current_receive_qty": 80
+      }
+    },
+    {
+      "name": "R3发出80成功",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "current_ship_qty": 80
+      }
+    },
+    {
+      "name": "DB回查：订单自动completed",
+      "pass": true,
+      "detail": "DEMO_PENDING_001\t80\tcompleted"
+    },
+    {
+      "name": "DB回查：三道工序completed+sync_lock",
+      "pass": true,
+      "detail": "1\tDEMO_PENDING_R1\tF002\tcompleted\tsync_lock\t80\t80\n2\tDEMO_PENDING_R2\tF003\tcompleted\tsync_lock\t80\t80\n3\tDEMO_PENDING_R3\tF001\tcompleted\tsync_lock\t80\t80"
+    },
+    {
+      "name": "通知无乱码且含跳转字段",
+      "pass": true,
+      "detail": "DEMO_N_U001_1\t系统测试数据已刷新\t外协流转模拟数据已清空并重新生成，中文通知显示正常。\torder\t/kanban/DEMO_PENDING_001\nDEMO_N_U001_2\t超期订单提醒\t订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\torder\t/kanban/DEMO_OVERDUE_001\nDEMO_N_U004_1\t待发出提醒\t订单 DEMO_RECEIVED_001 首道精加工已接收50件，请发往热处理B厂。\torder\t/kanban/DEMO_RECEIVED_001\nDEMO_N_U004_2\t退件补发提醒\t订单 DEMO_RETURN_001 热处理B厂退回10件，需补发合格件。\torder\t/kanban/DEMO_RETURN_001\nDEMO_N_U005_1\t下道待处理\t订单 DEMO_SPLIT_001 已从精加工A厂分两批发出70件，并由热处理B厂接收。\torder\t/kanban/DEMO_SPLIT_001\nDEMO_N_U005_2\t退件记录\t已退回10件：热处理硬度不达标，退回首道补加工。\torder\t/kanban/DEMO_RETURN_001\nDEMO_N_U007_1\t末道待接收\t订单 DEMO_DONE_001 已完成归档；订单 DEMO_SPLIT_001 末道尚未接收。\torder\t/kanban/DEMO_SPLIT_001"
+    },
+    {
+      "name": "H5关键页面均可打开",
+      "pass": true,
+      "detail": {
+        "page_home": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        },
+        "page_kanban": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        },
+        "page_scan": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        },
+        "page_notifications": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        },
+        "page_kanban/DEMO_PENDING_001": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        },
+        "page_view/DEMO_PENDING_R1": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        },
+        "page_receive/DEMO_PENDING_R1": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        },
+        "page_ship/DEMO_PENDING_R1": {
+          "status": 200,
+          "content_type": "text/html; charset=utf-8"
+        }
+      }
+    }
+  ],
+  "evidence": {
+    "schema_orders": "order_id\tvarchar(64)\tNO\tPRI\tNULL\t\nprimary_factory_id\tvarchar(64)\tNO\tMUL\tNULL\t\norder_status\tenum('pending','in_progress','completed','cancelled')\tNO\t\tpending\t\nproduct_name\tvarchar(128)\tYES\t\tNULL\t\nproduct_code\tvarchar(64)\tYES\t\tNULL\t\nspec\tvarchar(128)\tYES\t\tNULL\t\nunit\tvarchar(16)\tYES\t\tNULL\t\ndelivery_date\tdatetime\tYES\t\tNULL\t\npart_no\tvarchar(64)\tYES\t\tNULL\t\ntotal_qty\tint\tNO\t\t0\t\nmom_created_at\tdatetime\tYES\t\tNULL\t\ncreated_at\tdatetime\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED\nupdated_at\tdatetime\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP",
+    "schema_process_records": "record_id\tvarchar(64)\tNO\tPRI\tNULL\t\norder_id\tvarchar(64)\tNO\tMUL\tNULL\t\nprocess_id\tvarchar(64)\tNO\tMUL\tNULL\t\nfactory_id\tvarchar(64)\tNO\tMUL\tNULL\t\nrecord_status\tenum('pending','received','shipped','completed')\tNO\tMUL\tpending\t\nlock_type\tenum('none','entry_lock','relation_lock','sync_lock')\tNO\t\tnone\t\ntotal_receive_qty\tint\tNO\t\t0\t\ntotal_ship_qty\tint\tNO\t\t0\t\npartial_receive\ttinyint(1)\tNO\t\t0\t\npartial_ship\ttinyint(1)\tNO\t\t0\t\nlast_receive_time\tdatetime\tYES\t\tNULL\t\nlast_ship_time\tdatetime\tYES\t\tNULL\t\ncreated_at\tdatetime\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED\nupdated_at\tdatetime\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP",
+    "baseline_order": "DEMO_PENDING_001\t传动轴毛坯\t80\tpending",
+    "baseline_records": "1\tDEMO_PENDING_R1\tF002\tpending\tnone\t0\t0\n2\tDEMO_PENDING_R2\tF003\tpending\tnone\t0\t0\n3\tDEMO_PENDING_R3\tF001\tpending\tnone\t0\t0",
+    "batch_scan": {
+      "total": 3,
+      "success_count": 1,
+      "fail_count": 2,
+      "items": [
+        {
+          "qr_code": "record_DEMO_PENDING_R1",
+          "record_id": "DEMO_PENDING_R1",
+          "jump_type": "receive",
+          "message": "跳转到receive页面",
+          "record_status": "pending",
+          "lock_type": "none",
+          "factory_id": "F002"
+        },
+        {
+          "qr_code": "record_DEMO_PENDING_R2",
+          "record_id": null,
+          "jump_type": "not_found",
+          "message": "无权查看该流转记录",
+          "record_status": null,
+          "lock_type": null,
+          "factory_id": null
+        },
+        {
+          "qr_code": "bad_code",
+          "record_id": null,
+          "jump_type": "not_found",
+          "message": "无法识别的二维码格式",
+          "record_status": null,
+          "lock_type": null,
+          "factory_id": null
+        }
+      ]
+    },
+    "api_steps": [
+      {
+        "label": "R1接收80",
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "接收成功",
+          "batch": {
+            "batch_id": "86d38b58c6664cc988756d4103414d87",
+            "record_id": "DEMO_PENDING_R1",
+            "user_id": "U004",
+            "receive_time": "2026-06-11T18:05:13",
+            "receive_qty": 80,
+            "batch_no": 1,
+            "return_qty": 0,
+            "created_at": "2026-06-11T18:05:13"
+          },
+          "record": {
+            "record_id": "DEMO_PENDING_R1",
+            "order_id": "DEMO_PENDING_001",
+            "process_id": "DEMO_PENDING_P1",
+            "factory_id": "F002",
+            "record_status": "received",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 80,
+            "total_ship_qty": 0,
+            "gross_receive_qty": 80,
+            "gross_ship_qty": 0,
+            "returned_in_qty": 0,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 80,
+            "current_receive_qty": 80,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 80,
+            "partial_receive": false,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-11T18:05:13",
+            "last_ship_time": null,
+            "created_at": "2026-06-11T18:05:08",
+            "updated_at": "2026-06-11T18:05:13"
+          }
+        }
+      },
+      {
+        "label": "R1发出80",
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "发出成功",
+          "batch": {
+            "batch_id": "a783a34c151e4eb8b429fad10b567aca",
+            "record_id": "DEMO_PENDING_R1",
+            "user_id": "U004",
+            "ship_time": "2026-06-11T18:05:14",
+            "ship_qty": 80,
+            "batch_no": 1,
+            "created_at": "2026-06-11T18:05:14"
+          },
+          "record": {
+            "record_id": "DEMO_PENDING_R1",
+            "order_id": "DEMO_PENDING_001",
+            "process_id": "DEMO_PENDING_P1",
+            "factory_id": "F002",
+            "record_status": "shipped",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 80,
+            "total_ship_qty": 80,
+            "gross_receive_qty": 80,
+            "gross_ship_qty": 80,
+            "returned_in_qty": 0,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 80,
+            "current_receive_qty": 80,
+            "current_ship_qty": 80,
+            "available_receive_qty": 0,
+            "available_ship_qty": 0,
+            "partial_receive": false,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-11T18:05:13",
+            "last_ship_time": "2026-06-11T18:05:14",
+            "created_at": "2026-06-11T18:05:08",
+            "updated_at": "2026-06-11T18:05:14"
+          }
+        }
+      },
+      {
+        "label": "R2接收80",
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "接收成功",
+          "batch": {
+            "batch_id": "6d56a10c84614924a5405c26327b7b29",
+            "record_id": "DEMO_PENDING_R2",
+            "user_id": "U005",
+            "receive_time": "2026-06-11T18:05:14",
+            "receive_qty": 80,
+            "batch_no": 1,
+            "return_qty": 0,
+            "created_at": "2026-06-11T18:05:14"
+          },
+          "record": {
+            "record_id": "DEMO_PENDING_R2",
+            "order_id": "DEMO_PENDING_001",
+            "process_id": "DEMO_PENDING_P2",
+            "factory_id": "F003",
+            "record_status": "received",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 80,
+            "total_ship_qty": 0,
+            "gross_receive_qty": 80,
+            "gross_ship_qty": 0,
+            "returned_in_qty": 0,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 80,
+            "current_receive_qty": 80,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 80,
+            "partial_receive": false,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-11T18:05:14",
+            "last_ship_time": null,
+            "created_at": "2026-06-11T18:05:08",
+            "updated_at": "2026-06-11T18:05:14"
+          }
+        }
+      },
+      {
+        "label": "R2发出80",
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "发出成功",
+          "batch": {
+            "batch_id": "1c2103ffe9684fe7966963cacb9a8dc0",
+            "record_id": "DEMO_PENDING_R2",
+            "user_id": "U005",
+            "ship_time": "2026-06-11T18:05:14",
+            "ship_qty": 80,
+            "batch_no": 1,
+            "created_at": "2026-06-11T18:05:14"
+          },
+          "record": {
+            "record_id": "DEMO_PENDING_R2",
+            "order_id": "DEMO_PENDING_001",
+            "process_id": "DEMO_PENDING_P2",
+            "factory_id": "F003",
+            "record_status": "shipped",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 80,
+            "total_ship_qty": 80,
+            "gross_receive_qty": 80,
+            "gross_ship_qty": 80,
+            "returned_in_qty": 0,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 80,
+            "current_receive_qty": 80,
+            "current_ship_qty": 80,
+            "available_receive_qty": 0,
+            "available_ship_qty": 0,
+            "partial_receive": false,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-11T18:05:14",
+            "last_ship_time": "2026-06-11T18:05:14",
+            "created_at": "2026-06-11T18:05:08",
+            "updated_at": "2026-06-11T18:05:14"
+          }
+        }
+      },
+      {
+        "label": "R3接收80",
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "接收成功",
+          "batch": {
+            "batch_id": "8b384eca231048b0b604cd6822f81427",
+            "record_id": "DEMO_PENDING_R3",
+            "user_id": "U007",
+            "receive_time": "2026-06-11T18:05:14",
+            "receive_qty": 80,
+            "batch_no": 1,
+            "return_qty": 0,
+            "created_at": "2026-06-11T18:05:15"
+          },
+          "record": {
+            "record_id": "DEMO_PENDING_R3",
+            "order_id": "DEMO_PENDING_001",
+            "process_id": "DEMO_PENDING_P3",
+            "factory_id": "F001",
+            "record_status": "received",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 80,
+            "total_ship_qty": 0,
+            "gross_receive_qty": 80,
+            "gross_ship_qty": 0,
+            "returned_in_qty": 0,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 80,
+            "current_receive_qty": 80,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 80,
+            "partial_receive": false,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-11T18:05:14",
+            "last_ship_time": null,
+            "created_at": "2026-06-11T18:05:08",
+            "updated_at": "2026-06-11T18:05:15"
+          }
+        }
+      },
+      {
+        "label": "R3发出80",
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "发出成功",
+          "batch": {
+            "batch_id": "be54e4b30df94b679de03e753eed50cb",
+            "record_id": "DEMO_PENDING_R3",
+            "user_id": "U007",
+            "ship_time": "2026-06-11T18:05:15",
+            "ship_qty": 80,
+            "batch_no": 1,
+            "created_at": "2026-06-11T18:05:15"
+          },
+          "record": {
+            "record_id": "DEMO_PENDING_R3",
+            "order_id": "DEMO_PENDING_001",
+            "process_id": "DEMO_PENDING_P3",
+            "factory_id": "F001",
+            "record_status": "completed",
+            "lock_type": "sync_lock",
+            "total_receive_qty": 80,
+            "total_ship_qty": 80,
+            "gross_receive_qty": 80,
+            "gross_ship_qty": 80,
+            "returned_in_qty": 0,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 80,
+            "current_receive_qty": 80,
+            "current_ship_qty": 80,
+            "available_receive_qty": 0,
+            "available_ship_qty": 0,
+            "partial_receive": false,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-11T18:05:14",
+            "last_ship_time": "2026-06-11T18:05:15",
+            "created_at": "2026-06-11T18:05:08",
+            "updated_at": "2026-06-11T18:05:15"
+          }
+        }
+      }
+    ],
+    "final_order": "DEMO_PENDING_001\t80\tcompleted",
+    "final_records": "1\tDEMO_PENDING_R1\tF002\tcompleted\tsync_lock\t80\t80\n2\tDEMO_PENDING_R2\tF003\tcompleted\tsync_lock\t80\t80\n3\tDEMO_PENDING_R3\tF001\tcompleted\tsync_lock\t80\t80",
+    "notifications": "DEMO_N_U001_1\t系统测试数据已刷新\t外协流转模拟数据已清空并重新生成，中文通知显示正常。\torder\t/kanban/DEMO_PENDING_001\nDEMO_N_U001_2\t超期订单提醒\t订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\torder\t/kanban/DEMO_OVERDUE_001\nDEMO_N_U004_1\t待发出提醒\t订单 DEMO_RECEIVED_001 首道精加工已接收50件，请发往热处理B厂。\torder\t/kanban/DEMO_RECEIVED_001\nDEMO_N_U004_2\t退件补发提醒\t订单 DEMO_RETURN_001 热处理B厂退回10件，需补发合格件。\torder\t/kanban/DEMO_RETURN_001\nDEMO_N_U005_1\t下道待处理\t订单 DEMO_SPLIT_001 已从精加工A厂分两批发出70件，并由热处理B厂接收。\torder\t/kanban/DEMO_SPLIT_001\nDEMO_N_U005_2\t退件记录\t已退回10件：热处理硬度不达标，退回首道补加工。\torder\t/kanban/DEMO_RETURN_001\nDEMO_N_U007_1\t末道待接收\t订单 DEMO_DONE_001 已完成归档；订单 DEMO_SPLIT_001 末道尚未接收。\torder\t/kanban/DEMO_SPLIT_001",
+    "page_home": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    "page_kanban": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    "page_scan": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    "page_notifications": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    "page_kanban/DEMO_PENDING_001": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    "page_view/DEMO_PENDING_R1": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    "page_receive/DEMO_PENDING_R1": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    "page_ship/DEMO_PENDING_R1": {
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    }
+  },
+  "summary": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-06-12T08:43:32",
+  "status": "ok",
+  "mysql_client_charset": "utf8mb4",
+  "login_phones": {
+    "enterprise_admin": "13800138000",
+    "primary_admin": "13800138001",
+    "a_factory_operator": "13800138003",
+    "b_factory_operator": "13800138004",
+    "b_factory_admin": "13800138005",
+    "final_process_operator": "13800138006",
+    "surface_operator": "13800138007"
+  },
+  "qr_codes_for_manual_test": {
+    "receive_page": "record_DEMO_PENDING_R1",
+    "ship_page": "record_DEMO_RECEIVED_R1",
+    "view_page": "record_DEMO_SPLIT_R1",
+    "overdue_ship_page": "record_DEMO_OVERDUE_R1",
+    "return_rework_page": "record_DEMO_RETURN_R1",
+    "done_view_page": "record_DEMO_DONE_R1",
+    "main_flow_receive": "record_MADM_R1"
+  },
+  "orders": [
+    "MADM_FLOW_001",
+    "DEMO_PENDING_001",
+    "DEMO_RECEIVED_001",
+    "DEMO_SPLIT_001",
+    "DEMO_OVERDUE_001",
+    "DEMO_RETURN_001",
+    "DEMO_DONE_001"
+  ],
+  "verification_raw": "item\tcount\nfactories\t4\nitem\tcount\nusers\t8\nitem\tcount\norders\t7\nitem\tcount\nprocesses\t21\nitem\tcount\nrecords\t21\nitem\tcount\nreceive_batches\t10\nitem\tcount\nship_batches\t6\nitem\tcount\nreturn_records\t1\nitem\tcount\nnotifications\t7\norder_id\tproduct_name\tproduct_code\tspec\tunit\tpart_no\tdelivery_date\torder_status\ttotal_qty\nDEMO_DONE_001\t导轨滑块\tPRD-ZJ-007\tGCr15 H级\t件\tPART-S007\t2026-06-11 00:43:30\tcompleted\t120\nDEMO_OVERDUE_001\t连接法兰\tPRD-ZJ-005\tQ235 Φ180\t件\tPART-F005\t2026-06-14 00:43:30\tin_progress\t60\nDEMO_PENDING_001\t传动轴毛坯\tPRD-ZJ-002\t45钢 Φ60×320\t件\tPART-T002\t2026-06-22 00:43:30\tpending\t80\nDEMO_RECEIVED_001\t精密阀体\tPRD-ZJ-003\t不锈钢 DN25\t件\tPART-V003\t2026-06-17 00:43:30\tin_progress\t50\nDEMO_RETURN_001\t齿轮轴\tPRD-ZJ-006\t20CrMnTi M2.5\t件\tPART-G006\t2026-06-20 00:43:30\tin_progress\t90\nDEMO_SPLIT_001\t泵壳半成品\tPRD-ZJ-004\t铸铝 A356\t件\tPART-P004\t2026-06-18 00:43:30\tin_progress\t100\nMADM_FLOW_001\t航空支架组件\tPRD-ZJ-001\t铝合金 120×80\t件\tPART-A001\t2026-06-19 00:43:30\tpending\t100\norder_id\tprocess_order\trecord_id\tfactory_id\trecord_status\tlock_type\ttotal_receive_qty\ttotal_ship_qty\tpartial_receive\tpartial_ship\nDEMO_DONE_001\t1\tDEMO_DONE_R1\tF002\tcompleted\tsync_lock\t120\t120\t0\t0\nDEMO_DONE_001\t2\tDEMO_DONE_R2\tF003\tcompleted\tsync_lock\t120\t120\t0\t0\nDEMO_DONE_001\t3\tDEMO_DONE_R3\tF001\tcompleted\tsync_lock\t120\t120\t0\t0\nDEMO_OVERDUE_001\t1\tDEMO_OVERDUE_R1\tF002\treceived\tentry_lock\t60\t0\t0\t0\nDEMO_OVERDUE_001\t2\tDEMO_OVERDUE_R2\tF003\tpending\tnone\t0\t0\t0\t0\nDEMO_OVERDUE_001\t3\tDEMO_OVERDUE_R3\tF001\tpending\tnone\t0\t0\t0\t0\nDEMO_PENDING_001\t1\tDEMO_PENDING_R1\tF002\tpending\tnone\t0\t0\t0\t0\nDEMO_PENDING_001\t2\tDEMO_PENDING_R2\tF003\tpending\tnone\t0\t0\t0\t0\nDEMO_PENDING_001\t3\tDEMO_PENDING_R3\tF001\tpending\tnone\t0\t0\t0\t0\nDEMO_RECEIVED_001\t1\tDEMO_RECEIVED_R1\tF002\treceived\tentry_lock\t50\t0\t0\t0\nDEMO_RECEIVED_001\t2\tDEMO_RECEIVED_R2\tF003\tpending\tnone\t0\t0\t0\t0\nDEMO_RECEIVED_001\t3\tDEMO_RECEIVED_R3\tF001\tpending\tnone\t0\t0\t0\t0\nDEMO_RETURN_001\t1\tDEMO_RETURN_R1\tF002\tshipped\tentry_lock\t90\t70\t0\t1\nDEMO_RETURN_001\t2\tDEMO_RETURN_R2\tF003\treceived\tentry_lock\t70\t0\t1\t0\nDEMO_RETURN_001\t3\tDEMO_RETURN_R3\tF001\tpending\tnone\t0\t0\t0\t0\nDEMO_SPLIT_001\t1\tDEMO_SPLIT_R1\tF002\tshipped\trelation_lock\t100\t70\t1\t1\nDEMO_SPLIT_001\t2\tDEMO_SPLIT_R2\tF003\treceived\tentry_lock\t70\t0\t0\t0\nDEMO_SPLIT_001\t3\tDEMO_SPLIT_R3\tF001\tpending\tnone\t0\t0\t0\t0\nMADM_FLOW_001\t1\tMADM_R1\tF002\tpending\tnone\t0\t0\t0\t0\nMADM_FLOW_001\t2\tMADM_R2\tF003\tpending\tnone\t0\t0\t0\t0\nMADM_FLOW_001\t3\tMADM_R3\tF001\tpending\tnone\t0\t0\t0\t0\nnotif_id\tuser_id\ttitle\tcontent\nDEMO_N_U001_1\tU001\t系统测试数据已刷新\t外协流转模拟数据已清空并重新生成，中文通知显示正常。\nDEMO_N_U004_1\tU004\t待发出提醒\t订单 DEMO_RECEIVED_001 首道精加工已接收50件，请发往热处理B厂。\nDEMO_N_U001_2\tU001\t超期订单提醒\t订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\nDEMO_N_U007_1\tU007\t末道待接收\t订单 DEMO_DONE_001 已完成归档；订单 DEMO_SPLIT_001 末道尚未接收。\nDEMO_N_U005_1\tU005\t下道待处理\t订单 DEMO_SPLIT_001 已从精加工A厂分两批发出70件，并由热处理B厂接收。",
+  "consistency_raw": "check_name\tbad_count\norder_without_3_processes\t0\ncheck_name\tbad_count\norder_status_mismatch\t0\ncheck_name\tbad_count\nrecord_qty_invalid\t0\ncheck_name\tbad_count\ndownstream_receive_exceeds_prev_ship\t0\ncheck_name\tbad_count\nmojibake_notifications\t0"
+}

@@ -1,0 +1,1303 @@
+{
+  "generated_at": "2026-06-11T22:26:34",
+  "order_id": "DEMO_PENDING_001",
+  "phones_used_redacted": [
+    "admin",
+    "f2",
+    "f3",
+    "f1",
+    "f4"
+  ],
+  "baseline": {
+    "label": "baseline",
+    "rows": [
+      {
+        "order_id": "DEMO_PENDING_001",
+        "order_status": "pending",
+        "total_qty": 80,
+        "seq": 1,
+        "process_name": "首道精加工",
+        "record_id": "DEMO_PENDING_R1",
+        "factory_id": "F002",
+        "status": "pending",
+        "lock_type": "none",
+        "receive": 0,
+        "ship": 0,
+        "partial_receive": "0",
+        "partial_ship": "0"
+      },
+      {
+        "order_id": "DEMO_PENDING_001",
+        "order_status": "pending",
+        "total_qty": 80,
+        "seq": 2,
+        "process_name": "二道热处理",
+        "record_id": "DEMO_PENDING_R2",
+        "factory_id": "F003",
+        "status": "pending",
+        "lock_type": "none",
+        "receive": 0,
+        "ship": 0,
+        "partial_receive": "0",
+        "partial_ship": "0"
+      },
+      {
+        "order_id": "DEMO_PENDING_001",
+        "order_status": "pending",
+        "total_qty": 80,
+        "seq": 3,
+        "process_name": "末道总装终检",
+        "record_id": "DEMO_PENDING_R3",
+        "factory_id": "F001",
+        "status": "pending",
+        "lock_type": "none",
+        "receive": 0,
+        "ship": 0,
+        "partial_receive": "0",
+        "partial_ship": "0"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "name": "A0 看板工序详情字段",
+      "expected": "3道工序，含可接收/可发出数量字段",
+      "http_status": 200,
+      "response": {
+        "count": 3,
+        "first": {
+          "record_id": "DEMO_PENDING_R1",
+          "available_receive_qty": 80,
+          "available_ship_qty": 0,
+          "prev_ship_qty": 80
+        }
+      },
+      "db_before": {
+        "label": "baseline",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_A0",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "P1 无关厂家详情权限隔离",
+      "expected": "F004无参与关系，应403",
+      "http_status": 403,
+      "response": {
+        "detail": "无权查看该订单"
+      },
+      "db_before": null,
+      "db_after": null,
+      "pass": true
+    },
+    {
+      "name": "C1 下道提前接收拦截",
+      "expected": "R1未发出，R2 receive 1 应拒绝且DB不变",
+      "http_status": 400,
+      "response": {
+        "detail": "上道工序尚无发出量，本道无法接收"
+      },
+      "db_before": {
+        "label": "before_R2_early_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R2_early_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "A1 首道正常接收",
+      "expected": "R1 receive=80，状态received，订单进入in_progress",
+      "http_status": 200,
+      "response": {
+        "success": true,
+        "message": "接收成功",
+        "record": {
+          "record_id": "DEMO_PENDING_R1",
+          "total_receive_qty": 80,
+          "total_ship_qty": 0,
+          "record_status": "received",
+          "lock_type": "entry_lock"
+        }
+      },
+      "db_before": {
+        "label": "before_R1_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "pending",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R1_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "C2 首道超量发出拦截",
+      "expected": "R1已收80，ship 81 应拒绝且DB ship仍0",
+      "http_status": 400,
+      "response": {
+        "detail": "发出数量(81)超过可发出量(80)"
+      },
+      "db_before": {
+        "label": "before_R1_over_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R1_over_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "A2 首道正常发出",
+      "expected": "R1 ship=80，状态shipped，下道可接收80",
+      "http_status": 200,
+      "response": {
+        "success": true,
+        "message": "发出成功",
+        "record": {
+          "record_id": "DEMO_PENDING_R1",
+          "total_receive_qty": 80,
+          "total_ship_qty": 80,
+          "record_status": "shipped",
+          "lock_type": "entry_lock"
+        }
+      },
+      "db_before": {
+        "label": "before_R1_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R1_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "A3 二道正常接收",
+      "expected": "R2 receive=80，不超过R1 ship=80",
+      "http_status": 200,
+      "response": {
+        "success": true,
+        "message": "接收成功",
+        "record": {
+          "record_id": "DEMO_PENDING_R2",
+          "total_receive_qty": 80,
+          "total_ship_qty": 0,
+          "record_status": "received",
+          "lock_type": "entry_lock"
+        }
+      },
+      "db_before": {
+        "label": "before_R2_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R2_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "A4 二道正常发出",
+      "expected": "R2 ship=80，末道可接收80",
+      "http_status": 200,
+      "response": {
+        "success": true,
+        "message": "发出成功",
+        "record": {
+          "record_id": "DEMO_PENDING_R2",
+          "total_receive_qty": 80,
+          "total_ship_qty": 80,
+          "record_status": "shipped",
+          "lock_type": "entry_lock"
+        }
+      },
+      "db_before": {
+        "label": "before_R2_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R2_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "shipped",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "A5 末道正常接收",
+      "expected": "R3 receive=80，不超过R2 ship=80",
+      "http_status": 200,
+      "response": {
+        "success": true,
+        "message": "接收成功",
+        "record": {
+          "record_id": "DEMO_PENDING_R3",
+          "total_receive_qty": 80,
+          "total_ship_qty": 0,
+          "record_status": "received",
+          "lock_type": "entry_lock"
+        }
+      },
+      "db_before": {
+        "label": "before_R3_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "shipped",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "pending",
+            "lock_type": "none",
+            "receive": 0,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R3_receive",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "A6 末道正常发出/订单完结",
+      "expected": "R3 ship=80；三道都已发出；订单应completed或至少状态一致",
+      "http_status": 200,
+      "response": {
+        "success": true,
+        "message": "发出成功",
+        "record": {
+          "record_id": "DEMO_PENDING_R3",
+          "total_receive_qty": 80,
+          "total_ship_qty": 80,
+          "record_status": "shipped",
+          "lock_type": "entry_lock"
+        }
+      },
+      "db_before": {
+        "label": "before_R3_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "received",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 0,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "after_R3_ship",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "shipped",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "X1 API与DB数量交叉一致",
+      "expected": "看板API receive/ship 与DB process_records一致",
+      "http_status": 200,
+      "response": {
+        "items": [
+          {
+            "record_id": "DEMO_PENDING_R1",
+            "receive_qty": 80,
+            "ship_qty": 80,
+            "available_receive_qty": 0,
+            "available_ship_qty": 0
+          },
+          {
+            "record_id": "DEMO_PENDING_R2",
+            "receive_qty": 80,
+            "ship_qty": 80,
+            "available_receive_qty": 0,
+            "available_ship_qty": 0
+          },
+          {
+            "record_id": "DEMO_PENDING_R3",
+            "receive_qty": 80,
+            "ship_qty": 80,
+            "available_receive_qty": 0,
+            "available_ship_qty": 0
+          }
+        ]
+      },
+      "db_before": {
+        "label": "final",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "shipped",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "db_after": {
+        "label": "final",
+        "rows": [
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 1,
+            "process_name": "首道精加工",
+            "record_id": "DEMO_PENDING_R1",
+            "factory_id": "F002",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 2,
+            "process_name": "二道热处理",
+            "record_id": "DEMO_PENDING_R2",
+            "factory_id": "F003",
+            "status": "shipped",
+            "lock_type": "relation_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          },
+          {
+            "order_id": "DEMO_PENDING_001",
+            "order_status": "in_progress",
+            "total_qty": 80,
+            "seq": 3,
+            "process_name": "末道总装终检",
+            "record_id": "DEMO_PENDING_R3",
+            "factory_id": "F001",
+            "status": "shipped",
+            "lock_type": "entry_lock",
+            "receive": 80,
+            "ship": 80,
+            "partial_receive": "0",
+            "partial_ship": "0"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "X2 通知中文乱码检查",
+      "expected": "乱码计数=0",
+      "http_status": 200,
+      "response": {
+        "mojibake_count": "0"
+      },
+      "db_before": null,
+      "db_after": null,
+      "pass": true
+    }
+  ],
+  "bugs": [],
+  "final": {
+    "label": "final",
+    "rows": [
+      {
+        "order_id": "DEMO_PENDING_001",
+        "order_status": "in_progress",
+        "total_qty": 80,
+        "seq": 1,
+        "process_name": "首道精加工",
+        "record_id": "DEMO_PENDING_R1",
+        "factory_id": "F002",
+        "status": "shipped",
+        "lock_type": "relation_lock",
+        "receive": 80,
+        "ship": 80,
+        "partial_receive": "0",
+        "partial_ship": "0"
+      },
+      {
+        "order_id": "DEMO_PENDING_001",
+        "order_status": "in_progress",
+        "total_qty": 80,
+        "seq": 2,
+        "process_name": "二道热处理",
+        "record_id": "DEMO_PENDING_R2",
+        "factory_id": "F003",
+        "status": "shipped",
+        "lock_type": "relation_lock",
+        "receive": 80,
+        "ship": 80,
+        "partial_receive": "0",
+        "partial_ship": "0"
+      },
+      {
+        "order_id": "DEMO_PENDING_001",
+        "order_status": "in_progress",
+        "total_qty": 80,
+        "seq": 3,
+        "process_name": "末道总装终检",
+        "record_id": "DEMO_PENDING_R3",
+        "factory_id": "F001",
+        "status": "shipped",
+        "lock_type": "entry_lock",
+        "receive": 80,
+        "ship": 80,
+        "partial_receive": "0",
+        "partial_ship": "0"
+      }
+    ]
+  },
+  "passed": true
+}

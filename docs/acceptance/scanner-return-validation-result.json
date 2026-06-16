@@ -1,0 +1,52 @@
+{
+  "health": 200,
+  "db_baseline": "DEMO_SPLIT_R1\t100\t70\tshipped\trelation_lock\nDEMO_SPLIT_R2\t70\t0\treceived\tentry_lock",
+  "batch_scan": {
+    "status": 200,
+    "total": 3,
+    "success_count": 2,
+    "fail_count": 1,
+    "jump_types": [
+      "receive",
+      "ship",
+      "not_found"
+    ]
+  },
+  "return_api": {
+    "status": 200,
+    "message": "退件成功",
+    "from_effective_ship": 60,
+    "from_gross_ship": 70,
+    "from_returned_out": 10,
+    "to_effective_receive": 60,
+    "to_gross_receive": 70,
+    "to_returned_in": 10
+  },
+  "db_after_return": "DEMO_SPLIT_R1\t100\t70\tshipped\tentry_lock\nDEMO_SPLIT_R2\t70\t0\treceived\tentry_lock",
+  "db_return_record": "DEMO_SPLIT_R1\tDEMO_SPLIT_R2\t10\t质检退回-净数量模型验证",
+  "extra_receive_before_reship": {
+    "status": 400,
+    "detail": "接收数量(1)超过可接收量(0)"
+  },
+  "reship_after_return": {
+    "status": 200,
+    "message": "发出成功",
+    "effective_ship": 100,
+    "available_ship": 0
+  },
+  "receive_after_reship": {
+    "status": 200,
+    "message": "接收成功",
+    "effective_receive": 100,
+    "available_receive": 0
+  },
+  "db_final": "DEMO_SPLIT_R1\t100\t110\tshipped\trelation_lock\nDEMO_SPLIT_R2\t110\t0\treceived\tentry_lock",
+  "page_scan": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8"
+  },
+  "page_kanban": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8"
+  }
+}

@@ -1,0 +1,299 @@
+{
+  "started_at": "2026-06-16T14:55:10",
+  "order_id": "MADM_FLOW_001",
+  "results": [
+    {
+      "name": "Backend health",
+      "pass": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "看板订单接口",
+      "pass": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "R1 首次接收 API",
+      "pass": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "R1 分批接收 API",
+      "pass": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "R1 发出 API",
+      "pass": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "R2 下道接收 API",
+      "pass": true,
+      "actual": {
+        "code": 200,
+        "body": {
+          "success": true,
+          "message": "接收成功",
+          "batch": {
+            "batch_id": "d5c4ba2566024d20842b279349b94b7a",
+            "record_id": "MADM_R2",
+            "user_id": "U005",
+            "receive_time": "2026-06-16T06:55:17",
+            "receive_qty": 100,
+            "batch_no": 1,
+            "return_qty": 0,
+            "created_at": "2026-06-16T06:55:17"
+          },
+          "record": {
+            "record_id": "MADM_R2",
+            "order_id": "MADM_FLOW_001",
+            "process_id": "MADM_P2",
+            "process_seq": "2",
+            "process_name": "MADM二道",
+            "factory_id": "F003",
+            "factory_name": "热处理B厂",
+            "record_status": "received",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 100,
+            "total_ship_qty": 0,
+            "gross_receive_qty": 100,
+            "gross_ship_qty": 0,
+            "returned_in_qty": 0,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 100,
+            "current_receive_qty": 100,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 100,
+            "partial_receive": false,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-16T06:55:17",
+            "last_ship_time": null,
+            "created_at": "2026-06-16T06:55:12",
+            "updated_at": "2026-06-16T06:55:17"
+          }
+        }
+      },
+      "expected": 200
+    },
+    {
+      "name": "R2 退件回 R1 API",
+      "pass": true,
+      "actual": {
+        "code": 200,
+        "body": {
+          "success": true,
+          "message": "退件成功",
+          "return_record": {
+            "return_id": "91d456570d3040859bd1633ff2ed116c",
+            "from_record_id": "MADM_R1",
+            "to_record_id": "MADM_R2",
+            "user_id": "U005",
+            "return_reason": "MADM验收退件",
+            "return_qty": 10,
+            "created_at": "2026-06-16T06:55:17"
+          },
+          "from_record": {
+            "record_id": "MADM_R1",
+            "order_id": "MADM_FLOW_001",
+            "process_id": "MADM_P1",
+            "process_seq": "1",
+            "process_name": "MADM首道",
+            "factory_id": "F002",
+            "factory_name": "精加工A厂",
+            "record_status": "shipped",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 100,
+            "total_ship_qty": 100,
+            "gross_receive_qty": 100,
+            "gross_ship_qty": 100,
+            "returned_in_qty": 0,
+            "returned_out_qty": 10,
+            "prev_ship_qty": 100,
+            "current_receive_qty": 100,
+            "current_ship_qty": 90,
+            "available_receive_qty": 0,
+            "available_ship_qty": 10,
+            "partial_receive": true,
+            "partial_ship": true,
+            "last_receive_time": "2026-06-16T06:55:16",
+            "last_ship_time": "2026-06-16T06:55:16",
+            "created_at": "2026-06-16T06:55:12",
+            "updated_at": "2026-06-16T06:55:17"
+          },
+          "to_record": {
+            "record_id": "MADM_R2",
+            "order_id": "MADM_FLOW_001",
+            "process_id": "MADM_P2",
+            "process_seq": "2",
+            "process_name": "MADM二道",
+            "factory_id": "F003",
+            "factory_name": "热处理B厂",
+            "record_status": "received",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 100,
+            "total_ship_qty": 0,
+            "gross_receive_qty": 100,
+            "gross_ship_qty": 0,
+            "returned_in_qty": 10,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 90,
+            "current_receive_qty": 90,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 90,
+            "partial_receive": true,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-16T06:55:17",
+            "last_ship_time": null,
+            "created_at": "2026-06-16T06:55:12",
+            "updated_at": "2026-06-16T06:55:17"
+          }
+        }
+      },
+      "expected": 200
+    }
+  ],
+  "errors": [],
+  "final_db_state": "MADM_R1\t1\tshipped\tentry_lock\t100\t100\t1\t1\nMADM_R2\t2\treceived\tentry_lock\t100\t0\t1\t0\nMADM_R3\t3\tpending\tnone\t0\t0\t0\t0\nin_progress\n3\n1",
+  "notes": {
+    "split_receive_response": {
+      "success": true,
+      "message": "接收成功",
+      "batch": {
+        "batch_id": "08312e0fb8f244d28ff7f8e8640d5f43",
+        "record_id": "MADM_R1",
+        "user_id": "U004",
+        "receive_time": "2026-06-16T06:55:16",
+        "receive_qty": 60,
+        "batch_no": 2,
+        "return_qty": 0,
+        "created_at": "2026-06-16T06:55:16"
+      },
+      "record": {
+        "record_id": "MADM_R1",
+        "order_id": "MADM_FLOW_001",
+        "process_id": "MADM_P1",
+        "process_seq": "1",
+        "process_name": "MADM首道",
+        "factory_id": "F002",
+        "factory_name": "精加工A厂",
+        "record_status": "received",
+        "lock_type": "entry_lock",
+        "total_receive_qty": 100,
+        "total_ship_qty": 0,
+        "gross_receive_qty": 100,
+        "gross_ship_qty": 0,
+        "returned_in_qty": 0,
+        "returned_out_qty": 0,
+        "prev_ship_qty": 100,
+        "current_receive_qty": 100,
+        "current_ship_qty": 0,
+        "available_receive_qty": 0,
+        "available_ship_qty": 100,
+        "partial_receive": true,
+        "partial_ship": false,
+        "last_receive_time": "2026-06-16T06:55:16",
+        "last_ship_time": null,
+        "created_at": "2026-06-16T06:55:12",
+        "updated_at": "2026-06-16T06:55:16"
+      }
+    },
+    "ship_r1_response": {
+      "success": true,
+      "message": "发出成功",
+      "batch": {
+        "batch_id": "32f895c776504760afcbf2ba4b11106a",
+        "record_id": "MADM_R1",
+        "user_id": "U004",
+        "ship_time": "2026-06-16T06:55:16",
+        "ship_qty": 100,
+        "batch_no": 1,
+        "created_at": "2026-06-16T06:55:16"
+      },
+      "record": {
+        "record_id": "MADM_R1",
+        "order_id": "MADM_FLOW_001",
+        "process_id": "MADM_P1",
+        "process_seq": "1",
+        "process_name": "MADM首道",
+        "factory_id": "F002",
+        "factory_name": "精加工A厂",
+        "record_status": "shipped",
+        "lock_type": "entry_lock",
+        "total_receive_qty": 100,
+        "total_ship_qty": 100,
+        "gross_receive_qty": 100,
+        "gross_ship_qty": 100,
+        "returned_in_qty": 0,
+        "returned_out_qty": 0,
+        "prev_ship_qty": 100,
+        "current_receive_qty": 100,
+        "current_ship_qty": 100,
+        "available_receive_qty": 0,
+        "available_ship_qty": 0,
+        "partial_receive": true,
+        "partial_ship": false,
+        "last_receive_time": "2026-06-16T06:55:16",
+        "last_ship_time": "2026-06-16T06:55:16",
+        "created_at": "2026-06-16T06:55:12",
+        "updated_at": "2026-06-16T06:55:16"
+      }
+    },
+    "initial_db_state": "MADM_R1\t1\tpending\tnone\t0\t0\t0\t0\nMADM_R2\t2\tpending\tnone\t0\t0\t0\t0\nMADM_R3\t3\tpending\tnone\t0\t0\t0\t0\npending\n0\n0",
+    "after_r1_receive": "MADM_R1\t1\treceived\tentry_lock\t40\t0\t0\t0\nMADM_R2\t2\tpending\tnone\t0\t0\t0\t0\nMADM_R3\t3\tpending\tnone\t0\t0\t0\t0\nin_progress\n1\n0",
+    "after_split": "MADM_R1\t1\treceived\tentry_lock\t100\t0\t1\t0\nMADM_R2\t2\tpending\tnone\t0\t0\t0\t0\nMADM_R3\t3\tpending\tnone\t0\t0\t0\t0\nin_progress\n2\n0",
+    "after_r1_ship": "MADM_R1\t1\tshipped\tentry_lock\t100\t100\t1\t0\nMADM_R2\t2\tpending\tnone\t0\t0\t0\t0\nMADM_R3\t3\tpending\tnone\t0\t0\t0\t0\nin_progress\n2\n1",
+    "downstream": {
+      "code": 200,
+      "body": {
+        "success": true,
+        "message": "接收成功",
+        "batch": {
+          "batch_id": "d5c4ba2566024d20842b279349b94b7a",
+          "record_id": "MADM_R2",
+          "user_id": "U005",
+          "receive_time": "2026-06-16T06:55:17",
+          "receive_qty": 100,
+          "batch_no": 1,
+          "return_qty": 0,
+          "created_at": "2026-06-16T06:55:17"
+        },
+        "record": {
+          "record_id": "MADM_R2",
+          "order_id": "MADM_FLOW_001",
+          "process_id": "MADM_P2",
+          "process_seq": "2",
+          "process_name": "MADM二道",
+          "factory_id": "F003",
+          "factory_name": "热处理B厂",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 100,
+          "total_ship_qty": 0,
+          "gross_receive_qty": 100,
+          "gross_ship_qty": 0,
+          "returned_in_qty": 0,
+          "returned_out_qty": 0,
+          "prev_ship_qty": 100,
+          "current_receive_qty": 100,
+          "current_ship_qty": 0,
+          "available_receive_qty": 0,
+          "available_ship_qty": 100,
+          "partial_receive": false,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-16T06:55:17",
+          "last_ship_time": null,
+          "created_at": "2026-06-16T06:55:12",
+          "updated_at": "2026-06-16T06:55:17"
+        }
+      }
+    }
+  }
+}

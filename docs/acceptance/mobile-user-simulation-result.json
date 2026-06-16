@@ -1,0 +1,801 @@
+[
+  {
+    "step": "打开手机端首页HTML",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "size": 405
+    }
+  },
+  {
+    "step": "发送验证码",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "message": "验证码发送成功",
+        "code": "020927"
+      }
+    }
+  },
+  {
+    "step": "登录F002操作员",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "keys": [
+        "access_token",
+        "token_type",
+        "expires_in"
+      ]
+    }
+  },
+  {
+    "step": "获取当前用户信息",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "user_id": "U003",
+        "factory_id": "F002",
+        "phone": "13800138003",
+        "name": "AåŽ‚æ“ä½œå‘˜",
+        "role": "primary_operator",
+        "status": "active",
+        "last_login": "2026-06-10T14:08:35",
+        "created_at": "2026-05-23T04:14:03",
+        "updated_at": "2026-06-10T14:08:35"
+      }
+    }
+  },
+  {
+    "step": "首页通知接口",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "total": 0,
+        "unread_count": 0,
+        "items": []
+      }
+    }
+  },
+  {
+    "step": "看板订单列表接口",
+    "ok": [
+      {
+        "order_no": "MADM_FLOW_001",
+        "product_name": "",
+        "quantity": 100,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "MADM_FLOW_001",
+        "factory_id": "F002",
+        "factory_name": null,
+        "primary_factory_id": "F002",
+        "created_at": "2026-06-10T14:08:34",
+        "updated_at": "2026-06-10T14:08:34",
+        "is_overdue": false,
+        "process_count": 3,
+        "pending_count": 3,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O20",
+        "product_name": "",
+        "quantity": 100,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O20",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:18",
+        "updated_at": "2026-05-23T09:14:18",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O19",
+        "product_name": "",
+        "quantity": 140,
+        "unit": "",
+        "status": "in_progress",
+        "delivery_date": null,
+        "order_id": "O19",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:18",
+        "updated_at": "2026-05-23T09:14:18",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O18",
+        "product_name": "",
+        "quantity": 95,
+        "unit": "",
+        "status": "in_progress",
+        "delivery_date": null,
+        "order_id": "O18",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:17",
+        "updated_at": "2026-05-23T09:14:17",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O17",
+        "product_name": "",
+        "quantity": 75,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O17",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:17",
+        "updated_at": "2026-05-23T09:14:17",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O16",
+        "product_name": "",
+        "quantity": 55,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O16",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:17",
+        "updated_at": "2026-05-23T09:14:17",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O15",
+        "product_name": "",
+        "quantity": 50,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O15",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:17",
+        "updated_at": "2026-05-23T09:14:17",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O14",
+        "product_name": "",
+        "quantity": 160,
+        "unit": "",
+        "status": "completed",
+        "delivery_date": null,
+        "order_id": "O14",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:17",
+        "updated_at": "2026-05-23T09:14:17",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O10",
+        "product_name": "",
+        "quantity": 130,
+        "unit": "",
+        "status": "in_progress",
+        "delivery_date": null,
+        "order_id": "O10",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:16",
+        "updated_at": "2026-05-23T09:14:16",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O13",
+        "product_name": "",
+        "quantity": 180,
+        "unit": "",
+        "status": "completed",
+        "delivery_date": null,
+        "order_id": "O13",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:16",
+        "updated_at": "2026-05-23T09:14:16",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O12",
+        "product_name": "",
+        "quantity": 200,
+        "unit": "",
+        "status": "completed",
+        "delivery_date": null,
+        "order_id": "O12",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:16",
+        "updated_at": "2026-05-23T09:14:16",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O11",
+        "product_name": "",
+        "quantity": 85,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O11",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:16",
+        "updated_at": "2026-05-23T09:14:16",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O09",
+        "product_name": "",
+        "quantity": 70,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O09",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:16",
+        "updated_at": "2026-05-23T09:14:16",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O08",
+        "product_name": "",
+        "quantity": 60,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O08",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:16",
+        "updated_at": "2026-05-23T09:14:16",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O07",
+        "product_name": "",
+        "quantity": 110,
+        "unit": "",
+        "status": "in_progress",
+        "delivery_date": null,
+        "order_id": "O07",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:15",
+        "updated_at": "2026-05-23T09:14:15",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O06",
+        "product_name": "",
+        "quantity": 120,
+        "unit": "",
+        "status": "in_progress",
+        "delivery_date": null,
+        "order_id": "O06",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:15",
+        "updated_at": "2026-05-23T09:14:15",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O05",
+        "product_name": "",
+        "quantity": 90,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O05",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:15",
+        "updated_at": "2026-05-23T09:14:15",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O04",
+        "product_name": "",
+        "quantity": 80,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O04",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:15",
+        "updated_at": "2026-05-23T09:14:15",
+        "is_overdue": false,
+        "process_count": 0,
+        "pending_count": 0,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O03",
+        "product_name": "",
+        "quantity": 150,
+        "unit": "",
+        "status": "in_progress",
+        "delivery_date": null,
+        "order_id": "O03",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:15",
+        "updated_at": "2026-05-23T09:14:15",
+        "is_overdue": true,
+        "process_count": 2,
+        "pending_count": 2,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      {
+        "order_no": "O02",
+        "product_name": "",
+        "quantity": 200,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "O02",
+        "factory_id": "F001",
+        "factory_name": null,
+        "primary_factory_id": "F001",
+        "created_at": "2026-05-23T09:14:14",
+        "updated_at": "2026-05-23T09:14:14",
+        "is_overdue": true,
+        "process_count": 2,
+        "pending_count": 1,
+        "in_progress_count": 1,
+        "completed_count": 0
+      }
+    ],
+    "detail": {
+      "status": 200,
+      "total": 21,
+      "first": {
+        "order_no": "MADM_FLOW_001",
+        "product_name": "",
+        "quantity": 100,
+        "unit": "",
+        "status": "pending",
+        "delivery_date": null,
+        "order_id": "MADM_FLOW_001",
+        "factory_id": "F002",
+        "factory_name": null,
+        "primary_factory_id": "F002",
+        "created_at": "2026-06-10T14:08:34",
+        "updated_at": "2026-06-10T14:08:34",
+        "is_overdue": false,
+        "process_count": 3,
+        "pending_count": 3,
+        "in_progress_count": 0,
+        "completed_count": 0
+      },
+      "frontend_missing_fields": []
+    }
+  },
+  {
+    "step": "看板统计接口",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "total": 21,
+        "pending": 12,
+        "in_progress": 6,
+        "completed": 3,
+        "overdue_count": 7
+      }
+    }
+  },
+  {
+    "step": "看板详情接口",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "order_id": "MADM_FLOW_001",
+        "order_no": "MADM_FLOW_001",
+        "items": [
+          {
+            "process_name": "",
+            "process_order": 0,
+            "status": "pending",
+            "receive_time": null,
+            "send_time": null,
+            "is_overdue": false,
+            "record_id": "MADM_R1",
+            "order_id": "MADM_FLOW_001",
+            "process_id": null,
+            "factory_id": "F002",
+            "factory_name": null,
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": null,
+            "receive_qty": 0,
+            "ship_qty": 0,
+            "created_at": "2026-06-10T14:08:34",
+            "updated_at": "2026-06-10T14:08:34"
+          },
+          {
+            "process_name": "",
+            "process_order": 0,
+            "status": "pending",
+            "receive_time": null,
+            "send_time": null,
+            "is_overdue": false,
+            "record_id": "MADM_R2",
+            "order_id": "MADM_FLOW_001",
+            "process_id": null,
+            "factory_id": "F003",
+            "factory_name": null,
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": null,
+            "receive_qty": 0,
+            "ship_qty": 0,
+            "created_at": "2026-06-10T14:08:34",
+            "updated_at": "2026-06-10T14:08:34"
+          },
+          {
+            "process_name": "",
+            "process_order": 0,
+            "status": "pending",
+            "receive_time": null,
+            "send_time": null,
+            "is_overdue": false,
+            "record_id": "MADM_R3",
+            "order_id": "MADM_FLOW_001",
+            "process_id": null,
+            "factory_id": "F001",
+            "factory_name": null,
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": null,
+            "receive_qty": 0,
+            "ship_qty": 0,
+            "created_at": "2026-06-10T14:08:34",
+            "updated_at": "2026-06-10T14:08:34"
+          }
+        ]
+      },
+      "frontend_missing_fields": []
+    }
+  },
+  {
+    "step": "扫码判断 MADM_R1",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "qr_code": "MADM_R1",
+        "record_id": null,
+        "jump_type": "not_found",
+        "message": "无法识别的二维码格式",
+        "record_status": null,
+        "lock_type": null,
+        "factory_id": null
+      }
+    }
+  },
+  {
+    "step": "扫码判断 MADM_R2",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "qr_code": "MADM_R2",
+        "record_id": null,
+        "jump_type": "not_found",
+        "message": "无法识别的二维码格式",
+        "record_status": null,
+        "lock_type": null,
+        "factory_id": null
+      }
+    }
+  },
+  {
+    "step": "扫码判断 BAD_QR",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "qr_code": "BAD_QR",
+        "record_id": null,
+        "jump_type": "not_found",
+        "message": "无法识别的二维码格式",
+        "record_status": null,
+        "lock_type": null,
+        "factory_id": null
+      }
+    }
+  },
+  {
+    "step": "接收页加载R1详情",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "record_id": "MADM_R1",
+        "order_id": "MADM_FLOW_001",
+        "process_id": "MADM_P1",
+        "factory_id": "F002",
+        "record_status": "pending",
+        "lock_type": "none",
+        "total_receive_qty": 0,
+        "total_ship_qty": 0,
+        "partial_receive": false,
+        "partial_ship": false,
+        "last_receive_time": null,
+        "last_ship_time": null,
+        "created_at": "2026-06-10T14:08:34",
+        "updated_at": "2026-06-10T14:08:34",
+        "receive_batches": [],
+        "ship_batches": [],
+        "returns": []
+      }
+    }
+  },
+  {
+    "step": "用户提交首道接收40",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "success": true,
+        "message": "接收成功",
+        "batch": {
+          "batch_id": "def6202e60194e3bafe7535353dbffff",
+          "record_id": "MADM_R1",
+          "user_id": "U003",
+          "receive_time": "2026-06-10T14:30:00",
+          "receive_qty": 40,
+          "batch_no": 1,
+          "return_qty": 0,
+          "created_at": "2026-06-10T14:08:35"
+        },
+        "record": {
+          "record_id": "MADM_R1",
+          "order_id": "MADM_FLOW_001",
+          "process_id": "MADM_P1",
+          "factory_id": "F002",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 40,
+          "total_ship_qty": 0,
+          "partial_receive": false,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-10T14:30:00",
+          "last_ship_time": null,
+          "created_at": "2026-06-10T14:08:34",
+          "updated_at": "2026-06-10T14:08:35"
+        }
+      }
+    }
+  },
+  {
+    "step": "用户提交分批接收60",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "success": true,
+        "message": "接收成功",
+        "batch": {
+          "batch_id": "c8ad6baa2e134b579f23df3c4e0188ea",
+          "record_id": "MADM_R1",
+          "user_id": "U003",
+          "receive_time": "2026-06-10T14:31:00",
+          "receive_qty": 60,
+          "batch_no": 2,
+          "return_qty": 0,
+          "created_at": "2026-06-10T14:08:36"
+        },
+        "record": {
+          "record_id": "MADM_R1",
+          "order_id": "MADM_FLOW_001",
+          "process_id": "MADM_P1",
+          "factory_id": "F002",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 100,
+          "total_ship_qty": 0,
+          "partial_receive": true,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-10T14:31:00",
+          "last_ship_time": null,
+          "created_at": "2026-06-10T14:08:34",
+          "updated_at": "2026-06-10T14:08:36"
+        }
+      }
+    }
+  },
+  {
+    "step": "用户提交发出100",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "success": true,
+        "message": "发出成功",
+        "batch": {
+          "batch_id": "e2fd290203514c4f8d484e0985c2f5bd",
+          "record_id": "MADM_R1",
+          "user_id": "U003",
+          "ship_time": "2026-06-10T14:32:00",
+          "ship_qty": 100,
+          "batch_no": 1,
+          "created_at": "2026-06-10T14:08:36"
+        },
+        "record": {
+          "record_id": "MADM_R1",
+          "order_id": "MADM_FLOW_001",
+          "process_id": "MADM_P1",
+          "factory_id": "F002",
+          "record_status": "shipped",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 100,
+          "total_ship_qty": 100,
+          "partial_receive": true,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-10T14:31:00",
+          "last_ship_time": "2026-06-10T14:32:00",
+          "created_at": "2026-06-10T14:08:34",
+          "updated_at": "2026-06-10T14:08:36"
+        }
+      }
+    }
+  },
+  {
+    "step": "权限边界：F002不能接收F003工序",
+    "ok": true,
+    "detail": {
+      "status": 400,
+      "body": {
+        "detail": "您不属于该厂家，无权操作"
+      }
+    }
+  },
+  {
+    "step": "F003用户下道接收100",
+    "ok": true,
+    "detail": {
+      "status": 200,
+      "body": {
+        "success": true,
+        "message": "接收成功",
+        "batch": {
+          "batch_id": "05caf32d151c4b26a2f9e2630181bccb",
+          "record_id": "MADM_R2",
+          "user_id": "U005",
+          "receive_time": "2026-06-10T14:34:00",
+          "receive_qty": 100,
+          "batch_no": 1,
+          "return_qty": 0,
+          "created_at": "2026-06-10T14:08:36"
+        },
+        "record": {
+          "record_id": "MADM_R2",
+          "order_id": "MADM_FLOW_001",
+          "process_id": "MADM_P2",
+          "factory_id": "F003",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 100,
+          "total_ship_qty": 0,
+          "partial_receive": false,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-10T14:34:00",
+          "last_ship_time": null,
+          "created_at": "2026-06-10T14:08:34",
+          "updated_at": "2026-06-10T14:08:36"
+        }
+      }
+    }
+  },
+  {
+    "step": "最终DB状态核对",
+    "ok": true,
+    "detail": {
+      "state": "MADM_R1\tshipped\trelation_lock\t100\t100\t1\t0\nMADM_R2\treceived\tentry_lock\t100\t0\t0\t0\nMADM_R3\tpending\tnone\t0\t0\t0\t0\nin_progress"
+    }
+  }
+]

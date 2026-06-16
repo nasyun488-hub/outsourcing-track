@@ -1,0 +1,23 @@
+# Environment
+.env
+.env.local
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+.venv/
+env/
+.env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Alembic
+alembic/versions/*.pyc

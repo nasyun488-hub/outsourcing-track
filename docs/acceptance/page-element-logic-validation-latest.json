@@ -1,0 +1,651 @@
+{
+  "summary": {
+    "total": 81,
+    "passed": 70,
+    "failed": 11
+  },
+  "checks": [
+    {
+      "page": "登录页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/login"
+    },
+    {
+      "page": "登录页",
+      "name": "元素/文案存在：手机号",
+      "pass": false,
+      "detail": "外包追踪系统\n\n请登录以继续\n\n+86\n验证码\n发送验证码\n登录"
+    },
+    {
+      "page": "登录页",
+      "name": "元素/文案存在：验证码",
+      "pass": true,
+      "detail": "外包追踪系统\n\n请登录以继续\n\n+86\n验证码\n发送验证码\n登录"
+    },
+    {
+      "page": "登录页",
+      "name": "元素/文案存在：登录",
+      "pass": true,
+      "detail": "外包追踪系统\n\n请登录以继续\n\n+86\n验证码\n发送验证码\n登录"
+    },
+    {
+      "page": "登录页",
+      "name": "未登录状态不跳转首页",
+      "pass": false,
+      "detail": "外包追踪系统\n\n请登录以继续\n\n+86\n验证码\n发送验证码\n登录"
+    },
+    {
+      "page": "首页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/"
+    },
+    {
+      "page": "首页",
+      "name": "元素/文案存在：业务概览",
+      "pass": true,
+      "detail": "夜深了，企业管理员\n企业管理员\n全部厂家\n2\n业务概览\n7\n全部订单\n2\n待处理\n4\n进行中\n1\n已完成\n当前有 3 条超时记录，请及时处理\n快捷动作\n扫码流转、查看进度与导出数据\n扫码录入\n收货 / 发货\n看板\n订单进度\n2\n通知\n2 条未读\n导出\nExcel报表\n订单看板\n查看订单、厂家、工序流转状态\n我的通知\n异常、超时与流转提醒\n2\n数据导出\n按日期、厂家、状态导出Excel\n退出登录"
+    },
+    {
+      "page": "首页",
+      "name": "元素/文案存在：扫码录入",
+      "pass": true,
+      "detail": "夜深了，企业管理员\n企业管理员\n全部厂家\n2\n业务概览\n7\n全部订单\n2\n待处理\n4\n进行中\n1\n已完成\n当前有 3 条超时记录，请及时处理\n快捷动作\n扫码流转、查看进度与导出数据\n扫码录入\n收货 / 发货\n看板\n订单进度\n2\n通知\n2 条未读\n导出\nExcel报表\n订单看板\n查看订单、厂家、工序流转状态\n我的通知\n异常、超时与流转提醒\n2\n数据导出\n按日期、厂家、状态导出Excel\n退出登录"
+    },
+    {
+      "page": "首页",
+      "name": "元素/文案存在：订单看板",
+      "pass": true,
+      "detail": "夜深了，企业管理员\n企业管理员\n全部厂家\n2\n业务概览\n7\n全部订单\n2\n待处理\n4\n进行中\n1\n已完成\n当前有 3 条超时记录，请及时处理\n快捷动作\n扫码流转、查看进度与导出数据\n扫码录入\n收货 / 发货\n看板\n订单进度\n2\n通知\n2 条未读\n导出\nExcel报表\n订单看板\n查看订单、厂家、工序流转状态\n我的通知\n异常、超时与流转提醒\n2\n数据导出\n按日期、厂家、状态导出Excel\n退出登录"
+    },
+    {
+      "page": "首页",
+      "name": "元素/文案存在：我的通知",
+      "pass": true,
+      "detail": "夜深了，企业管理员\n企业管理员\n全部厂家\n2\n业务概览\n7\n全部订单\n2\n待处理\n4\n进行中\n1\n已完成\n当前有 3 条超时记录，请及时处理\n快捷动作\n扫码流转、查看进度与导出数据\n扫码录入\n收货 / 发货\n看板\n订单进度\n2\n通知\n2 条未读\n导出\nExcel报表\n订单看板\n查看订单、厂家、工序流转状态\n我的通知\n异常、超时与流转提醒\n2\n数据导出\n按日期、厂家、状态导出Excel\n退出登录"
+    },
+    {
+      "page": "首页",
+      "name": "元素/文案存在：数据导出",
+      "pass": true,
+      "detail": "夜深了，企业管理员\n企业管理员\n全部厂家\n2\n业务概览\n7\n全部订单\n2\n待处理\n4\n进行中\n1\n已完成\n当前有 3 条超时记录，请及时处理\n快捷动作\n扫码流转、查看进度与导出数据\n扫码录入\n收货 / 发货\n看板\n订单进度\n2\n通知\n2 条未读\n导出\nExcel报表\n订单看板\n查看订单、厂家、工序流转状态\n我的通知\n异常、超时与流转提醒\n2\n数据导出\n按日期、厂家、状态导出Excel\n退出登录"
+    },
+    {
+      "page": "首页",
+      "name": "元素/文案存在：退出登录",
+      "pass": true,
+      "detail": "夜深了，企业管理员\n企业管理员\n全部厂家\n2\n业务概览\n7\n全部订单\n2\n待处理\n4\n进行中\n1\n已完成\n当前有 3 条超时记录，请及时处理\n快捷动作\n扫码流转、查看进度与导出数据\n扫码录入\n收货 / 发货\n看板\n订单进度\n2\n通知\n2 条未读\n导出\nExcel报表\n订单看板\n查看订单、厂家、工序流转状态\n我的通知\n异常、超时与流转提醒\n2\n数据导出\n按日期、厂家、状态导出Excel\n退出登录"
+    },
+    {
+      "page": "扫码页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/scan"
+    },
+    {
+      "page": "扫码页",
+      "name": "元素/文案存在：扫码枪",
+      "pass": true,
+      "detail": "扫码录入\n扫码枪优先录入\n支持手持/固定扫码枪，单次扫码回车即处理，也支持整批粘贴后批量解析。\n本次成功 0\n异常 0\n扫码枪\n批量\n相机\n扫码内容\n推荐现场用法\n\n固定扫码枪设置为“扫码后追加 Enter”，焦点保持在输入框，操作员连续扫即可。\n\n处理本次扫码\n本次扫码结果\n\n等待扫码"
+    },
+    {
+      "page": "扫码页",
+      "name": "元素/文案存在：批量",
+      "pass": true,
+      "detail": "扫码录入\n扫码枪优先录入\n支持手持/固定扫码枪，单次扫码回车即处理，也支持整批粘贴后批量解析。\n本次成功 0\n异常 0\n扫码枪\n批量\n相机\n扫码内容\n推荐现场用法\n\n固定扫码枪设置为“扫码后追加 Enter”，焦点保持在输入框，操作员连续扫即可。\n\n处理本次扫码\n本次扫码结果\n\n等待扫码"
+    },
+    {
+      "page": "扫码页",
+      "name": "元素/文案存在：相机",
+      "pass": true,
+      "detail": "扫码录入\n扫码枪优先录入\n支持手持/固定扫码枪，单次扫码回车即处理，也支持整批粘贴后批量解析。\n本次成功 0\n异常 0\n扫码枪\n批量\n相机\n扫码内容\n推荐现场用法\n\n固定扫码枪设置为“扫码后追加 Enter”，焦点保持在输入框，操作员连续扫即可。\n\n处理本次扫码\n本次扫码结果\n\n等待扫码"
+    },
+    {
+      "page": "扫码页",
+      "name": "元素/文案存在：处理本次扫码",
+      "pass": true,
+      "detail": "扫码录入\n扫码枪优先录入\n支持手持/固定扫码枪，单次扫码回车即处理，也支持整批粘贴后批量解析。\n本次成功 0\n异常 0\n扫码枪\n批量\n相机\n扫码内容\n推荐现场用法\n\n固定扫码枪设置为“扫码后追加 Enter”，焦点保持在输入框，操作员连续扫即可。\n\n处理本次扫码\n本次扫码结果\n\n等待扫码"
+    },
+    {
+      "page": "扫码页",
+      "name": "元素/文案存在：批量解析",
+      "pass": true,
+      "detail": "扫码录入\n扫码枪优先录入\n支持手持/固定扫码枪，单次扫码回车即处理，也支持整批粘贴后批量解析。\n本次成功 0\n异常 0\n扫码枪\n批量\n相机\n扫码内容\n推荐现场用法\n\n固定扫码枪设置为“扫码后追加 Enter”，焦点保持在输入框，操作员连续扫即可。\n\n处理本次扫码\n本次扫码结果\n\n等待扫码"
+    },
+    {
+      "page": "扫码页",
+      "name": "元素/文案存在：工业扫码枪",
+      "pass": false,
+      "detail": "扫码录入\n扫码枪优先录入\n支持手持/固定扫码枪，单次扫码回车即处理，也支持整批粘贴后批量解析。\n本次成功 0\n异常 0\n扫码枪\n批量\n相机\n扫码内容\n推荐现场用法\n\n固定扫码枪设置为“扫码后追加 Enter”，焦点保持在输入框，操作员连续扫即可。\n\n处理本次扫码\n本次扫码结果\n\n等待扫码"
+    },
+    {
+      "page": "看板页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/kanban"
+    },
+    {
+      "page": "看板页",
+      "name": "元素/文案存在：订单看板",
+      "pass": false,
+      "detail": "外协流转看板\n订单进度、厂家流转与超时状态一屏掌握\n7\n全部\n2\n待处理\n4\n进行中\n1\n已完成\n3 条超时记录需关注\n全部\n待处理\n进行中\n已完成\n筛选条件\n展开\nDEMO_DONE_001\n已完成\n导轨滑块\n件号：PART-S007\n规格：GCr15 H级\n数量\n120件\n厂家\n精加工A厂\n工序\n3/3\n待 0\n中 0\n完 3\nDEMO_OVERDUE_001\n超时\n进行中\n连接法兰\n件号：PART-F005\n规格：Q235 Φ180\n数量\n60件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_PENDING_001\n待处理\n传动轴毛坯\n件号：PART-T002\n规格：45钢 Φ60×320\n数量\n80件\n厂家\n精加工A厂\n工序\n0/3\n待 3\n中 0\n完 0\nDEMO_RECEIVED_001\n进行中\n精密阀体\n件号：PART-V003\n规格：不锈钢 DN25\n数量\n50件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_RETURN_001\n进行中\n齿轮轴\n件号：PART-G006\n规格：20CrMnTi M2.5\n数量\n90件\n厂家\n精加"
+    },
+    {
+      "page": "看板页",
+      "name": "元素/文案存在：筛选",
+      "pass": true,
+      "detail": "外协流转看板\n订单进度、厂家流转与超时状态一屏掌握\n7\n全部\n2\n待处理\n4\n进行中\n1\n已完成\n3 条超时记录需关注\n全部\n待处理\n进行中\n已完成\n筛选条件\n展开\nDEMO_DONE_001\n已完成\n导轨滑块\n件号：PART-S007\n规格：GCr15 H级\n数量\n120件\n厂家\n精加工A厂\n工序\n3/3\n待 0\n中 0\n完 3\nDEMO_OVERDUE_001\n超时\n进行中\n连接法兰\n件号：PART-F005\n规格：Q235 Φ180\n数量\n60件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_PENDING_001\n待处理\n传动轴毛坯\n件号：PART-T002\n规格：45钢 Φ60×320\n数量\n80件\n厂家\n精加工A厂\n工序\n0/3\n待 3\n中 0\n完 0\nDEMO_RECEIVED_001\n进行中\n精密阀体\n件号：PART-V003\n规格：不锈钢 DN25\n数量\n50件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_RETURN_001\n进行中\n齿轮轴\n件号：PART-G006\n规格：20CrMnTi M2.5\n数量\n90件\n厂家\n精加"
+    },
+    {
+      "page": "看板页",
+      "name": "元素/文案存在：全部订单",
+      "pass": false,
+      "detail": "外协流转看板\n订单进度、厂家流转与超时状态一屏掌握\n7\n全部\n2\n待处理\n4\n进行中\n1\n已完成\n3 条超时记录需关注\n全部\n待处理\n进行中\n已完成\n筛选条件\n展开\nDEMO_DONE_001\n已完成\n导轨滑块\n件号：PART-S007\n规格：GCr15 H级\n数量\n120件\n厂家\n精加工A厂\n工序\n3/3\n待 0\n中 0\n完 3\nDEMO_OVERDUE_001\n超时\n进行中\n连接法兰\n件号：PART-F005\n规格：Q235 Φ180\n数量\n60件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_PENDING_001\n待处理\n传动轴毛坯\n件号：PART-T002\n规格：45钢 Φ60×320\n数量\n80件\n厂家\n精加工A厂\n工序\n0/3\n待 3\n中 0\n完 0\nDEMO_RECEIVED_001\n进行中\n精密阀体\n件号：PART-V003\n规格：不锈钢 DN25\n数量\n50件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_RETURN_001\n进行中\n齿轮轴\n件号：PART-G006\n规格：20CrMnTi M2.5\n数量\n90件\n厂家\n精加"
+    },
+    {
+      "page": "看板页",
+      "name": "元素/文案存在：进行中",
+      "pass": true,
+      "detail": "外协流转看板\n订单进度、厂家流转与超时状态一屏掌握\n7\n全部\n2\n待处理\n4\n进行中\n1\n已完成\n3 条超时记录需关注\n全部\n待处理\n进行中\n已完成\n筛选条件\n展开\nDEMO_DONE_001\n已完成\n导轨滑块\n件号：PART-S007\n规格：GCr15 H级\n数量\n120件\n厂家\n精加工A厂\n工序\n3/3\n待 0\n中 0\n完 3\nDEMO_OVERDUE_001\n超时\n进行中\n连接法兰\n件号：PART-F005\n规格：Q235 Φ180\n数量\n60件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_PENDING_001\n待处理\n传动轴毛坯\n件号：PART-T002\n规格：45钢 Φ60×320\n数量\n80件\n厂家\n精加工A厂\n工序\n0/3\n待 3\n中 0\n完 0\nDEMO_RECEIVED_001\n进行中\n精密阀体\n件号：PART-V003\n规格：不锈钢 DN25\n数量\n50件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_RETURN_001\n进行中\n齿轮轴\n件号：PART-G006\n规格：20CrMnTi M2.5\n数量\n90件\n厂家\n精加"
+    },
+    {
+      "page": "看板页",
+      "name": "元素/文案存在：已完成",
+      "pass": true,
+      "detail": "外协流转看板\n订单进度、厂家流转与超时状态一屏掌握\n7\n全部\n2\n待处理\n4\n进行中\n1\n已完成\n3 条超时记录需关注\n全部\n待处理\n进行中\n已完成\n筛选条件\n展开\nDEMO_DONE_001\n已完成\n导轨滑块\n件号：PART-S007\n规格：GCr15 H级\n数量\n120件\n厂家\n精加工A厂\n工序\n3/3\n待 0\n中 0\n完 3\nDEMO_OVERDUE_001\n超时\n进行中\n连接法兰\n件号：PART-F005\n规格：Q235 Φ180\n数量\n60件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_PENDING_001\n待处理\n传动轴毛坯\n件号：PART-T002\n规格：45钢 Φ60×320\n数量\n80件\n厂家\n精加工A厂\n工序\n0/3\n待 3\n中 0\n完 0\nDEMO_RECEIVED_001\n进行中\n精密阀体\n件号：PART-V003\n规格：不锈钢 DN25\n数量\n50件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_RETURN_001\n进行中\n齿轮轴\n件号：PART-G006\n规格：20CrMnTi M2.5\n数量\n90件\n厂家\n精加"
+    },
+    {
+      "page": "订单详情页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/kanban/DEMO_PENDING_001"
+    },
+    {
+      "page": "订单详情页",
+      "name": "元素/文案存在：传动轴毛坯",
+      "pass": false,
+      "detail": "返回\n订单工序详情\n未填写制件\n待处理\n订单号：DEMO_PENDING_001\n件号/规格\n- / -\n数量\n0 件\n主厂\n-\n工序流转\n按工序顺序查看前后流转与数量状态\n共 3 道\n可接收\n可发出\n已完成\n第 1 道\n首道精加工\n待接收 80\n精加工A厂\n首道\n→\n本道\n→\n下道\n可接收\n80\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 80，本次已收 0，本次已发 0\n上道已发，可接收 80\n接收\n发出\n需先接收\n详情\n第 2 道\n二道热处理\n待接收\n热处理B厂\n上道\n→\n本道\n→\n下道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情\n第 3 道\n末道总装终检\n待接收\n总装主厂\n上道\n→\n本道\n→\n末道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情"
+    },
+    {
+      "page": "订单详情页",
+      "name": "元素/文案存在：工序",
+      "pass": true,
+      "detail": "返回\n订单工序详情\n未填写制件\n待处理\n订单号：DEMO_PENDING_001\n件号/规格\n- / -\n数量\n0 件\n主厂\n-\n工序流转\n按工序顺序查看前后流转与数量状态\n共 3 道\n可接收\n可发出\n已完成\n第 1 道\n首道精加工\n待接收 80\n精加工A厂\n首道\n→\n本道\n→\n下道\n可接收\n80\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 80，本次已收 0，本次已发 0\n上道已发，可接收 80\n接收\n发出\n需先接收\n详情\n第 2 道\n二道热处理\n待接收\n热处理B厂\n上道\n→\n本道\n→\n下道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情\n第 3 道\n末道总装终检\n待接收\n总装主厂\n上道\n→\n本道\n→\n末道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情"
+    },
+    {
+      "page": "订单详情页",
+      "name": "元素/文案存在：精加工",
+      "pass": true,
+      "detail": "返回\n订单工序详情\n未填写制件\n待处理\n订单号：DEMO_PENDING_001\n件号/规格\n- / -\n数量\n0 件\n主厂\n-\n工序流转\n按工序顺序查看前后流转与数量状态\n共 3 道\n可接收\n可发出\n已完成\n第 1 道\n首道精加工\n待接收 80\n精加工A厂\n首道\n→\n本道\n→\n下道\n可接收\n80\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 80，本次已收 0，本次已发 0\n上道已发，可接收 80\n接收\n发出\n需先接收\n详情\n第 2 道\n二道热处理\n待接收\n热处理B厂\n上道\n→\n本道\n→\n下道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情\n第 3 道\n末道总装终检\n待接收\n总装主厂\n上道\n→\n本道\n→\n末道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情"
+    },
+    {
+      "page": "订单详情页",
+      "name": "元素/文案存在：热处理",
+      "pass": true,
+      "detail": "返回\n订单工序详情\n未填写制件\n待处理\n订单号：DEMO_PENDING_001\n件号/规格\n- / -\n数量\n0 件\n主厂\n-\n工序流转\n按工序顺序查看前后流转与数量状态\n共 3 道\n可接收\n可发出\n已完成\n第 1 道\n首道精加工\n待接收 80\n精加工A厂\n首道\n→\n本道\n→\n下道\n可接收\n80\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 80，本次已收 0，本次已发 0\n上道已发，可接收 80\n接收\n发出\n需先接收\n详情\n第 2 道\n二道热处理\n待接收\n热处理B厂\n上道\n→\n本道\n→\n下道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情\n第 3 道\n末道总装终检\n待接收\n总装主厂\n上道\n→\n本道\n→\n末道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情"
+    },
+    {
+      "page": "订单详情页",
+      "name": "元素/文案存在：总装检验",
+      "pass": false,
+      "detail": "返回\n订单工序详情\n未填写制件\n待处理\n订单号：DEMO_PENDING_001\n件号/规格\n- / -\n数量\n0 件\n主厂\n-\n工序流转\n按工序顺序查看前后流转与数量状态\n共 3 道\n可接收\n可发出\n已完成\n第 1 道\n首道精加工\n待接收 80\n精加工A厂\n首道\n→\n本道\n→\n下道\n可接收\n80\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 80，本次已收 0，本次已发 0\n上道已发，可接收 80\n接收\n发出\n需先接收\n详情\n第 2 道\n二道热处理\n待接收\n热处理B厂\n上道\n→\n本道\n→\n下道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情\n第 3 道\n末道总装终检\n待接收\n总装主厂\n上道\n→\n本道\n→\n末道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情"
+    },
+    {
+      "page": "接收页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/receive/DEMO_PENDING_R1"
+    },
+    {
+      "page": "接收页",
+      "name": "元素/文案存在：接收",
+      "pass": true,
+      "detail": "接收录入\n本次最多可接收\n80\n请核对上道已发与本道已收后录入数量\n订单信息\n订单号\nDEMO_PENDING_001\n工序\nDEMO_PENDING_P1 工序\n厂家\n-\n上道已发\n80\n本道已收\n0\n可接收\n80\n接收信息\n接收人\n企业管理员\n接收时间\n接收数量\n全部\n提交接收"
+    },
+    {
+      "page": "接收页",
+      "name": "元素/文案存在：接收数量",
+      "pass": true,
+      "detail": "接收录入\n本次最多可接收\n80\n请核对上道已发与本道已收后录入数量\n订单信息\n订单号\nDEMO_PENDING_001\n工序\nDEMO_PENDING_P1 工序\n厂家\n-\n上道已发\n80\n本道已收\n0\n可接收\n80\n接收信息\n接收人\n企业管理员\n接收时间\n接收数量\n全部\n提交接收"
+    },
+    {
+      "page": "接收页",
+      "name": "元素/文案存在：全部",
+      "pass": true,
+      "detail": "接收录入\n本次最多可接收\n80\n请核对上道已发与本道已收后录入数量\n订单信息\n订单号\nDEMO_PENDING_001\n工序\nDEMO_PENDING_P1 工序\n厂家\n-\n上道已发\n80\n本道已收\n0\n可接收\n80\n接收信息\n接收人\n企业管理员\n接收时间\n接收数量\n全部\n提交接收"
+    },
+    {
+      "page": "接收页",
+      "name": "元素/文案存在：最多可接收",
+      "pass": true,
+      "detail": "接收录入\n本次最多可接收\n80\n请核对上道已发与本道已收后录入数量\n订单信息\n订单号\nDEMO_PENDING_001\n工序\nDEMO_PENDING_P1 工序\n厂家\n-\n上道已发\n80\n本道已收\n0\n可接收\n80\n接收信息\n接收人\n企业管理员\n接收时间\n接收数量\n全部\n提交接收"
+    },
+    {
+      "page": "接收页",
+      "name": "元素/文案存在：订单信息",
+      "pass": true,
+      "detail": "接收录入\n本次最多可接收\n80\n请核对上道已发与本道已收后录入数量\n订单信息\n订单号\nDEMO_PENDING_001\n工序\nDEMO_PENDING_P1 工序\n厂家\n-\n上道已发\n80\n本道已收\n0\n可接收\n80\n接收信息\n接收人\n企业管理员\n接收时间\n接收数量\n全部\n提交接收"
+    },
+    {
+      "page": "发出页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/ship/DEMO_RECEIVED_R1"
+    },
+    {
+      "page": "发出页",
+      "name": "元素/文案存在：发出",
+      "pass": true,
+      "detail": "发出录入\n本次最多可发出\n50\n发出数量不能超过本道已接收未发出的余量\n订单信息\n订单号\nDEMO_RECEIVED_001\n工序\nDEMO_RECEIVED_P1 工序\n厂家\n-\n累计接收\n50\n累计发出\n0\n可发出\n50\n发出信息\n发出人\n企业管理员\n发出时间\n发出数量\n全部\n退件\n提交发出"
+    },
+    {
+      "page": "发出页",
+      "name": "元素/文案存在：发出数量",
+      "pass": true,
+      "detail": "发出录入\n本次最多可发出\n50\n发出数量不能超过本道已接收未发出的余量\n订单信息\n订单号\nDEMO_RECEIVED_001\n工序\nDEMO_RECEIVED_P1 工序\n厂家\n-\n累计接收\n50\n累计发出\n0\n可发出\n50\n发出信息\n发出人\n企业管理员\n发出时间\n发出数量\n全部\n退件\n提交发出"
+    },
+    {
+      "page": "发出页",
+      "name": "元素/文案存在：全部",
+      "pass": true,
+      "detail": "发出录入\n本次最多可发出\n50\n发出数量不能超过本道已接收未发出的余量\n订单信息\n订单号\nDEMO_RECEIVED_001\n工序\nDEMO_RECEIVED_P1 工序\n厂家\n-\n累计接收\n50\n累计发出\n0\n可发出\n50\n发出信息\n发出人\n企业管理员\n发出时间\n发出数量\n全部\n退件\n提交发出"
+    },
+    {
+      "page": "发出页",
+      "name": "元素/文案存在：最多可发出",
+      "pass": true,
+      "detail": "发出录入\n本次最多可发出\n50\n发出数量不能超过本道已接收未发出的余量\n订单信息\n订单号\nDEMO_RECEIVED_001\n工序\nDEMO_RECEIVED_P1 工序\n厂家\n-\n累计接收\n50\n累计发出\n0\n可发出\n50\n发出信息\n发出人\n企业管理员\n发出时间\n发出数量\n全部\n退件\n提交发出"
+    },
+    {
+      "page": "发出页",
+      "name": "元素/文案存在：订单信息",
+      "pass": true,
+      "detail": "发出录入\n本次最多可发出\n50\n发出数量不能超过本道已接收未发出的余量\n订单信息\n订单号\nDEMO_RECEIVED_001\n工序\nDEMO_RECEIVED_P1 工序\n厂家\n-\n累计接收\n50\n累计发出\n0\n可发出\n50\n发出信息\n发出人\n企业管理员\n发出时间\n发出数量\n全部\n退件\n提交发出"
+    },
+    {
+      "page": "记录查看页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/view/DEMO_PENDING_R1"
+    },
+    {
+      "page": "记录查看页",
+      "name": "元素/文案存在：流转记录",
+      "pass": false,
+      "detail": "订单详情\n刷新\nDEMO_PENDING_001\n待接收\n第道工序：\n厂家：\n接收记录\n\n暂无接收记录\n\n发出记录\n\n暂无发出记录\n\n接收\n发出"
+    },
+    {
+      "page": "记录查看页",
+      "name": "元素/文案存在：接收",
+      "pass": true,
+      "detail": "订单详情\n刷新\nDEMO_PENDING_001\n待接收\n第道工序：\n厂家：\n接收记录\n\n暂无接收记录\n\n发出记录\n\n暂无发出记录\n\n接收\n发出"
+    },
+    {
+      "page": "记录查看页",
+      "name": "元素/文案存在：发出",
+      "pass": true,
+      "detail": "订单详情\n刷新\nDEMO_PENDING_001\n待接收\n第道工序：\n厂家：\n接收记录\n\n暂无接收记录\n\n发出记录\n\n暂无发出记录\n\n接收\n发出"
+    },
+    {
+      "page": "记录查看页",
+      "name": "元素/文案存在：退件",
+      "pass": false,
+      "detail": "订单详情\n刷新\nDEMO_PENDING_001\n待接收\n第道工序：\n厂家：\n接收记录\n\n暂无接收记录\n\n发出记录\n\n暂无发出记录\n\n接收\n发出"
+    },
+    {
+      "page": "通知页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/notifications"
+    },
+    {
+      "page": "通知页",
+      "name": "元素/文案存在：通知",
+      "pass": true,
+      "detail": "通知中心\n全部已读\n2\n系统测试数据已刷新\n8小时前\n外协流转模拟数据已清空并重新生成，中文通知显示正常。\n超期订单提醒\n8小时前\n订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\n没有更多了"
+    },
+    {
+      "page": "通知页",
+      "name": "元素/文案存在：全部",
+      "pass": true,
+      "detail": "通知中心\n全部已读\n2\n系统测试数据已刷新\n8小时前\n外协流转模拟数据已清空并重新生成，中文通知显示正常。\n超期订单提醒\n8小时前\n订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\n没有更多了"
+    },
+    {
+      "page": "通知页",
+      "name": "元素/文案存在：未读",
+      "pass": false,
+      "detail": "通知中心\n全部已读\n2\n系统测试数据已刷新\n8小时前\n外协流转模拟数据已清空并重新生成，中文通知显示正常。\n超期订单提醒\n8小时前\n订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\n没有更多了"
+    },
+    {
+      "page": "导出页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/export"
+    },
+    {
+      "page": "导出页",
+      "name": "元素/文案存在：数据导出",
+      "pass": false,
+      "detail": "导出订单\n开始日期\n结束日期\n订单号\n厂家\n快捷选择:\n今天\n本周\n本月\n清除\n导出Excel\n导出文件为Excel格式，包含订单号、厂家、工序、数量、时间等完整信息"
+    },
+    {
+      "page": "导出页",
+      "name": "元素/文案存在：导出",
+      "pass": true,
+      "detail": "导出订单\n开始日期\n结束日期\n订单号\n厂家\n快捷选择:\n今天\n本周\n本月\n清除\n导出Excel\n导出文件为Excel格式，包含订单号、厂家、工序、数量、时间等完整信息"
+    },
+    {
+      "page": "导出页",
+      "name": "元素/文案存在：订单",
+      "pass": true,
+      "detail": "导出订单\n开始日期\n结束日期\n订单号\n厂家\n快捷选择:\n今天\n本周\n本月\n清除\n导出Excel\n导出文件为Excel格式，包含订单号、厂家、工序、数量、时间等完整信息"
+    },
+    {
+      "page": "用户管理页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/admin/users"
+    },
+    {
+      "page": "用户管理页",
+      "name": "元素/文案存在：人员管理",
+      "pass": true,
+      "detail": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\n企业管理员\n企业管理员\n总装主厂\n已启用\n主厂管理员\n主厂管理员\n总装主厂\n已启用\nA厂操作员\n主厂操作员\n精加工A厂\n已启用\nA厂发运员\n主厂操作员\n精加工A厂\n已启用\nB厂操作员\n协作厂操作员\n热处理B厂\n已启用\nB厂管理员\n协作厂管理员\n热处理B厂\n已启用\n末道操作员\n主厂操作员\n总装主厂\n已启用\nC厂操作员\n协作厂操作员\n表面处理C厂\n已启用\n没有更多了\n添加用户"
+    },
+    {
+      "page": "用户管理页",
+      "name": "元素/文案存在：企业管理员",
+      "pass": true,
+      "detail": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\n企业管理员\n企业管理员\n总装主厂\n已启用\n主厂管理员\n主厂管理员\n总装主厂\n已启用\nA厂操作员\n主厂操作员\n精加工A厂\n已启用\nA厂发运员\n主厂操作员\n精加工A厂\n已启用\nB厂操作员\n协作厂操作员\n热处理B厂\n已启用\nB厂管理员\n协作厂管理员\n热处理B厂\n已启用\n末道操作员\n主厂操作员\n总装主厂\n已启用\nC厂操作员\n协作厂操作员\n表面处理C厂\n已启用\n没有更多了\n添加用户"
+    },
+    {
+      "page": "用户管理页",
+      "name": "元素/文案存在：厂家管理员",
+      "pass": true,
+      "detail": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\n企业管理员\n企业管理员\n总装主厂\n已启用\n主厂管理员\n主厂管理员\n总装主厂\n已启用\nA厂操作员\n主厂操作员\n精加工A厂\n已启用\nA厂发运员\n主厂操作员\n精加工A厂\n已启用\nB厂操作员\n协作厂操作员\n热处理B厂\n已启用\nB厂管理员\n协作厂管理员\n热处理B厂\n已启用\n末道操作员\n主厂操作员\n总装主厂\n已启用\nC厂操作员\n协作厂操作员\n表面处理C厂\n已启用\n没有更多了\n添加用户"
+    },
+    {
+      "page": "用户管理页",
+      "name": "元素/文案存在：操作员",
+      "pass": true,
+      "detail": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\n企业管理员\n企业管理员\n总装主厂\n已启用\n主厂管理员\n主厂管理员\n总装主厂\n已启用\nA厂操作员\n主厂操作员\n精加工A厂\n已启用\nA厂发运员\n主厂操作员\n精加工A厂\n已启用\nB厂操作员\n协作厂操作员\n热处理B厂\n已启用\nB厂管理员\n协作厂管理员\n热处理B厂\n已启用\n末道操作员\n主厂操作员\n总装主厂\n已启用\nC厂操作员\n协作厂操作员\n表面处理C厂\n已启用\n没有更多了\n添加用户"
+    },
+    {
+      "page": "用户管理页",
+      "name": "元素/文案存在：已启用",
+      "pass": true,
+      "detail": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\n企业管理员\n企业管理员\n总装主厂\n已启用\n主厂管理员\n主厂管理员\n总装主厂\n已启用\nA厂操作员\n主厂操作员\n精加工A厂\n已启用\nA厂发运员\n主厂操作员\n精加工A厂\n已启用\nB厂操作员\n协作厂操作员\n热处理B厂\n已启用\nB厂管理员\n协作厂管理员\n热处理B厂\n已启用\n末道操作员\n主厂操作员\n总装主厂\n已启用\nC厂操作员\n协作厂操作员\n表面处理C厂\n已启用\n没有更多了\n添加用户"
+    },
+    {
+      "page": "用户管理页",
+      "name": "元素/文案存在：添加用户",
+      "pass": true,
+      "detail": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\n企业管理员\n企业管理员\n总装主厂\n已启用\n主厂管理员\n主厂管理员\n总装主厂\n已启用\nA厂操作员\n主厂操作员\n精加工A厂\n已启用\nA厂发运员\n主厂操作员\n精加工A厂\n已启用\nB厂操作员\n协作厂操作员\n热处理B厂\n已启用\nB厂管理员\n协作厂管理员\n热处理B厂\n已启用\n末道操作员\n主厂操作员\n总装主厂\n已启用\nC厂操作员\n协作厂操作员\n表面处理C厂\n已启用\n没有更多了\n添加用户"
+    },
+    {
+      "page": "厂家管理页",
+      "name": "页面加载/截图成功",
+      "pass": true,
+      "detail": "/admin/factories"
+    },
+    {
+      "page": "厂家管理页",
+      "name": "元素/文案存在：厂家",
+      "pass": true,
+      "detail": "厂家管理\n总装主厂\n一号厂区·总装与终检\n13800138000\n已启用\n精加工A厂\n二号厂区·车铣磨\n13800138002\n已启用\n热处理B厂\n三号厂区·淬火回火\n13800138004\n已启用\n表面处理C厂\n四号厂区·喷涂氧化\n13800138007\n已启用\n没有更多了\n添加厂家"
+    },
+    {
+      "page": "厂家管理页",
+      "name": "元素/文案存在：总装主厂",
+      "pass": true,
+      "detail": "厂家管理\n总装主厂\n一号厂区·总装与终检\n13800138000\n已启用\n精加工A厂\n二号厂区·车铣磨\n13800138002\n已启用\n热处理B厂\n三号厂区·淬火回火\n13800138004\n已启用\n表面处理C厂\n四号厂区·喷涂氧化\n13800138007\n已启用\n没有更多了\n添加厂家"
+    },
+    {
+      "page": "厂家管理页",
+      "name": "元素/文案存在：精加工A厂",
+      "pass": true,
+      "detail": "厂家管理\n总装主厂\n一号厂区·总装与终检\n13800138000\n已启用\n精加工A厂\n二号厂区·车铣磨\n13800138002\n已启用\n热处理B厂\n三号厂区·淬火回火\n13800138004\n已启用\n表面处理C厂\n四号厂区·喷涂氧化\n13800138007\n已启用\n没有更多了\n添加厂家"
+    },
+    {
+      "page": "厂家管理页",
+      "name": "元素/文案存在：热处理B厂",
+      "pass": true,
+      "detail": "厂家管理\n总装主厂\n一号厂区·总装与终检\n13800138000\n已启用\n精加工A厂\n二号厂区·车铣磨\n13800138002\n已启用\n热处理B厂\n三号厂区·淬火回火\n13800138004\n已启用\n表面处理C厂\n四号厂区·喷涂氧化\n13800138007\n已启用\n没有更多了\n添加厂家"
+    },
+    {
+      "page": "扫码页",
+      "name": "扫码枪输入框默认自动聚焦",
+      "pass": true,
+      "detail": "INPUT"
+    },
+    {
+      "page": "扫码页",
+      "name": "扫码枪Enter后进入接收页",
+      "pass": true,
+      "detail": "http://localhost:8081/receive/DEMO_PENDING_R1"
+    }
+  ],
+  "api_checks": [
+    {
+      "name": "登录发送验证码",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"message\": \"验证码发送成功\", \"code\": \"893895\"}"
+    },
+    {
+      "name": "当前用户",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"user_id\": \"U001\", \"factory_id\": \"F001\", \"phone\": \"13800138000\", \"name\": \"企业管理员\", \"role\": \"enterprise_admin\", \"status\": \"active\", \"last_login\": \"2026-06-11T18:08:32\", \"created_at\": \"2026-06-11T18:08:29\", \"updated_at\": \"2026-06-11T18:08:32\"}"
+    },
+    {
+      "name": "首页/看板订单",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"total\": 7, \"page\": 1, \"page_size\": 20, \"items\": [{\"order_no\": \"DEMO_DONE_001\", \"product_name\": \"导轨滑块\", \"quantity\": 120, \"unit\": \"件\", \"status\": \"completed\", \"delivery_date\": \"2026-06-10T18:08:29\", \"order_id\": \"DEMO_DONE_001\", \"product_code\": \"PRD-ZJ-007\", \"spec\": \"GCr15 H级\", \"part_no\": \"PART-S007\", \"factory_id\": \"F002\", \"factory_name\": \"精加工A厂\", \"primary_factory_id\": \"F002\", \"created_at\": \"2026-06-08T18:08:29\", \"updated_at\": \"2026-06-11T18:08:29\", \"is_overdue\": false, \"process_count\": 3, \"pending_count\": 0, \"in_progress_count\": 0, \"completed_count\": 3}, {\"order_no\": \"DEMO_OVERDUE_001\", \"produc"
+    },
+    {
+      "name": "看板统计",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"total\": 7, \"pending\": 2, \"in_progress\": 4, \"completed\": 1, \"overdue_count\": 3}"
+    },
+    {
+      "name": "订单详情工序",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"order_id\": \"DEMO_PENDING_001\", \"order_no\": \"DEMO_PENDING_001\", \"items\": [{\"process_name\": \"首道精加工\", \"process_order\": 1, \"status\": \"pending\", \"receive_time\": null, \"send_time\": null, \"is_overdue\": false, \"record_id\": \"DEMO_PENDING_R1\", \"order_id\": \"DEMO_PENDING_001\", \"process_id\": \"DEMO_PENDING_P1\", \"factory_id\": \"F002\", \"factory_name\": \"精加工A厂\", \"current_handler_id\": null, \"current_handler_name\": null, \"prev_process_id\": null, \"next_process_id\": \"DEMO_PENDING_P2\", \"receive_qty\": 0, \"ship_qty\": 0, \"prev_ship_qty\": 80, \"current_receive_qty\": 0, \"current_ship_qty\": 0, \"available_receive_qty\": 80,"
+    },
+    {
+      "name": "扫码批量",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"total\": 2, \"success_count\": 1, \"fail_count\": 1, \"items\": [{\"qr_code\": \"record_DEMO_PENDING_R1\", \"record_id\": \"DEMO_PENDING_R1\", \"jump_type\": \"receive\", \"message\": \"跳转到receive页面\", \"record_status\": \"pending\", \"lock_type\": \"none\", \"factory_id\": \"F002\"}, {\"qr_code\": \"bad_code\", \"record_id\": null, \"jump_type\": \"not_found\", \"message\": \"无法识别的二维码格式\", \"record_status\": null, \"lock_type\": null, \"factory_id\": null}]}"
+    },
+    {
+      "name": "接收详情",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"record_id\": \"DEMO_PENDING_R1\", \"order_id\": \"DEMO_PENDING_001\", \"process_id\": \"DEMO_PENDING_P1\", \"factory_id\": \"F002\", \"record_status\": \"pending\", \"lock_type\": \"none\", \"total_receive_qty\": 0, \"total_ship_qty\": 0, \"gross_receive_qty\": 0, \"gross_ship_qty\": 0, \"returned_in_qty\": 0, \"returned_out_qty\": 0, \"prev_ship_qty\": 80, \"current_receive_qty\": 0, \"current_ship_qty\": 0, \"available_receive_qty\": 80, \"available_ship_qty\": 0, \"partial_receive\": false, \"partial_ship\": false, \"last_receive_time\": null, \"last_ship_time\": null, \"created_at\": \"2026-06-11T18:08:30\", \"updated_at\": \"2026-06-11T18:08:30\""
+    },
+    {
+      "name": "发出详情",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"record_id\": \"DEMO_RECEIVED_R1\", \"order_id\": \"DEMO_RECEIVED_001\", \"process_id\": \"DEMO_RECEIVED_P1\", \"factory_id\": \"F002\", \"record_status\": \"received\", \"lock_type\": \"entry_lock\", \"total_receive_qty\": 50, \"total_ship_qty\": 0, \"gross_receive_qty\": 50, \"gross_ship_qty\": 0, \"returned_in_qty\": 0, \"returned_out_qty\": 0, \"prev_ship_qty\": 50, \"current_receive_qty\": 50, \"current_ship_qty\": 0, \"available_receive_qty\": 0, \"available_ship_qty\": 50, \"partial_receive\": false, \"partial_ship\": false, \"last_receive_time\": \"2026-06-11T17:08:30\", \"last_ship_time\": null, \"created_at\": \"2026-06-11T16:08:30\", \"upda"
+    },
+    {
+      "name": "通知列表",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"total\": 2, \"unread_count\": 2, \"items\": [{\"notif_id\": \"DEMO_N_U001_1\", \"user_id\": \"U001\", \"notif_type\": \"other\", \"title\": \"系统测试数据已刷新\", \"content\": \"外协流转模拟数据已清空并重新生成，中文通知显示正常。\", \"is_read\": 0, \"related_id\": \"DEMO_PENDING_001\", \"related_type\": \"order\", \"jump_url\": \"/kanban/DEMO_PENDING_001\", \"created_at\": \"2026-06-11 18:08:30\"}, {\"notif_id\": \"DEMO_N_U001_2\", \"user_id\": \"U001\", \"notif_type\": \"transfer\", \"title\": \"超期订单提醒\", \"content\": \"订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\", \"is_read\": 0, \"related_id\": \"DEMO_OVERDUE_001\", \"related_type\": \"order\", \"jump_url\": \"/kanban/DEMO_OVERDUE_001\", \"created"
+    },
+    {
+      "name": "用户管理",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"total\": 8, \"items\": [{\"id\": \"U001\", \"user_id\": \"U001\", \"username\": \"企业管理员\", \"name\": \"企业管理员\", \"phone\": \"13800138000\", \"role\": \"enterprise_admin\", \"factory_id\": \"F001\", \"factory_name\": \"总装主厂\", \"status\": \"active\"}, {\"id\": \"U002\", \"user_id\": \"U002\", \"username\": \"主厂管理员\", \"name\": \"主厂管理员\", \"phone\": \"13800138001\", \"role\": \"primary_admin\", \"factory_id\": \"F001\", \"factory_name\": \"总装主厂\", \"status\": \"active\"}, {\"id\": \"U003\", \"user_id\": \"U003\", \"username\": \"A厂操作员\", \"name\": \"A厂操作员\", \"phone\": \"13800138002\", \"role\": \"primary_operator\", \"factory_id\": \"F002\", \"factory_name\": \"精加工A厂\", \"status\": \"active\"}, {\"id\":"
+    },
+    {
+      "name": "厂家管理",
+      "status": 200,
+      "pass": true,
+      "body_sample": "{\"total\": 4, \"items\": [{\"id\": \"F001\", \"factory_id\": \"F001\", \"name\": \"总装主厂\", \"factory_name\": \"总装主厂\", \"contact\": \"一号厂区·总装与终检\", \"phone\": \"13800138000\", \"status\": \"active\", \"factory_type\": \"primary\"}, {\"id\": \"F002\", \"factory_id\": \"F002\", \"name\": \"精加工A厂\", \"factory_name\": \"精加工A厂\", \"contact\": \"二号厂区·车铣磨\", \"phone\": \"13800138002\", \"status\": \"active\", \"factory_type\": \"primary\"}, {\"id\": \"F003\", \"factory_id\": \"F003\", \"name\": \"热处理B厂\", \"factory_name\": \"热处理B厂\", \"contact\": \"三号厂区·淬火回火\", \"phone\": \"13800138004\", \"status\": \"active\", \"factory_type\": \"cooperative\"}, {\"id\": \"F004\", \"factory_id\": \"F004\", \"name\": \"表面处理"
+    }
+  ],
+  "pages": [
+    {
+      "name": "登录页",
+      "path": "/login",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/登录页.png",
+      "found": {
+        "手机号": false,
+        "验证码": true,
+        "登录": true
+      },
+      "text_sample": "外包追踪系统\n\n请登录以继续\n\n+86\n验证码\n发送验证码\n登录"
+    },
+    {
+      "name": "首页",
+      "path": "/",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/首页.png",
+      "found": {
+        "业务概览": true,
+        "扫码录入": true,
+        "订单看板": true,
+        "我的通知": true,
+        "数据导出": true,
+        "退出登录": true
+      },
+      "text_sample": "夜深了，企业管理员\n企业管理员\n全部厂家\n2\n业务概览\n7\n全部订单\n2\n待处理\n4\n进行中\n1\n已完成\n当前有 3 条超时记录，请及时处理\n快捷动作\n扫码流转、查看进度与导出数据\n扫码录入\n收货 / 发货\n看板\n订单进度\n2\n通知\n2 条未读\n导出\nExcel报表\n订单看板\n查看订单、厂家、工序流转状态\n我的通知\n异常、超时与流转提醒\n2\n数据导出\n按日期、厂家、状态导出Excel\n退出登录"
+    },
+    {
+      "name": "扫码页",
+      "path": "/scan",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/扫码页.png",
+      "found": {
+        "扫码枪": true,
+        "批量": true,
+        "相机": true,
+        "处理本次扫码": true,
+        "批量解析": true,
+        "工业扫码枪": false
+      },
+      "text_sample": "扫码录入\n扫码枪优先录入\n支持手持/固定扫码枪，单次扫码回车即处理，也支持整批粘贴后批量解析。\n本次成功 0\n异常 0\n扫码枪\n批量\n相机\n扫码内容\n推荐现场用法\n\n固定扫码枪设置为“扫码后追加 Enter”，焦点保持在输入框，操作员连续扫即可。\n\n处理本次扫码\n本次扫码结果\n\n等待扫码"
+    },
+    {
+      "name": "看板页",
+      "path": "/kanban",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/看板页.png",
+      "found": {
+        "订单看板": false,
+        "筛选": true,
+        "全部订单": false,
+        "进行中": true,
+        "已完成": true
+      },
+      "text_sample": "外协流转看板\n订单进度、厂家流转与超时状态一屏掌握\n7\n全部\n2\n待处理\n4\n进行中\n1\n已完成\n3 条超时记录需关注\n全部\n待处理\n进行中\n已完成\n筛选条件\n展开\nDEMO_DONE_001\n已完成\n导轨滑块\n件号：PART-S007\n规格：GCr15 H级\n数量\n120件\n厂家\n精加工A厂\n工序\n3/3\n待 0\n中 0\n完 3\nDEMO_OVERDUE_001\n超时\n进行中\n连接法兰\n件号：PART-F005\n规格：Q235 Φ180\n数量\n60件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_PENDING_001\n待处理\n传动轴毛坯\n件号：PART-T002\n规格：45钢 Φ60×320\n数量\n80件\n厂家\n精加工A厂\n工序\n0/3\n待 3\n中 0\n完 0\nDEMO_RECEIVED_001\n进行中\n精密阀体\n件号：PART-V003\n规格：不锈钢 DN25\n数量\n50件\n厂家\n精加工A厂\n工序\n1/3\n待 2\n中 1\n完 0\nDEMO_RETURN_001\n进行中\n齿轮轴\n件号：PART-G006\n规格：20CrMnTi M2.5\n数量\n90件\n厂家\n精加工A厂\n工序\n1/3\n待 1\n中 2\n完 0\nDEMO_SPLIT_001\n进行中\n泵壳半成品\n件号：PART-P004\n规格：铸铝 A356\n数量\n100件\n厂家\n精加工A厂\n工序\n1/3\n待 1\n中 2\n完 0\nMADM_FLOW_001\n待处理\n航空支架组件\n件号：PART-A001\n规格：铝合金 120×80\n数量\n100件\n厂家\n精加工A厂\n工序\n0/3\n待 3\n中 0\n完 0\n没有更多了"
+    },
+    {
+      "name": "订单详情页",
+      "path": "/kanban/DEMO_PENDING_001",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/订单详情页.png",
+      "found": {
+        "传动轴毛坯": false,
+        "工序": true,
+        "精加工": true,
+        "热处理": true,
+        "总装检验": false
+      },
+      "text_sample": "返回\n订单工序详情\n未填写制件\n待处理\n订单号：DEMO_PENDING_001\n件号/规格\n- / -\n数量\n0 件\n主厂\n-\n工序流转\n按工序顺序查看前后流转与数量状态\n共 3 道\n可接收\n可发出\n已完成\n第 1 道\n首道精加工\n待接收 80\n精加工A厂\n首道\n→\n本道\n→\n下道\n可接收\n80\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 80，本次已收 0，本次已发 0\n上道已发，可接收 80\n接收\n发出\n需先接收\n详情\n第 2 道\n二道热处理\n待接收\n热处理B厂\n上道\n→\n本道\n→\n下道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情\n第 3 道\n末道总装终检\n待接收\n总装主厂\n上道\n→\n本道\n→\n末道\n可接收\n0\n可发出\n0\n累计接收\n0\n累计发出\n0\n发出进度\n0%\n上道发出 0，本次已收 0，本次已发 0\n等待上道工序发出后接收\n接收\n等待上道发出\n发出\n需先接收\n详情"
+    },
+    {
+      "name": "接收页",
+      "path": "/receive/DEMO_PENDING_R1",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/接收页.png",
+      "found": {
+        "接收": true,
+        "接收数量": true,
+        "全部": true,
+        "最多可接收": true,
+        "订单信息": true
+      },
+      "text_sample": "接收录入\n本次最多可接收\n80\n请核对上道已发与本道已收后录入数量\n订单信息\n订单号\nDEMO_PENDING_001\n工序\nDEMO_PENDING_P1 工序\n厂家\n-\n上道已发\n80\n本道已收\n0\n可接收\n80\n接收信息\n接收人\n企业管理员\n接收时间\n接收数量\n全部\n提交接收"
+    },
+    {
+      "name": "发出页",
+      "path": "/ship/DEMO_RECEIVED_R1",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/发出页.png",
+      "found": {
+        "发出": true,
+        "发出数量": true,
+        "全部": true,
+        "最多可发出": true,
+        "订单信息": true
+      },
+      "text_sample": "发出录入\n本次最多可发出\n50\n发出数量不能超过本道已接收未发出的余量\n订单信息\n订单号\nDEMO_RECEIVED_001\n工序\nDEMO_RECEIVED_P1 工序\n厂家\n-\n累计接收\n50\n累计发出\n0\n可发出\n50\n发出信息\n发出人\n企业管理员\n发出时间\n发出数量\n全部\n退件\n提交发出"
+    },
+    {
+      "name": "记录查看页",
+      "path": "/view/DEMO_PENDING_R1",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/记录查看页.png",
+      "found": {
+        "流转记录": false,
+        "接收": true,
+        "发出": true,
+        "退件": false
+      },
+      "text_sample": "订单详情\n刷新\nDEMO_PENDING_001\n待接收\n第道工序：\n厂家：\n接收记录\n\n暂无接收记录\n\n发出记录\n\n暂无发出记录\n\n接收\n发出"
+    },
+    {
+      "name": "通知页",
+      "path": "/notifications",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/通知页.png",
+      "found": {
+        "通知": true,
+        "全部": true,
+        "未读": false
+      },
+      "text_sample": "通知中心\n全部已读\n2\n系统测试数据已刷新\n8小时前\n外协流转模拟数据已清空并重新生成，中文通知显示正常。\n超期订单提醒\n8小时前\n订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。\n没有更多了"
+    },
+    {
+      "name": "导出页",
+      "path": "/export",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/导出页.png",
+      "found": {
+        "数据导出": false,
+        "导出": true,
+        "订单": true
+      },
+      "text_sample": "导出订单\n开始日期\n结束日期\n订单号\n厂家\n快捷选择:\n今天\n本周\n本月\n清除\n导出Excel\n导出文件为Excel格式，包含订单号、厂家、工序、数量、时间等完整信息"
+    },
+    {
+      "name": "用户管理页",
+      "path": "/admin/users",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/用户管理页.png",
+      "found": {
+        "人员管理": true,
+        "企业管理员": true,
+        "厂家管理员": true,
+        "操作员": true,
+        "已启用": true,
+        "添加用户": true
+      },
+      "text_sample": "人员管理\n全部\n企业管理员\n厂家管理员\n操作员\n企业管理员\n企业管理员\n总装主厂\n已启用\n主厂管理员\n主厂管理员\n总装主厂\n已启用\nA厂操作员\n主厂操作员\n精加工A厂\n已启用\nA厂发运员\n主厂操作员\n精加工A厂\n已启用\nB厂操作员\n协作厂操作员\n热处理B厂\n已启用\nB厂管理员\n协作厂管理员\n热处理B厂\n已启用\n末道操作员\n主厂操作员\n总装主厂\n已启用\nC厂操作员\n协作厂操作员\n表面处理C厂\n已启用\n没有更多了\n添加用户"
+    },
+    {
+      "name": "厂家管理页",
+      "path": "/admin/factories",
+      "screenshot": "/home/takemehome/outsourcing-track/docs/acceptance/screenshots/厂家管理页.png",
+      "found": {
+        "厂家": true,
+        "总装主厂": true,
+        "精加工A厂": true,
+        "热处理B厂": true
+      },
+      "text_sample": "厂家管理\n总装主厂\n一号厂区·总装与终检\n13800138000\n已启用\n精加工A厂\n二号厂区·车铣磨\n13800138002\n已启用\n热处理B厂\n三号厂区·淬火回火\n13800138004\n已启用\n表面处理C厂\n四号厂区·喷涂氧化\n13800138007\n已启用\n没有更多了\n添加厂家"
+    }
+  ],
+  "console_errors": []
+}

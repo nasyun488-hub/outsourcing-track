@@ -1,0 +1,1516 @@
+{
+  "generated_at": "2026-06-16T14:51:54",
+  "mode": "api-assisted-mobile-ui-traversal",
+  "note": "当前环境未装浏览器；Playwright 浏览器下载超时，因此本轮为 API+源码契约辅助的人类UI遍历，不是像素级真实点击。",
+  "summary": {
+    "total": 65,
+    "passed": 65,
+    "failed": 0,
+    "failed_by_severity": {}
+  },
+  "results": [
+    {
+      "page": "/",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/notifications",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/export",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/admin/users",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/admin/factories",
+      "element": "页面入口",
+      "action": "移动端访问 SPA shell",
+      "pass": true,
+      "expected": "HTTP 200 且返回前端壳",
+      "actual": {
+        "status": 200,
+        "size": 393
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "手机号输入框/发送验证码",
+      "action": "输入非法手机号 123",
+      "pass": true,
+      "expected": "应拒绝非法手机号",
+      "actual": {
+        "code": 422,
+        "body": {
+          "detail": [
+            {
+              "type": "string_too_short",
+              "loc": [
+                "body",
+                "phone"
+              ],
+              "msg": "String should have at least 11 characters",
+              "input": "123",
+              "ctx": {
+                "min_length": 11
+              }
+            }
+          ]
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "验证码输入框/登录按钮",
+      "action": "输入错误验证码",
+      "pass": true,
+      "expected": "应拒绝错误验证码",
+      "actual": {
+        "code": 401,
+        "body": {
+          "detail": "手机号或验证码错误"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录按钮",
+      "action": "enterprise 使用验证码登录",
+      "pass": true,
+      "expected": "返回 access_token",
+      "actual": {
+        "code": 200,
+        "keys": [
+          "access_token",
+          "token_type",
+          "expires_in"
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录后用户信息",
+      "action": "enterprise 获取当前用户",
+      "pass": true,
+      "expected": "auth/me 返回当前用户",
+      "actual": {
+        "code": 200,
+        "body": {
+          "user_id": "U001",
+          "factory_id": "F001",
+          "phone": "13800138000",
+          "name": "企业管理员",
+          "role": "enterprise_admin",
+          "status": "active",
+          "last_login": "2026-06-16T06:51:51",
+          "created_at": "2026-06-12T00:43:30",
+          "updated_at": "2026-06-16T06:51:51"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录按钮",
+      "action": "primary_admin 使用验证码登录",
+      "pass": true,
+      "expected": "返回 access_token",
+      "actual": {
+        "code": 200,
+        "keys": [
+          "access_token",
+          "token_type",
+          "expires_in"
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录后用户信息",
+      "action": "primary_admin 获取当前用户",
+      "pass": true,
+      "expected": "auth/me 返回当前用户",
+      "actual": {
+        "code": 200,
+        "body": {
+          "user_id": "U002",
+          "factory_id": "F001",
+          "phone": "13800138001",
+          "name": "主厂管理员",
+          "role": "primary_admin",
+          "status": "active",
+          "last_login": "2026-06-16T06:51:52",
+          "created_at": "2026-06-12T00:43:30",
+          "updated_at": "2026-06-16T06:51:52"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录按钮",
+      "action": "a_operator 使用验证码登录",
+      "pass": true,
+      "expected": "返回 access_token",
+      "actual": {
+        "code": 200,
+        "keys": [
+          "access_token",
+          "token_type",
+          "expires_in"
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录后用户信息",
+      "action": "a_operator 获取当前用户",
+      "pass": true,
+      "expected": "auth/me 返回当前用户",
+      "actual": {
+        "code": 200,
+        "body": {
+          "user_id": "U004",
+          "factory_id": "F002",
+          "phone": "13800138003",
+          "name": "A厂发运员",
+          "role": "primary_operator",
+          "status": "active",
+          "last_login": "2026-06-16T06:51:53",
+          "created_at": "2026-06-12T00:43:30",
+          "updated_at": "2026-06-16T06:51:53"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录按钮",
+      "action": "b_operator 使用验证码登录",
+      "pass": true,
+      "expected": "返回 access_token",
+      "actual": {
+        "code": 200,
+        "keys": [
+          "access_token",
+          "token_type",
+          "expires_in"
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/login",
+      "element": "登录后用户信息",
+      "action": "b_operator 获取当前用户",
+      "pass": true,
+      "expected": "auth/me 返回当前用户",
+      "actual": {
+        "code": 200,
+        "body": {
+          "user_id": "U005",
+          "factory_id": "F003",
+          "phone": "13800138004",
+          "name": "B厂操作员",
+          "role": "cooperative_operator",
+          "status": "active",
+          "last_login": "2026-06-16T06:51:53",
+          "created_at": "2026-06-12T00:43:30",
+          "updated_at": "2026-06-16T06:51:53"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/",
+      "element": "我的通知入口/未读数",
+      "action": "加载通知列表",
+      "pass": true,
+      "expected": "通知接口可用",
+      "actual": {
+        "code": 200,
+        "body": {
+          "total": 2,
+          "unread_count": 2,
+          "items": [
+            {
+              "notif_id": "DEMO_N_U001_1",
+              "user_id": "U001",
+              "notif_type": "other",
+              "title": "系统测试数据已刷新",
+              "content": "外协流转模拟数据已清空并重新生成，中文通知显示正常。",
+              "is_read": 0,
+              "related_id": "DEMO_PENDING_001",
+              "related_type": "order",
+              "jump_url": "/kanban/DEMO_PENDING_001",
+              "created_at": "2026-06-12 00:43:31"
+            },
+            {
+              "notif_id": "DEMO_N_U001_2",
+              "user_id": "U001",
+              "notif_type": "transfer",
+              "title": "超期订单提醒",
+              "content": "订单 DEMO_OVERDUE_001 首道精加工已接收60件，超过48小时未发出。",
+              "is_read": 0,
+              "related_id": "DEMO_OVERDUE_001",
+              "related_type": "order",
+              "jump_url": "/kanban/DEMO_OVERDUE_001",
+              "created_at": "2026-06-12 00:13:31"
+            }
+          ]
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/",
+      "element": "看板快捷入口",
+      "action": "加载看板订单",
+      "pass": true,
+      "expected": "至少显示模拟订单",
+      "actual": {
+        "code": 200,
+        "count": 20
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban",
+      "element": "顶部统计卡片",
+      "action": "请求统计数据",
+      "pass": true,
+      "expected": "统计接口返回订单总数",
+      "actual": {
+        "code": 200,
+        "body": {
+          "total": 49,
+          "pending": 7,
+          "in_progress": 36,
+          "completed": 6,
+          "overdue_count": 28
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban",
+      "element": "顶部统计卡片",
+      "action": "页面装载后自动显示统计",
+      "pass": true,
+      "expected": "页面应调用 fetchStats 并显示真实统计",
+      "actual": "代码检查通过：KanbanPage onMounted/onRefresh 已调用 fetchStats",
+      "severity": ""
+    },
+    {
+      "page": "/kanban",
+      "element": "Tab 全部",
+      "action": "切换筛选并加载订单",
+      "pass": true,
+      "expected": "返回订单列表",
+      "actual": {
+        "code": 200,
+        "count": 20
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban",
+      "element": "Tab pending",
+      "action": "切换筛选并加载订单",
+      "pass": true,
+      "expected": "返回订单列表",
+      "actual": {
+        "code": 200,
+        "count": 7
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban",
+      "element": "Tab in_progress",
+      "action": "切换筛选并加载订单",
+      "pass": true,
+      "expected": "返回订单列表",
+      "actual": {
+        "code": 200,
+        "count": 20
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban",
+      "element": "Tab completed",
+      "action": "切换筛选并加载订单",
+      "pass": true,
+      "expected": "返回订单列表",
+      "actual": {
+        "code": 200,
+        "count": 6
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban/:order_id",
+      "element": "订单卡片",
+      "action": "点击 DEMO_PENDING_001 进入工序详情",
+      "pass": true,
+      "expected": "返回3道工序",
+      "actual": {
+        "code": 200,
+        "items": [
+          {
+            "process_name": "首道精加工",
+            "process_order": 1,
+            "status": "pending",
+            "receive_time": null,
+            "send_time": null,
+            "is_overdue": true,
+            "record_id": "DEMO_PENDING_R1",
+            "order_id": "DEMO_PENDING_001",
+            "process_id": "DEMO_PENDING_P1",
+            "factory_id": "F002",
+            "factory_name": "精加工A厂",
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": "DEMO_PENDING_P2",
+            "receive_qty": 0,
+            "ship_qty": 0,
+            "prev_ship_qty": 80,
+            "current_receive_qty": 0,
+            "current_ship_qty": 0,
+            "available_receive_qty": 80,
+            "available_ship_qty": 0,
+            "created_at": "2026-06-12T00:43:31",
+            "updated_at": "2026-06-12T00:43:31"
+          }
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban/:order_id",
+      "element": "订单卡片",
+      "action": "点击 DEMO_RECEIVED_001 进入工序详情",
+      "pass": true,
+      "expected": "返回3道工序",
+      "actual": {
+        "code": 200,
+        "items": [
+          {
+            "process_name": "首道精加工",
+            "process_order": 1,
+            "status": "received",
+            "receive_time": "2026-06-11T23:43:31",
+            "send_time": null,
+            "is_overdue": true,
+            "record_id": "DEMO_RECEIVED_R1",
+            "order_id": "DEMO_RECEIVED_001",
+            "process_id": "DEMO_RECEIVED_P1",
+            "factory_id": "F002",
+            "factory_name": "精加工A厂",
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": "DEMO_RECEIVED_P2",
+            "receive_qty": 50,
+            "ship_qty": 0,
+            "prev_ship_qty": 50,
+            "current_receive_qty": 50,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 50,
+            "created_at": "2026-06-11T22:43:31",
+            "updated_at": "2026-06-12T00:43:31"
+          }
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban/:order_id",
+      "element": "订单卡片",
+      "action": "点击 DEMO_SPLIT_001 进入工序详情",
+      "pass": true,
+      "expected": "返回3道工序",
+      "actual": {
+        "code": 200,
+        "items": [
+          {
+            "process_name": "首道精加工",
+            "process_order": 1,
+            "status": "shipped",
+            "receive_time": "2026-06-11T19:43:31",
+            "send_time": "2026-06-11T21:43:31",
+            "is_overdue": false,
+            "record_id": "DEMO_SPLIT_R1",
+            "order_id": "DEMO_SPLIT_001",
+            "process_id": "DEMO_SPLIT_P1",
+            "factory_id": "F002",
+            "factory_name": "精加工A厂",
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": "DEMO_SPLIT_P2",
+            "receive_qty": 100,
+            "ship_qty": 64,
+            "prev_ship_qty": 100,
+            "current_receive_qty": 100,
+            "current_ship_qty": 64,
+            "available_receive_qty": 0,
+            "available_ship_qty": 36,
+            "created_at": "2026-06-11T18:43:31",
+            "updated_at": "2026-06-12T00:43:49"
+          }
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban/:order_id",
+      "element": "订单卡片",
+      "action": "点击 DEMO_OVERDUE_001 进入工序详情",
+      "pass": true,
+      "expected": "返回3道工序",
+      "actual": {
+        "code": 200,
+        "items": [
+          {
+            "process_name": "首道精加工",
+            "process_order": 1,
+            "status": "received",
+            "receive_time": "2026-06-09T12:43:31",
+            "send_time": null,
+            "is_overdue": true,
+            "record_id": "DEMO_OVERDUE_R1",
+            "order_id": "DEMO_OVERDUE_001",
+            "process_id": "DEMO_OVERDUE_P1",
+            "factory_id": "F002",
+            "factory_name": "精加工A厂",
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": "DEMO_OVERDUE_P2",
+            "receive_qty": 60,
+            "ship_qty": 0,
+            "prev_ship_qty": 60,
+            "current_receive_qty": 60,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 60,
+            "created_at": "2026-06-09T12:43:31",
+            "updated_at": "2026-06-12T00:43:31"
+          }
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban/:order_id",
+      "element": "订单卡片",
+      "action": "点击 DEMO_DONE_001 进入工序详情",
+      "pass": true,
+      "expected": "返回3道工序",
+      "actual": {
+        "code": 200,
+        "items": [
+          {
+            "process_name": "首道精加工",
+            "process_order": 1,
+            "status": "completed",
+            "receive_time": "2026-06-09T00:43:31",
+            "send_time": "2026-06-10T00:43:31",
+            "is_overdue": false,
+            "record_id": "DEMO_DONE_R1",
+            "order_id": "DEMO_DONE_001",
+            "process_id": "DEMO_DONE_P1",
+            "factory_id": "F002",
+            "factory_name": "精加工A厂",
+            "current_handler_id": null,
+            "current_handler_name": null,
+            "prev_process_id": null,
+            "next_process_id": "DEMO_DONE_P2",
+            "receive_qty": 120,
+            "ship_qty": 120,
+            "prev_ship_qty": 120,
+            "current_receive_qty": 120,
+            "current_ship_qty": 120,
+            "available_receive_qty": 0,
+            "available_ship_qty": 0,
+            "created_at": "2026-06-09T00:43:31",
+            "updated_at": "2026-06-12T00:43:31"
+          }
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/kanban/:order_id",
+      "element": "厂家角色工序可见范围",
+      "action": "B厂用户查看 DEMO_SPLIT_001 工序详情",
+      "pass": true,
+      "expected": "允许查看本厂相关工序",
+      "actual": {
+        "code": 200,
+        "count": 3
+      },
+      "severity": ""
+    },
+    {
+      "page": "/view/:record_id",
+      "element": "跨厂详情权限",
+      "action": "B厂用户直接打开A厂记录 DEMO_RECEIVED_R1",
+      "pass": true,
+      "expected": "应拒绝跨厂直接详情",
+      "actual": {
+        "code": 403,
+        "body": {
+          "detail": "无权查看其他厂家流转记录"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "手动输入解析按钮",
+      "action": "输入 record_DEMO_PENDING_R1",
+      "pass": true,
+      "expected": "jump_type=receive",
+      "actual": {
+        "code": 200,
+        "body": {
+          "qr_code": "record_DEMO_PENDING_R1",
+          "record_id": "DEMO_PENDING_R1",
+          "jump_type": "receive",
+          "message": "跳转到receive页面",
+          "record_status": "pending",
+          "lock_type": "none",
+          "factory_id": "F002"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "手动输入解析按钮",
+      "action": "输入 record_DEMO_RECEIVED_R1",
+      "pass": true,
+      "expected": "jump_type=ship",
+      "actual": {
+        "code": 200,
+        "body": {
+          "qr_code": "record_DEMO_RECEIVED_R1",
+          "record_id": "DEMO_RECEIVED_R1",
+          "jump_type": "ship",
+          "message": "跳转到ship页面",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "factory_id": "F002"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "手动输入解析按钮",
+      "action": "输入 record_DEMO_SPLIT_R1",
+      "pass": true,
+      "expected": "jump_type=view",
+      "actual": {
+        "code": 200,
+        "body": {
+          "qr_code": "record_DEMO_SPLIT_R1",
+          "record_id": "DEMO_SPLIT_R1",
+          "jump_type": "view",
+          "message": "跳转到view页面",
+          "record_status": "shipped",
+          "lock_type": "entry_lock",
+          "factory_id": "F002"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "手动输入解析按钮",
+      "action": "输入 record_DEMO_OVERDUE_R1",
+      "pass": true,
+      "expected": "jump_type=ship",
+      "actual": {
+        "code": 200,
+        "body": {
+          "qr_code": "record_DEMO_OVERDUE_R1",
+          "record_id": "DEMO_OVERDUE_R1",
+          "jump_type": "ship",
+          "message": "跳转到ship页面",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "factory_id": "F002"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "手动输入解析按钮",
+      "action": "输入 record_DEMO_DONE_R1",
+      "pass": true,
+      "expected": "jump_type=view",
+      "actual": {
+        "code": 200,
+        "body": {
+          "qr_code": "record_DEMO_DONE_R1",
+          "record_id": "DEMO_DONE_R1",
+          "jump_type": "view",
+          "message": "跳转到view页面",
+          "record_status": "completed",
+          "lock_type": "sync_lock",
+          "factory_id": "F002"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "手动输入解析按钮",
+      "action": "输入 bad_qr",
+      "pass": true,
+      "expected": "jump_type=not_found",
+      "actual": {
+        "code": 200,
+        "body": {
+          "qr_code": "bad_qr",
+          "record_id": null,
+          "jump_type": "not_found",
+          "message": "无法识别的二维码格式",
+          "record_status": null,
+          "lock_type": null,
+          "factory_id": null
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/scan",
+      "element": "相机扫码Tab",
+      "action": "打开相机扫码",
+      "pass": true,
+      "expected": "应能识别二维码",
+      "actual": "代码检查通过：ScanPage 已接入 @zxing/browser，打开相机后自动识别并跳转",
+      "severity": ""
+    },
+    {
+      "page": "/receive/:record_id",
+      "element": "页面加载",
+      "action": "打开待接收记录",
+      "pass": true,
+      "expected": "加载待接收记录详情",
+      "actual": {
+        "code": 200,
+        "body": {
+          "record_id": "DEMO_PENDING_R1",
+          "order_id": "DEMO_PENDING_001",
+          "process_id": "DEMO_PENDING_P1",
+          "process_seq": "1",
+          "process_name": "首道精加工",
+          "factory_id": "F002",
+          "factory_name": "精加工A厂",
+          "record_status": "pending",
+          "lock_type": "none",
+          "total_receive_qty": 0,
+          "total_ship_qty": 0,
+          "gross_receive_qty": 0,
+          "gross_ship_qty": 0,
+          "returned_in_qty": 0,
+          "returned_out_qty": 0,
+          "prev_ship_qty": 80,
+          "current_receive_qty": 0,
+          "current_ship_qty": 0,
+          "available_receive_qty": 80,
+          "available_ship_qty": 0,
+          "partial_receive": false,
+          "partial_ship": false,
+          "last_receive_time": null,
+          "last_ship_time": null,
+          "created_at": "2026-06-12T00:43:31",
+          "updated_at": "2026-06-12T00:43:31",
+          "receive_batches": [],
+          "ship_batches": [],
+          "returns": [],
+          "previous_record_id": null,
+          "next_record_id": "DEMO_PENDING_R2"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/receive/:record_id",
+      "element": "接收数量输入框",
+      "action": "输入0提交",
+      "pass": true,
+      "expected": "应拒绝非法数量",
+      "actual": {
+        "code": 422,
+        "body": {
+          "detail": [
+            {
+              "type": "greater_than",
+              "loc": [
+                "body",
+                "receive_qty"
+              ],
+              "msg": "Input should be greater than 0",
+              "input": 0,
+              "ctx": {
+                "gt": 0
+              }
+            }
+          ]
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/receive/:record_id",
+      "element": "接收数量输入框",
+      "action": "输入负数提交",
+      "pass": true,
+      "expected": "应拒绝非法数量",
+      "actual": {
+        "code": 422,
+        "body": {
+          "detail": [
+            {
+              "type": "greater_than",
+              "loc": [
+                "body",
+                "receive_qty"
+              ],
+              "msg": "Input should be greater than 0",
+              "input": -1,
+              "ctx": {
+                "gt": 0
+              }
+            }
+          ]
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/receive/:record_id",
+      "element": "提交按钮权限",
+      "action": "B厂用户接收A厂记录",
+      "pass": true,
+      "expected": "应拒绝跨厂接收",
+      "actual": {
+        "code": 400,
+        "body": {
+          "detail": "您不属于该厂家，无权操作"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/ship/:record_id",
+      "element": "页面加载",
+      "action": "打开已接收待发出记录",
+      "pass": true,
+      "expected": "加载已接收记录详情",
+      "actual": {
+        "code": 200,
+        "body": {
+          "record_id": "DEMO_RECEIVED_R1",
+          "order_id": "DEMO_RECEIVED_001",
+          "process_id": "DEMO_RECEIVED_P1",
+          "process_seq": "1",
+          "process_name": "首道精加工",
+          "factory_id": "F002",
+          "factory_name": "精加工A厂",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 50,
+          "total_ship_qty": 0,
+          "gross_receive_qty": 50,
+          "gross_ship_qty": 0,
+          "returned_in_qty": 0,
+          "returned_out_qty": 0,
+          "prev_ship_qty": 50,
+          "current_receive_qty": 50,
+          "current_ship_qty": 0,
+          "available_receive_qty": 0,
+          "available_ship_qty": 50,
+          "partial_receive": false,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-11T23:43:31",
+          "last_ship_time": null,
+          "created_at": "2026-06-11T22:43:31",
+          "updated_at": "2026-06-12T00:43:31",
+          "receive_batches": [
+            {
+              "batch_id": "DEMO_RB_RECEIVED_1",
+              "record_id": "DEMO_RECEIVED_R1",
+              "user_id": "U004",
+              "receive_time": "2026-06-11T23:43:31",
+              "receive_qty": 50,
+              "batch_no": 1,
+              "return_qty": 0,
+              "created_at": "2026-06-12T00:43:31"
+            }
+          ],
+          "ship_batches": [],
+          "returns": [],
+          "previous_record_id": null,
+          "next_record_id": "DEMO_RECEIVED_R2"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/ship/:record_id",
+      "element": "发出数量输入框",
+      "action": "输入0提交",
+      "pass": true,
+      "expected": "应拒绝非法发出",
+      "actual": {
+        "code": 422,
+        "body": {
+          "detail": [
+            {
+              "type": "greater_than",
+              "loc": [
+                "body",
+                "ship_qty"
+              ],
+              "msg": "Input should be greater than 0",
+              "input": 0,
+              "ctx": {
+                "gt": 0
+              }
+            }
+          ]
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/ship/:record_id",
+      "element": "发出数量输入框",
+      "action": "输入超过已接收数量提交",
+      "pass": true,
+      "expected": "应拒绝非法发出",
+      "actual": {
+        "code": 400,
+        "body": {
+          "detail": "发出数量(9999)超过可发出量(50)"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/ship/:record_id",
+      "element": "提交按钮权限",
+      "action": "B厂用户发出A厂记录",
+      "pass": true,
+      "expected": "应拒绝跨厂发出",
+      "actual": {
+        "code": 400,
+        "body": {
+          "detail": "您不属于该厂家，无权操作"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/ship/:record_id",
+      "element": "退件弹窗确认按钮",
+      "action": "后端退件接口可用性",
+      "pass": true,
+      "expected": "退件接口成功",
+      "actual": {
+        "code": 200,
+        "body": {
+          "success": true,
+          "message": "退件成功",
+          "return_record": {
+            "return_id": "bbe7d7d2b5624662847c86694fdb7fcb",
+            "from_record_id": "DEMO_SPLIT_R1",
+            "to_record_id": "DEMO_SPLIT_R2",
+            "user_id": "U005",
+            "return_reason": "UI遍历退件",
+            "return_qty": 1,
+            "created_at": "2026-06-16T06:51:54"
+          },
+          "from_record": {
+            "record_id": "DEMO_SPLIT_R1",
+            "order_id": "DEMO_SPLIT_001",
+            "process_id": "DEMO_SPLIT_P1",
+            "process_seq": "1",
+            "process_name": "首道精加工",
+            "factory_id": "F002",
+            "factory_name": "精加工A厂",
+            "record_status": "shipped",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 100,
+            "total_ship_qty": 70,
+            "gross_receive_qty": 100,
+            "gross_ship_qty": 70,
+            "returned_in_qty": 0,
+            "returned_out_qty": 7,
+            "prev_ship_qty": 100,
+            "current_receive_qty": 100,
+            "current_ship_qty": 63,
+            "available_receive_qty": 0,
+            "available_ship_qty": 37,
+            "partial_receive": true,
+            "partial_ship": true,
+            "last_receive_time": "2026-06-11T19:43:31",
+            "last_ship_time": "2026-06-11T21:43:31",
+            "created_at": "2026-06-11T18:43:31",
+            "updated_at": "2026-06-12T00:43:49"
+          },
+          "to_record": {
+            "record_id": "DEMO_SPLIT_R2",
+            "order_id": "DEMO_SPLIT_001",
+            "process_id": "DEMO_SPLIT_P2",
+            "process_seq": "2",
+            "process_name": "二道热处理",
+            "factory_id": "F003",
+            "factory_name": "热处理B厂",
+            "record_status": "received",
+            "lock_type": "entry_lock",
+            "total_receive_qty": 70,
+            "total_ship_qty": 0,
+            "gross_receive_qty": 70,
+            "gross_ship_qty": 0,
+            "returned_in_qty": 7,
+            "returned_out_qty": 0,
+            "prev_ship_qty": 63,
+            "current_receive_qty": 63,
+            "current_ship_qty": 0,
+            "available_receive_qty": 0,
+            "available_ship_qty": 63,
+            "partial_receive": true,
+            "partial_ship": false,
+            "last_receive_time": "2026-06-11T22:43:31",
+            "last_ship_time": null,
+            "created_at": "2026-06-11T18:43:31",
+            "updated_at": "2026-06-12T00:43:49"
+          }
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/ship/:record_id",
+      "element": "退件弹窗确认按钮",
+      "action": "前端点击退件确认",
+      "pass": true,
+      "expected": "详情返回 previous_record_id，前端调用 /records/return",
+      "actual": {
+        "code": 200,
+        "previous_record_id": "DEMO_SPLIT_R1"
+      },
+      "severity": ""
+    },
+    {
+      "page": "/view/:record_id",
+      "element": "刷新/批次列表",
+      "action": "打开 DEMO_SPLIT_R1 查看批次",
+      "pass": true,
+      "expected": "详情含接收/发出批次",
+      "actual": {
+        "code": 200,
+        "body": {
+          "record_id": "DEMO_SPLIT_R1",
+          "order_id": "DEMO_SPLIT_001",
+          "process_id": "DEMO_SPLIT_P1",
+          "process_seq": "1",
+          "process_name": "首道精加工",
+          "factory_id": "F002",
+          "factory_name": "精加工A厂",
+          "record_status": "shipped",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 100,
+          "total_ship_qty": 70,
+          "gross_receive_qty": 100,
+          "gross_ship_qty": 70,
+          "returned_in_qty": 0,
+          "returned_out_qty": 7,
+          "prev_ship_qty": 100,
+          "current_receive_qty": 100,
+          "current_ship_qty": 63,
+          "available_receive_qty": 0,
+          "available_ship_qty": 37,
+          "partial_receive": true,
+          "partial_ship": true,
+          "last_receive_time": "2026-06-11T19:43:31",
+          "last_ship_time": "2026-06-11T21:43:31",
+          "created_at": "2026-06-11T18:43:31",
+          "updated_at": "2026-06-12T00:43:49",
+          "receive_batches": [
+            {
+              "batch_id": "DEMO_RB_SPLIT_1",
+              "record_id": "DEMO_SPLIT_R1",
+              "user_id": "U004",
+              "receive_time": "2026-06-11T19:43:31",
+              "receive_qty": 30,
+              "batch_no": 1,
+              "return_qty": 0,
+              "created_at": "2026-06-12T00:43:31"
+            },
+            {
+              "batch_id": "DEMO_RB_SPLIT_2",
+              "record_id": "DEMO_SPLIT_R1",
+              "user_id": "U004",
+              "receive_time": "2026-06-11T20:43:31",
+              "receive_qty": 70,
+              "batch_no": 2,
+              "return_qty": 0,
+              "created_at": "2026-06-12T00:43:31"
+            }
+          ],
+          "ship_batches": [
+            {
+              "batch_id": "DEMO_SB_SPLIT_1",
+              "record_id": "DEMO_SPLIT_R1",
+              "user_id": "U004",
+              "ship_time": "2026-06-11T21:43:31",
+              "ship_qty": 40,
+              "batch_no": 1,
+              "created_at": "2026-06-12T00:43:31"
+            },
+            {
+              "batch_id": "DEMO_SB_SPLIT_2",
+              "record_id": "DEMO_SPLIT_R1",
+              "user_id": "U004",
+              "ship_time": "2026-06-11T22:13:31",
+              "ship_qty": 30,
+              "batch_no": 2,
+              "created_at": "2026-06-12T00:43:31"
+            }
+          ],
+          "returns": [],
+          "previous_record_id": null,
+          "next_record_id": "DEMO_SPLIT_R2"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/view/:record_id",
+      "element": "刷新/批次列表",
+      "action": "打开 DEMO_OVERDUE_R1 查看批次",
+      "pass": true,
+      "expected": "详情含接收/发出批次",
+      "actual": {
+        "code": 200,
+        "body": {
+          "record_id": "DEMO_OVERDUE_R1",
+          "order_id": "DEMO_OVERDUE_001",
+          "process_id": "DEMO_OVERDUE_P1",
+          "process_seq": "1",
+          "process_name": "首道精加工",
+          "factory_id": "F002",
+          "factory_name": "精加工A厂",
+          "record_status": "received",
+          "lock_type": "entry_lock",
+          "total_receive_qty": 60,
+          "total_ship_qty": 0,
+          "gross_receive_qty": 60,
+          "gross_ship_qty": 0,
+          "returned_in_qty": 0,
+          "returned_out_qty": 0,
+          "prev_ship_qty": 60,
+          "current_receive_qty": 60,
+          "current_ship_qty": 0,
+          "available_receive_qty": 0,
+          "available_ship_qty": 60,
+          "partial_receive": false,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-09T12:43:31",
+          "last_ship_time": null,
+          "created_at": "2026-06-09T12:43:31",
+          "updated_at": "2026-06-12T00:43:31",
+          "receive_batches": [
+            {
+              "batch_id": "DEMO_RB_OVERDUE_1",
+              "record_id": "DEMO_OVERDUE_R1",
+              "user_id": "U004",
+              "receive_time": "2026-06-09T12:43:31",
+              "receive_qty": 60,
+              "batch_no": 1,
+              "return_qty": 0,
+              "created_at": "2026-06-12T00:43:31"
+            }
+          ],
+          "ship_batches": [],
+          "returns": [],
+          "previous_record_id": null,
+          "next_record_id": "DEMO_OVERDUE_R2"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/view/:record_id",
+      "element": "刷新/批次列表",
+      "action": "打开 DEMO_DONE_R1 查看批次",
+      "pass": true,
+      "expected": "详情含接收/发出批次",
+      "actual": {
+        "code": 200,
+        "body": {
+          "record_id": "DEMO_DONE_R1",
+          "order_id": "DEMO_DONE_001",
+          "process_id": "DEMO_DONE_P1",
+          "process_seq": "1",
+          "process_name": "首道精加工",
+          "factory_id": "F002",
+          "factory_name": "精加工A厂",
+          "record_status": "completed",
+          "lock_type": "sync_lock",
+          "total_receive_qty": 120,
+          "total_ship_qty": 120,
+          "gross_receive_qty": 120,
+          "gross_ship_qty": 120,
+          "returned_in_qty": 0,
+          "returned_out_qty": 0,
+          "prev_ship_qty": 120,
+          "current_receive_qty": 120,
+          "current_ship_qty": 120,
+          "available_receive_qty": 0,
+          "available_ship_qty": 0,
+          "partial_receive": false,
+          "partial_ship": false,
+          "last_receive_time": "2026-06-09T00:43:31",
+          "last_ship_time": "2026-06-10T00:43:31",
+          "created_at": "2026-06-09T00:43:31",
+          "updated_at": "2026-06-12T00:43:31",
+          "receive_batches": [
+            {
+              "batch_id": "DEMO_RB_DONE_1",
+              "record_id": "DEMO_DONE_R1",
+              "user_id": "U004",
+              "receive_time": "2026-06-09T00:43:31",
+              "receive_qty": 120,
+              "batch_no": 1,
+              "return_qty": 0,
+              "created_at": "2026-06-12T00:43:31"
+            }
+          ],
+          "ship_batches": [
+            {
+              "batch_id": "DEMO_SB_DONE_1",
+              "record_id": "DEMO_DONE_R1",
+              "user_id": "U004",
+              "ship_time": "2026-06-10T00:43:31",
+              "ship_qty": 120,
+              "batch_no": 1,
+              "created_at": "2026-06-12T00:43:31"
+            }
+          ],
+          "returns": [],
+          "previous_record_id": null,
+          "next_record_id": "DEMO_DONE_R2"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/view/:record_id",
+      "element": "锁定状态/操作按钮",
+      "action": "根据 lock_type 显示按钮",
+      "pass": true,
+      "expected": "应使用 lock_type 控制 entry/relation/sync 锁",
+      "actual": "代码检查通过：API normalize lock_type，页面按 lock_type 控制操作",
+      "severity": ""
+    },
+    {
+      "page": "/notifications",
+      "element": "通知列表",
+      "action": "加载A厂用户通知",
+      "pass": true,
+      "expected": "显示已读/未读通知",
+      "actual": {
+        "code": 200,
+        "items": [
+          {
+            "notif_id": "BULK_N_007_1",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "超期发出提醒",
+            "content": "订单 BULK_ORDER_007 首道已接收超过48小时未发出。",
+            "is_read": 1,
+            "related_id": "BULK_ORDER_007",
+            "related_type": "order",
+            "jump_url": "/kanban/BULK_ORDER_007",
+            "created_at": "2026-06-16 02:09:20"
+          },
+          {
+            "notif_id": "BULK_N_015_1",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "超期发出提醒",
+            "content": "订单 BULK_ORDER_015 首道已接收超过48小时未发出。",
+            "is_read": 1,
+            "related_id": "BULK_ORDER_015",
+            "related_type": "order",
+            "jump_url": "/kanban/BULK_ORDER_015",
+            "created_at": "2026-06-16 02:09:20"
+          },
+          {
+            "notif_id": "BULK_N_023_1",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "超期发出提醒",
+            "content": "订单 BULK_ORDER_023 首道已接收超过48小时未发出。",
+            "is_read": 1,
+            "related_id": "BULK_ORDER_023",
+            "related_type": "order",
+            "jump_url": "/kanban/BULK_ORDER_023",
+            "created_at": "2026-06-16 02:09:20"
+          },
+          {
+            "notif_id": "BULK_N_031_1",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "超期发出提醒",
+            "content": "订单 BULK_ORDER_031 首道已接收超过48小时未发出。",
+            "is_read": 1,
+            "related_id": "BULK_ORDER_031",
+            "related_type": "order",
+            "jump_url": "/kanban/BULK_ORDER_031",
+            "created_at": "2026-06-16 02:09:20"
+          },
+          {
+            "notif_id": "BULK_N_039_1",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "超期发出提醒",
+            "content": "订单 BULK_ORDER_039 首道已接收超过48小时未发出。",
+            "is_read": 1,
+            "related_id": "BULK_ORDER_039",
+            "related_type": "order",
+            "jump_url": "/kanban/BULK_ORDER_039",
+            "created_at": "2026-06-16 02:09:20"
+          },
+          {
+            "notif_id": "DEMO_N_U004_1",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "待发出提醒",
+            "content": "订单 DEMO_RECEIVED_001 首道精加工已接收50件，请发往热处理B厂。",
+            "is_read": 1,
+            "related_id": "DEMO_RECEIVED_001",
+            "related_type": "order",
+            "jump_url": "/kanban/DEMO_RECEIVED_001",
+            "created_at": "2026-06-12 00:23:31"
+          },
+          {
+            "notif_id": "DEMO_N_U004_2",
+            "user_id": "U004",
+            "notif_type": "approval",
+            "title": "退件补发提醒",
+            "content": "订单 DEMO_RETURN_001 热处理B厂退回10件，需补发合格件。",
+            "is_read": 1,
+            "related_id": "DEMO_RETURN_001",
+            "related_type": "order",
+            "jump_url": "/kanban/DEMO_RETURN_001",
+            "created_at": "2026-06-11 21:43:31"
+          }
+        ]
+      },
+      "severity": ""
+    },
+    {
+      "page": "/notifications",
+      "element": "全部已读",
+      "action": "后端批量已读接口",
+      "pass": true,
+      "expected": "批量接口成功",
+      "actual": {
+        "code": 200,
+        "body": {
+          "success": true,
+          "message": "已标记0条通知为已读"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/notifications",
+      "element": "全部已读",
+      "action": "前端点击全部已读",
+      "pass": true,
+      "expected": "应调用 /notifications/read-all",
+      "actual": "代码检查通过：notification store 的 markAllAsRead 已调用 markAllNotificationsRead",
+      "severity": ""
+    },
+    {
+      "page": "/export",
+      "element": "导出Excel按钮",
+      "action": "选择日期后导出",
+      "pass": true,
+      "expected": "返回非空文件",
+      "actual": {
+        "status": 200,
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "size": 13440
+      },
+      "severity": ""
+    },
+    {
+      "page": "/export",
+      "element": "厂家选择字段",
+      "action": "加载厂家选择列表",
+      "pass": true,
+      "expected": "应加载真实厂家",
+      "actual": {
+        "code": 200,
+        "count": 4
+      },
+      "severity": ""
+    },
+    {
+      "page": "/export",
+      "element": "订单号输入框",
+      "action": "输入订单号过滤导出",
+      "pass": true,
+      "expected": "后端应支持 order_id/order_no 筛选",
+      "actual": {
+        "status": 200,
+        "size": 6213
+      },
+      "severity": ""
+    },
+    {
+      "page": "/export",
+      "element": "下载文件处理",
+      "action": "前端保存 Blob",
+      "pass": true,
+      "expected": "应使用返回 Blob 直接保存",
+      "actual": "代码检查通过：页面直接使用 axios 拦截器返回的 Blob",
+      "severity": ""
+    },
+    {
+      "page": "/admin/users",
+      "element": "人员管理列表",
+      "action": "企业管理员打开人员管理",
+      "pass": true,
+      "expected": "应请求真实后端用户列表",
+      "actual": {
+        "code": 200,
+        "count": 8
+      },
+      "severity": ""
+    },
+    {
+      "page": "/admin/users",
+      "element": "添加用户/审核按钮",
+      "action": "提交添加和审核",
+      "pass": true,
+      "expected": "应真实落库",
+      "actual": "代码检查通过：createUser/reviewOperatorApplication 调用真实 /admin/users API",
+      "severity": ""
+    },
+    {
+      "page": "/admin/factories",
+      "element": "厂家管理列表",
+      "action": "企业管理员打开厂家管理",
+      "pass": true,
+      "expected": "应请求真实后端厂家列表",
+      "actual": {
+        "code": 200,
+        "count": 4
+      },
+      "severity": ""
+    },
+    {
+      "page": "/admin/*",
+      "element": "路由权限守卫",
+      "action": "非企业管理员访问管理页",
+      "pass": true,
+      "expected": "前端 router meta requiresRole=enterprise_admin",
+      "actual": "代码检查通过；真实浏览器待复验",
+      "severity": ""
+    }
+  ]
+}

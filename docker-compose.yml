@@ -1,35 +1,62 @@
-version: '3'
-
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "8000:8000"
-    depends_on:
-      - mysql
-    networks:
-      - app-network
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "80:80"
-    networks:
-      - app-network
-
   mysql:
     image: mysql:8.0
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: outsourcing_track
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-outsourcing_track}
       MYSQL_CHARSET: utf8mb4
       MYSQL_COLLATION: utf8mb4_unicode_ci
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./backend/migrations:/docker-entrypoint-initdb.d:ro
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-outsourcing_track}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      SMS_PROVIDER: ${SMS_PROVIDER:-mock}
+      SMS_ALIYUN_ACCESS_KEY: ${SMS_ALIYUN_ACCESS_KEY:-}
+      SMS_ALIYUN_ACCESS_SECRET: ${SMS_ALIYUN_ACCESS_SECRET:-}
+      SMS_ALIYUN_SIGN_NAME: ${SMS_ALIYUN_SIGN_NAME:-外协追踪}
+      SMS_ALIYUN_TEMPLATE_CODE: ${SMS_ALIYUN_TEMPLATE_CODE:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
 
 volumes:
   mysql_data:
