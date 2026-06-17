@@ -5,6 +5,11 @@ export interface LoginParams {
   code: string
 }
 
+export interface PasswordLoginParams {
+  account: string
+  password: string
+}
+
 export interface SendSmsParams {
   phone: string
 }
@@ -28,6 +33,10 @@ export const sendSms = (phone: string) => {
 
 export const login = (data: LoginParams) => {
   return request.post<{ access_token: string; token_type: string; expires_in: number }>('/auth/login', data)
+}
+
+export const passwordLogin = (data: PasswordLoginParams) => {
+  return request.post<{ access_token: string; token_type: string; expires_in: number }>('/auth/password-login', data)
 }
 
 export const fetchMe = () => {

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-16T14:51:54",
+  "generated_at": "2026-06-17T22:40:26",
   "mode": "api-assisted-mobile-ui-traversal",
   "note": "当前环境未装浏览器；Playwright 浏览器下载超时，因此本轮为 API+源码契约辅助的人类UI遍历，不是像素级真实点击。",
   "summary": {
-    "total": 65,
-    "passed": 65,
+    "total": 66,
+    "passed": 66,
     "failed": 0,
     "failed_by_severity": {}
   },
@@ -177,9 +177,9 @@
           "name": "企业管理员",
           "role": "enterprise_admin",
           "status": "active",
-          "last_login": "2026-06-16T06:51:51",
+          "last_login": "2026-06-17T14:40:21",
           "created_at": "2026-06-12T00:43:30",
-          "updated_at": "2026-06-16T06:51:51"
+          "updated_at": "2026-06-17T14:40:21"
         }
       },
       "severity": ""
@@ -215,9 +215,9 @@
           "name": "主厂管理员",
           "role": "primary_admin",
           "status": "active",
-          "last_login": "2026-06-16T06:51:52",
+          "last_login": "2026-06-17T14:40:21",
           "created_at": "2026-06-12T00:43:30",
-          "updated_at": "2026-06-16T06:51:52"
+          "updated_at": "2026-06-17T14:40:21"
         }
       },
       "severity": ""
@@ -253,9 +253,9 @@
           "name": "A厂发运员",
           "role": "primary_operator",
           "status": "active",
-          "last_login": "2026-06-16T06:51:53",
+          "last_login": "2026-06-17T14:40:22",
           "created_at": "2026-06-12T00:43:30",
-          "updated_at": "2026-06-16T06:51:53"
+          "updated_at": "2026-06-17T14:40:22"
         }
       },
       "severity": ""
@@ -291,9 +291,9 @@
           "name": "B厂操作员",
           "role": "cooperative_operator",
           "status": "active",
-          "last_login": "2026-06-16T06:51:53",
+          "last_login": "2026-06-17T14:40:22",
           "created_at": "2026-06-12T00:43:30",
-          "updated_at": "2026-06-16T06:51:53"
+          "updated_at": "2026-06-17T14:40:22"
         }
       },
       "severity": ""
@@ -360,11 +360,11 @@
       "actual": {
         "code": 200,
         "body": {
-          "total": 49,
+          "total": 50,
           "pending": 7,
-          "in_progress": 36,
+          "in_progress": 37,
           "completed": 6,
-          "overdue_count": 28
+          "overdue_count": 43
         }
       },
       "severity": ""
@@ -458,6 +458,14 @@
             "current_ship_qty": 0,
             "available_receive_qty": 80,
             "available_ship_qty": 0,
+            "can_receive": true,
+            "can_ship": false,
+            "can_operate": true,
+            "disabled_reason": null,
+            "next_action": "receive",
+            "is_bottleneck": true,
+            "risk_level": "high",
+            "risk_reason": "首道精加工（精加工A厂）已停留 133 小时，超过48小时阈值",
             "created_at": "2026-06-12T00:43:31",
             "updated_at": "2026-06-12T00:43:31"
           }
@@ -497,6 +505,14 @@
             "current_ship_qty": 0,
             "available_receive_qty": 0,
             "available_ship_qty": 50,
+            "can_receive": false,
+            "can_ship": true,
+            "can_operate": true,
+            "disabled_reason": null,
+            "next_action": "ship",
+            "is_bottleneck": true,
+            "risk_level": "high",
+            "risk_reason": "首道精加工（精加工A厂）已停留 134 小时，超过48小时阈值",
             "created_at": "2026-06-11T22:43:31",
             "updated_at": "2026-06-12T00:43:31"
           }
@@ -530,12 +546,20 @@
             "prev_process_id": null,
             "next_process_id": "DEMO_SPLIT_P2",
             "receive_qty": 100,
-            "ship_qty": 64,
+            "ship_qty": 58,
             "prev_ship_qty": 100,
             "current_receive_qty": 100,
-            "current_ship_qty": 64,
+            "current_ship_qty": 58,
             "available_receive_qty": 0,
-            "available_ship_qty": 36,
+            "available_ship_qty": 42,
+            "can_receive": false,
+            "can_ship": true,
+            "can_operate": true,
+            "disabled_reason": null,
+            "next_action": "ship",
+            "is_bottleneck": false,
+            "risk_level": "normal",
+            "risk_reason": null,
             "created_at": "2026-06-11T18:43:31",
             "updated_at": "2026-06-12T00:43:49"
           }
@@ -575,6 +599,14 @@
             "current_ship_qty": 0,
             "available_receive_qty": 0,
             "available_ship_qty": 60,
+            "can_receive": false,
+            "can_ship": true,
+            "can_operate": true,
+            "disabled_reason": null,
+            "next_action": "ship",
+            "is_bottleneck": true,
+            "risk_level": "high",
+            "risk_reason": "首道精加工（精加工A厂）已停留 193 小时，超过48小时阈值",
             "created_at": "2026-06-09T12:43:31",
             "updated_at": "2026-06-12T00:43:31"
           }
@@ -614,6 +646,14 @@
             "current_ship_qty": 120,
             "available_receive_qty": 0,
             "available_ship_qty": 0,
+            "can_receive": false,
+            "can_ship": false,
+            "can_operate": false,
+            "disabled_reason": "暂无可操作数量",
+            "next_action": null,
+            "is_bottleneck": false,
+            "risk_level": "normal",
+            "risk_reason": null,
             "created_at": "2026-06-09T00:43:31",
             "updated_at": "2026-06-12T00:43:31"
           }
@@ -1010,13 +1050,13 @@
           "success": true,
           "message": "退件成功",
           "return_record": {
-            "return_id": "bbe7d7d2b5624662847c86694fdb7fcb",
+            "return_id": "f2b3cf4c7d2741ddaa4bb0464ff48459",
             "from_record_id": "DEMO_SPLIT_R1",
             "to_record_id": "DEMO_SPLIT_R2",
             "user_id": "U005",
             "return_reason": "UI遍历退件",
             "return_qty": 1,
-            "created_at": "2026-06-16T06:51:54"
+            "created_at": "2026-06-17T14:40:24"
           },
           "from_record": {
             "record_id": "DEMO_SPLIT_R1",
@@ -1033,12 +1073,12 @@
             "gross_receive_qty": 100,
             "gross_ship_qty": 70,
             "returned_in_qty": 0,
-            "returned_out_qty": 7,
+            "returned_out_qty": 13,
             "prev_ship_qty": 100,
             "current_receive_qty": 100,
-            "current_ship_qty": 63,
+            "current_ship_qty": 57,
             "available_receive_qty": 0,
-            "available_ship_qty": 37,
+            "available_ship_qty": 43,
             "partial_receive": true,
             "partial_ship": true,
             "last_receive_time": "2026-06-11T19:43:31",
@@ -1060,13 +1100,13 @@
             "total_ship_qty": 0,
             "gross_receive_qty": 70,
             "gross_ship_qty": 0,
-            "returned_in_qty": 7,
+            "returned_in_qty": 13,
             "returned_out_qty": 0,
-            "prev_ship_qty": 63,
-            "current_receive_qty": 63,
+            "prev_ship_qty": 57,
+            "current_receive_qty": 57,
             "current_ship_qty": 0,
             "available_receive_qty": 0,
-            "available_ship_qty": 63,
+            "available_ship_qty": 57,
             "partial_receive": true,
             "partial_ship": false,
             "last_receive_time": "2026-06-11T22:43:31",
@@ -1113,12 +1153,12 @@
           "gross_receive_qty": 100,
           "gross_ship_qty": 70,
           "returned_in_qty": 0,
-          "returned_out_qty": 7,
+          "returned_out_qty": 13,
           "prev_ship_qty": 100,
           "current_receive_qty": 100,
-          "current_ship_qty": 63,
+          "current_ship_qty": 57,
           "available_receive_qty": 0,
-          "available_ship_qty": 37,
+          "available_ship_qty": 43,
           "partial_receive": true,
           "partial_ship": true,
           "last_receive_time": "2026-06-11T19:43:31",
@@ -1313,6 +1353,54 @@
         "code": 200,
         "items": [
           {
+            "notif_id": "notif_1781707223176_4794",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "订单 DEMO_RECEIVED_001 存在超期风险",
+            "content": "首道精加工（精加工A厂）已停留 134 小时，超过48小时阈值",
+            "is_read": 0,
+            "related_id": "DEMO_RECEIVED_001",
+            "related_type": "order",
+            "jump_url": "/kanban/DEMO_RECEIVED_001",
+            "created_at": "2026-06-17 14:40:23"
+          },
+          {
+            "notif_id": "notif_1781707223565_2329",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "订单 DEMO_OVERDUE_001 存在超期风险",
+            "content": "首道精加工（精加工A厂）已停留 193 小时，超过48小时阈值",
+            "is_read": 0,
+            "related_id": "DEMO_OVERDUE_001",
+            "related_type": "order",
+            "jump_url": "/kanban/DEMO_OVERDUE_001",
+            "created_at": "2026-06-17 14:40:23"
+          },
+          {
+            "notif_id": "notif_1781707222894_8929",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "订单 DEMO_PENDING_001 存在超期风险",
+            "content": "首道精加工（精加工A厂）已停留 133 小时，超过48小时阈值",
+            "is_read": 0,
+            "related_id": "DEMO_PENDING_001",
+            "related_type": "order",
+            "jump_url": "/kanban/DEMO_PENDING_001",
+            "created_at": "2026-06-17 14:40:22"
+          },
+          {
+            "notif_id": "notif_1781706944131_6995",
+            "user_id": "U004",
+            "notif_type": "transfer",
+            "title": "订单 BULK_ORDER_041 存在超期风险",
+            "content": "首道精加工（精加工A厂）已停留 53 小时，超过48小时阈值",
+            "is_read": 0,
+            "related_id": "BULK_ORDER_041",
+            "related_type": "order",
+            "jump_url": "/kanban/BULK_ORDER_041",
+            "created_at": "2026-06-17 14:35:44"
+          },
+          {
             "notif_id": "BULK_N_007_1",
             "user_id": "U004",
             "notif_type": "transfer",
@@ -1402,6 +1490,21 @@
     },
     {
       "page": "/notifications",
+      "element": "通知项点击",
+      "action": "点击未读通知标记已读",
+      "pass": true,
+      "expected": "标记已读成功",
+      "actual": {
+        "code": 200,
+        "body": {
+          "success": true,
+          "message": "已标记为已读"
+        }
+      },
+      "severity": ""
+    },
+    {
+      "page": "/notifications",
       "element": "全部已读",
       "action": "后端批量已读接口",
       "pass": true,
@@ -1410,7 +1513,7 @@
         "code": 200,
         "body": {
           "success": true,
-          "message": "已标记0条通知为已读"
+          "message": "已标记3条通知为已读"
         }
       },
       "severity": ""
@@ -1433,7 +1536,7 @@
       "actual": {
         "status": 200,
         "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "size": 13440
+        "size": 13644
       },
       "severity": ""
     },
@@ -1457,7 +1560,7 @@
       "expected": "后端应支持 order_id/order_no 筛选",
       "actual": {
         "status": 200,
-        "size": 6213
+        "size": 6214
       },
       "severity": ""
     },

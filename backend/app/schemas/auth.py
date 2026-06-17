@@ -14,6 +14,12 @@ class PhoneLoginRequest(BaseModel):
     code: str = Field(..., min_length=6, max_length=6, description="6位验证码")
 
 
+class PasswordLoginRequest(BaseModel):
+    """手机号/账号+密码登录请求"""
+    account: str = Field(..., min_length=1, max_length=64, description="手机号、用户ID或姓名")
+    password: str = Field(..., min_length=1, max_length=256, description="密码")
+
+
 class TokenResponse(BaseModel):
     """登录成功返回的Token"""
     access_token: str

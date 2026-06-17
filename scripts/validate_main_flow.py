@@ -14,6 +14,8 @@ import requests
 
 BASE = "http://localhost:8000"
 API = f"{BASE}/api"
+LOCAL_HTTP = requests.Session()
+LOCAL_HTTP.trust_env = False
 ORDER_ID = "MADM_FLOW_001"
 P1, P2, P3 = "MADM_P1", "MADM_P2", "MADM_P3"
 R1, R2, R3 = "MADM_R1", "MADM_R2", "MADM_R3"
@@ -43,7 +45,7 @@ def api(method, path, token=None, **kwargs):
     headers = kwargs.pop("headers", {})
     if token:
         headers["Authorization"] = f"Bearer {token}"
-    r = requests.request(method, f"{API}{path}", headers=headers, timeout=10, **kwargs)
+    r = LOCAL_HTTP.request(method, f"{API}{path}", headers=headers, timeout=10, **kwargs)
     try:
         body = r.json()
     except Exception:
@@ -115,7 +117,7 @@ start = datetime.now().isoformat(timespec="seconds")
 
 try:
     # health
-    hr = requests.get(f"{BASE}/health", timeout=10)
+    hr = LOCAL_HTTP.get(f"{BASE}/health", timeout=10)
     assert_status("Backend health", hr.status_code, 200)
 
     reset_data()

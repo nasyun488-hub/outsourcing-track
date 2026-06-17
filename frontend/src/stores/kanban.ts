@@ -21,6 +21,12 @@ export interface Order {
   completed_count: number
 }
 
+export interface KanbanDetailMeta {
+  current_bottleneck_record_id?: string | null
+  risk_level?: 'normal' | 'medium' | 'high'
+  risk_reason?: string | null
+}
+
 export interface Process {
   record_id: string
   order_id: string
@@ -38,13 +44,21 @@ export interface Process {
   current_ship_qty?: number
   available_receive_qty?: number
   available_ship_qty?: number
+  can_receive?: boolean
+  can_ship?: boolean
+  can_operate?: boolean
+  disabled_reason?: string | null
+  next_action?: 'receive' | 'ship' | null
+  is_bottleneck?: boolean
+  risk_level?: 'normal' | 'medium' | 'high'
+  risk_reason?: string | null
   prev_process_id?: string
   next_process_id?: string
 }
 
 export const useKanbanStore = defineStore('kanban', () => {
   const orderList = ref<Order[]>([])
-  const currentOrder = ref<(Order & { processes: Process[] }) | null>(null)
+  const currentOrder = ref<(Order & { processes: Process[]; detailMeta?: KanbanDetailMeta }) | null>(null)
   const loading = ref(false)
   const stats = ref({ total: 0, pending: 0, in_progress: 0, completed: 0, overdue_count: 0 })
 
@@ -91,7 +105,12 @@ export const useKanbanStore = defineStore('kanban', () => {
         } as Order),
         order_id: detail.order_id,
         order_no: detail.order_no,
-        processes: detail.items || []
+        processes: detail.items || [],
+        detailMeta: {
+          current_bottleneck_record_id: detail.current_bottleneck_record_id,
+          risk_level: detail.risk_level || 'normal',
+          risk_reason: detail.risk_reason || null
+        }
       }
       return currentOrder.value
     } finally {

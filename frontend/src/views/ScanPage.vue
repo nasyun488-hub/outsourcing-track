@@ -4,7 +4,7 @@
 
     <div class="hero">
       <div class="hero-title">像超市收银一样连续扫码</div>
-      <div class="hero-subtitle">连续扫码中，扫到码会自动加入下方清单；扫码枪、手机相机、拍照/相册都不会扫一个跳走，确认数量后统一提交。</div>
+      <div class="hero-subtitle">支持真机扫码验收：连续扫码中，扫到码会自动加入下方清单；扫码枪、手机相机、拍照/相册都不会扫一个跳走，确认数量后统一提交。</div>
       <div class="hero-stats">
         <span>已扫数量 {{ scanCart.length }} 条</span>
         <span>可提交 {{ submittableCount }} 条</span>
@@ -57,12 +57,12 @@
         </section>
       </van-tab>
 
-      <van-tab title="批量粘贴" name="batch">
+      <van-tab title="离线扫码导入" name="batch">
         <section class="panel">
           <van-field
             v-model="batchCodes"
-            label="批量码值"
-            placeholder="一行一个二维码；也支持逗号、空格、制表符分隔"
+            label="批量录入码值"
+            placeholder="离线扫码导入：一行一个二维码；也支持逗号、空格、制表符分隔"
             type="textarea"
             rows="7"
             autosize
@@ -87,6 +87,15 @@
 
       <van-tab title="手机扫码" name="camera">
         <section class="panel">
+          <div v-if="!isCameraSecureContext" class="camera-secure-warning">
+            手机摄像头需要 HTTPS 或 localhost；现场真机扫码验收请使用 https://&lt;局域网IP&gt;:8443/scan 访问，并允许浏览器摄像头权限。
+          </div>
+          <div class="camera-status-card">
+            {{ cameraStatus }}
+          </div>
+          <div v-if="cameraErrorMessage" class="camera-error-card">
+            {{ cameraErrorMessage }}
+          </div>
           <div class="camera-container">
             <video
               ref="videoRef"
@@ -227,6 +236,8 @@ const loading = ref(false)
 const submitting = ref(false)
 const cameraStarted = ref(false)
 const cameraPaused = ref(false)
+const cameraStatus = ref('未启动：请点击“打开相机连续扫码”，按浏览器提示允许摄像头权限。')
+const cameraErrorMessage = ref('')
 const gunInputRef = ref<any>(null)
 const videoRef = ref<HTMLVideoElement | null>(null)
 const photoInputRef = ref<HTMLInputElement | null>(null)
@@ -247,6 +258,11 @@ const exceptionItems = computed(() => scanCart.value.filter(i => i.status === 'f
 const estimatedReceiveQty = computed(() => scanCart.value.filter(i => i.jump_type === 'receive' && canSubmitItem(i)).reduce((sum, item) => sum + normalizeSubmitQty(item), 0))
 const estimatedShipQty = computed(() => scanCart.value.filter(i => i.jump_type === 'ship' && canSubmitItem(i)).reduce((sum, item) => sum + normalizeSubmitQty(item), 0))
 const parsedBatchCodes = computed(() => splitCodes(batchCodes.value).map(parseQRCode).filter(Boolean) as string[])
+const isCameraSecureContext = computed(() => {
+  if (typeof window === 'undefined') return true
+  const hostname = window.location.hostname
+  return window.isSecureContext || hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]'
+})
 
 function goBack() {
   router.back()
@@ -534,11 +550,36 @@ async function toggleCamera() {
     stopCamera()
     return
   }
+
+  cameraErrorMessage.value = ''
+
+  if (!isCameraSecureContext.value) {
+    cameraErrorMessage.value = '当前页面不是安全上下文，手机浏览器会禁止摄像头；请使用 HTTPS 或 localhost 访问。'
+    showToast('请使用 HTTPS 后再打开手机扫码')
+    return
+  }
+
+  if (!navigator.mediaDevices?.getUserMedia) {
+    cameraErrorMessage.value = '当前浏览器不支持摄像头扫码，请更换 Chrome/Safari/微信内置浏览器，或使用拍照/相册识别。'
+    showToast('浏览器不支持摄像头，请用图片识别兜底')
+    return
+  }
+
   try {
     if (!videoRef.value) return
+    cameraStatus.value = '正在请求摄像头权限，请在浏览器地址栏允许摄像头权限。'
+    mediaStream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: { ideal: 'environment' },
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    videoRef.value.srcObject = mediaStream
     qrReader = qrReader || new BrowserQRCodeReader()
-    scannerControls = await qrReader.decodeFromConstraints(
-      { video: { facingMode: 'environment' } },
+    scannerControls = await qrReader.decodeFromStream(
+      mediaStream,
       videoRef.value,
       async (result) => {
         if (!result) return
@@ -549,24 +590,48 @@ async function toggleCamera() {
         await addScanToCart(qrCode, 'camera')
       }
     )
-    const stream = videoRef.value.srcObject
-    mediaStream = stream instanceof MediaStream ? stream : null
     cameraStarted.value = true
     cameraPaused.value = false
+    cameraStatus.value = '相机已启动：对准二维码即可连续加入清单，不会自动跳页。'
     showToast('相机已启动，可连续扫码')
-  } catch {
-    showToast('相机启动失败，请检查权限；可用拍照/相册识别')
+  } catch (err) {
+    stopCamera()
+    cameraErrorMessage.value = cameraErrorText(err)
+    cameraStatus.value = '相机未启动：请按提示处理权限或使用拍照/相册兜底。'
+    showToast('相机启动失败，请检查 HTTPS/浏览器权限/摄像头占用；可用拍照/相册识别')
   }
 }
 
 function pauseCamera() {
   cameraPaused.value = true
+  cameraStatus.value = '已暂停扫码：相机画面保留，但不会继续加入清单。'
   showToast('已暂停扫码')
 }
 
 function resumeCamera() {
   cameraPaused.value = false
+  cameraStatus.value = '相机已启动：对准二维码即可连续加入清单，不会自动跳页。'
   showToast('继续扫码')
+}
+
+function cameraErrorText(err: unknown) {
+  const name = (err as DOMException)?.name || ''
+  if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
+    return '摄像头权限被拒绝：请在浏览器地址栏允许摄像头权限，或到系统设置中开启相机权限。'
+  }
+  if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+    return '未找到可用摄像头：请确认手机摄像头正常，或使用拍照/相册识别。'
+  }
+  if (name === 'NotReadableError' || name === 'TrackStartError') {
+    return '摄像头被占用或无法读取：请关闭其它扫码/拍照应用后重试。'
+  }
+  if (name === 'OverconstrainedError' || name === 'ConstraintNotSatisfiedError') {
+    return '后置摄像头参数不支持：请切换浏览器或使用拍照/相册识别。'
+  }
+  if (name === 'SecurityError') {
+    return '浏览器安全策略阻止摄像头：请使用 HTTPS 地址访问扫码页。'
+  }
+  return '相机启动失败：请检查 HTTPS、浏览器权限、摄像头占用；也可以使用拍照/相册识别。'
 }
 
 function isRecentCameraText(qrCode: string): boolean {
@@ -617,6 +682,7 @@ function stopCamera() {
   if (videoRef.value) videoRef.value.srcObject = null
   cameraStarted.value = false
   cameraPaused.value = false
+  cameraStatus.value = '未启动：请点击“打开相机连续扫码”，按浏览器提示允许摄像头权限。'
 }
 
 onMounted(focusGunInput)
@@ -728,6 +794,34 @@ onUnmounted(stopCamera)
 
 .camera-placeholder small {
   color: rgba(255, 255, 255, 0.72);
+}
+
+.camera-secure-warning,
+.camera-status-card,
+.camera-error-card {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.camera-secure-warning {
+  border: 1px solid #ffd591;
+  color: #ad6800;
+  background: #fff7e6;
+}
+
+.camera-status-card {
+  border: 1px solid #91caff;
+  color: #0958d9;
+  background: #e6f4ff;
+}
+
+.camera-error-card {
+  border: 1px solid #ffccc7;
+  color: #cf1322;
+  background: #fff1f0;
 }
 
 .scan-frame {

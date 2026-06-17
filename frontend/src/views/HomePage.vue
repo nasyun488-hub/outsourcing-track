@@ -130,6 +130,7 @@
           <van-badge v-if="unreadCount > 0" :content="unreadCount" max="99" />
         </template>
       </van-cell>
+      <van-cell title="操作审计报表" label="审计总览、日志查询与Excel导出" icon="records-o" is-link @click="goToAudit" />
       <van-cell title="数据导出" label="按日期、厂家、状态导出Excel" icon="description" is-link @click="goToExport" />
     </div>
 
@@ -208,6 +209,10 @@ const goToPendingReceive = () => {
 
 const goToPendingShip = () => {
   router.push({ path: '/kanban', query: { quick: 'ship' } })
+}
+
+const goToAudit = () => {
+  router.push('/audit')
 }
 
 const goToExport = () => {

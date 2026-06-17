@@ -63,3 +63,8 @@ Thumbs.db
 
 # Docker
 docker-compose.override.yml
+
+# Local HTTPS test certificates (do not commit private keys)
+certs/
+*.key
+*.pem

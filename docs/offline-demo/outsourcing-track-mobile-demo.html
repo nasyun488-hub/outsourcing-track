@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <title>外协工序流转追踪 - 手机离线演示</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#edf2f7;color:#101828;-webkit-font-smoothing:antialiased}.phone{max-width:430px;min-height:100vh;margin:0 auto;background:#f6f8fb;position:relative;overflow:hidden;padding-bottom:84px}.top{position:sticky;top:0;z-index:8;padding:16px 16px 12px;background:linear-gradient(135deg,#0f766e,#1677ff);color:#fff;box-shadow:0 10px 28px rgba(15,118,110,.22)}.kicker{font-size:12px;opacity:.85}.title{font-size:20px;font-weight:800;margin-top:4px;letter-spacing:-.2px}.sub{font-size:12px;line-height:1.5;opacity:.9;margin-top:6px}.tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:20;width:min(430px,100vw);display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:0 -8px 24px rgba(16,24,40,.12)}.tab{border:0;background:transparent;border-radius:14px;padding:7px 4px;font-size:11px;color:#667085}.tab b{display:block;font-size:18px;line-height:18px;margin-bottom:2px}.tab.active{background:#e6f4ff;color:#0958d9;font-weight:800}.screen{display:none;padding:14px}.screen.active{display:block}.hero{border-radius:22px;padding:18px;color:#fff;background:radial-gradient(circle at 20% 10%,rgba(255,255,255,.28),transparent 26%),linear-gradient(135deg,#1677ff,#14c9c9);box-shadow:0 12px 28px rgba(22,119,255,.2);margin-bottom:12px}.hero h2{margin:0;font-size:21px}.hero p{margin:8px 0 0;font-size:13px;line-height:1.55;opacity:.94}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.card{background:#fff;border-radius:18px;padding:14px;box-shadow:0 8px 24px rgba(16,24,40,.06);border:1px solid rgba(16,24,40,.04)}.card h3{margin:0 0 10px;font-size:15px}.metric{font-size:28px;font-weight:900;letter-spacing:-.8px}.muted{color:#667085;font-size:12px;line-height:1.45}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #eef2f6}.row:last-child{border-bottom:0}.tag{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700;background:#eef4ff;color:#175cd3}.tag.green{background:#ecfdf3;color:#067647}.tag.red{background:#fff1f3;color:#c01048}.tag.orange{background:#fff7e6;color:#b54708}.tag.gray{background:#f2f4f7;color:#475467}.btn{border:0;border-radius:14px;padding:11px 13px;font-size:14px;font-weight:800;background:#1677ff;color:#fff;box-shadow:0 8px 18px rgba(22,119,255,.18)}.btn.secondary{background:#fff;color:#1677ff;border:1px solid #d6e4ff;box-shadow:none}.btn.ghost{background:#f2f4f7;color:#344054;box-shadow:none}.btn.danger{background:#ff4d4f}.btn.full{width:100%}.btn:active{transform:scale(.98)}.order{margin-bottom:10px}.order-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.order-id{font-weight:900;font-size:16px}.progress{height:8px;background:#eef2f6;border-radius:999px;overflow:hidden;margin:10px 0}.bar{height:100%;background:linear-gradient(90deg,#1677ff,#12b76a);border-radius:999px}.steps{margin-top:10px}.step{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:start;padding:8px 0}.dot{width:18px;height:18px;border-radius:50%;background:#d0d5dd;margin-top:2px;box-shadow:0 0 0 4px #f2f4f7}.dot.done{background:#12b76a}.dot.now{background:#1677ff}.dot.warn{background:#f79009}.scan-status{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.pill{background:#fff;border-radius:14px;padding:10px 6px;text-align:center;box-shadow:0 6px 18px rgba(16,24,40,.05)}.pill strong{display:block;font-size:18px}.scan-box{border:2px dashed #98a2b3;border-radius:20px;padding:18px;text-align:center;background:#fff;margin-bottom:12px}.scan-title{font-size:18px;font-weight:900}.cart-row{background:#fff;border-radius:16px;padding:12px;margin-bottom:10px;border-left:5px solid #1677ff;box-shadow:0 8px 20px rgba(16,24,40,.06);transition:.25s}.cart-row.ship{border-left-color:#12b76a}.cart-row.err{border-left-color:#f04438}.cart-row.done{opacity:.72}.cart-row.flash{animation:flash .75s ease-in-out 2}@keyframes flash{50%{transform:translateY(-2px);box-shadow:0 0 0 4px rgba(22,119,255,.18)}}.cart-main{display:flex;justify-content:space-between;gap:10px}.qty{display:flex;align-items:center;gap:6px;margin-top:10px}.qty button{width:32px;height:32px;border-radius:10px;border:0;background:#eef4ff;color:#1677ff;font-weight:900}.qty input{width:54px;text-align:center;border:1px solid #d0d5dd;border-radius:10px;padding:7px;font-weight:800}.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%) translateY(20px);z-index:30;max-width:360px;background:rgba(16,24,40,.92);color:#fff;border-radius:999px;padding:10px 14px;font-size:13px;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.notice{border-radius:16px;padding:12px;background:#fff7e6;color:#7a2e0e;margin:10px 0;font-size:13px;line-height:1.45}.timeline{position:relative}.timeline:before{content:"";position:absolute;left:8px;top:12px;bottom:12px;width:2px;background:#e4e7ec}.timeline .step{position:relative}.admin-grid{display:grid;grid-template-columns:1fr;gap:10px}.big-action{display:flex;align-items:center;gap:12px}.icon{font-size:24px;width:42px;height:42px;border-radius:14px;background:#eef4ff;display:flex;align-items:center;justify-content:center}.drawer{display:none;margin-top:10px}.drawer.open{display:block}.footer-note{text-align:center;color:#98a2b3;font-size:11px;margin:18px 0}.small{font-size:11px}.divider{height:10px}.center{text-align:center}.hidden{display:none!important}@media (min-width:431px){body{background:#d7dee8}.phone{box-shadow:0 0 0 1px rgba(16,24,40,.08),0 24px 70px rgba(16,24,40,.18)}}
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <header class="top">
+      <div class="kicker">手机端离线演示 · 单文件原型</div>
+      <div class="title">外协工序流转追踪</div>
+      <div class="sub">扫码记录每一道流转：订单、厂家、工序、接收、发出、异常，一屏演示完整闭环。</div>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="hero">
+        <h2>今日工作台</h2>
+        <p>按现场一天的工作节奏组织：先看待办，再扫码录入，异常优先处理。</p>
+      </div>
+      <div class="grid">
+        <div class="card"><div class="muted">待接收</div><div class="metric" id="mReceive">5</div><span class="tag">去扫码</span></div>
+        <div class="card"><div class="muted">待发出</div><div class="metric" id="mShip">3</div><span class="tag green">可处理</span></div>
+        <div class="card"><div class="muted">异常待办</div><div class="metric" id="mRisk">2</div><span class="tag red">高优先</span></div>
+        <div class="card"><div class="muted">今日流转</div><div class="metric" id="mDone">18</div><span class="tag gray">已记录</span></div>
+      </div>
+      <div class="divider"></div>
+      <button class="btn full" onclick="go('scan')">开始扫码录入</button>
+      <div class="divider"></div>
+      <div class="card">
+        <h3>下一步建议</h3>
+        <div class="row"><div><b>先处理首道精加工接收</b><div class="muted">DEMO-2026-001，有 80 件可接收</div></div><span class="tag">接收</span></div>
+        <div class="row"><div><b>再处理热处理发出</b><div class="muted">DEMO-2026-002，有 40 件可发出</div></div><span class="tag green">发出</span></div>
+        <div class="row"><div><b>最后查看异常队列</b><div class="muted">1 条退件、1 条超期预警</div></div><span class="tag red">异常</span></div>
+      </div>
+      <p class="footer-note">离线演示：所有数据均为本地模拟，不连接后端。</p>
+    </section>
+
+    <section id="kanban" class="screen">
+      <div class="hero"><h2>外协流转雷达</h2><p>订单卡片优先展示进度、当前卡点、风险与下一步动作。</p></div>
+      <div id="orders"></div>
+    </section>
+
+    <section id="detail" class="screen">
+      <div class="hero"><h2>订单作战室</h2><p id="detailSub">DEMO-2026-001 · 主轴壳体 · 120 件</p></div>
+      <div class="card">
+        <h3>下一步建议</h3>
+        <div class="notice">首道精加工已具备接收条件，建议扫码接收 80 件；接收后再发出到热处理 B 厂。</div>
+        <button class="btn full" onclick="go('scan')">扫码处理这道工序</button>
+      </div>
+      <div class="divider"></div>
+      <div class="card">
+        <h3>工序流转时间线</h3>
+        <div class="timeline">
+          <div class="step"><span class="dot done"></span><div><b>毛坯入库</b><div class="muted">总厂 · 已完成 120 件</div></div><span class="tag green">完成</span></div>
+          <div class="step"><span class="dot now"></span><div><b>首道精加工</b><div class="muted">精加工 A 厂 · 可接收 80，可发出 0</div></div><span class="tag">当前</span></div>
+          <div class="step"><span class="dot"></span><div><b>热处理</b><div class="muted">等待上道发出</div></div><span class="tag gray">等待</span></div>
+          <div class="step"><span class="dot warn"></span><div><b>终检</b><div class="muted">如前序延迟，将触发交期风险</div></div><span class="tag orange">预警</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="scan" class="screen">
+      <div class="hero"><h2>像超市收银一样连续扫码</h2><p>连续扫码中，扫到码会自动加入下方清单；确认数量后统一提交。</p></div>
+      <div class="scan-status">
+        <div class="pill"><strong id="sAll">0</strong><span class="muted">已扫</span></div>
+        <div class="pill"><strong id="sOk">0</strong><span class="muted">可提交</span></div>
+        <div class="pill"><strong id="sErr">0</strong><span class="muted">异常</span></div>
+        <div class="pill"><strong id="sQty">0/0</strong><span class="muted">收/发</span></div>
+      </div>
+      <div class="scan-box">
+        <div class="scan-title">扫码枪 / 手机相机模拟区</div>
+        <p class="muted">点击下面按钮模拟连续扫码、重复扫码、异常码。</p>
+        <div class="grid">
+          <button class="btn" onclick="mockScan('record_DEMO_PENDING_R1')">模拟接收码</button>
+          <button class="btn secondary" onclick="mockScan('record_DEMO_RECEIVED_R1')">模拟发出码</button>
+          <button class="btn ghost" onclick="mockScan('record_DEMO_PENDING_R1')">重复扫码</button>
+          <button class="btn danger" onclick="mockScan('bad_code')">异常码</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>本次录入清单</h3>
+        <div id="cart"></div>
+        <div id="emptyCart" class="center muted">等待扫码加入清单</div>
+      </div>
+      <div class="divider"></div>
+      <button class="btn full" onclick="submitCart()" id="submitBtn">提交可录入记录 0 条</button>
+      <div class="divider"></div>
+      <button class="btn secondary full" onclick="clearDone()">清空已完成</button>
+      <div class="divider"></div>
+      <button class="btn ghost full" onclick="toggleDrawer('errDrawer')">查看异常 <span id="errCount">0</span> 条</button>
+      <div id="errDrawer" class="drawer card"><h3>异常区</h3><div id="errList" class="muted">暂无异常</div></div>
+    </section>
+
+    <section id="notice" class="screen">
+      <div class="hero"><h2>异常队列 / 通知即待办</h2><p>先处理高风险，再处理普通消息，通知直接跳转业务动作。</p></div>
+      <div class="card">
+        <div class="row"><div><b>退件待确认</b><div class="muted">热处理 B 厂退回 10 件，原因：硬度偏差</div></div><span class="tag red">高风险</span></div>
+        <div class="row"><div><b>交期预警</b><div class="muted">DEMO-2026-003 距计划交付还剩 1 天</div></div><span class="tag orange">预警</span></div>
+        <div class="row"><div><b>人员待审核</b><div class="muted">新操作员申请绑定表面处理 C 厂</div></div><span class="tag gray">审核</span></div>
+      </div>
+      <div class="divider"></div>
+      <button class="btn full" onclick="toast('已模拟全部标记为已读')">全部已读</button>
+    </section>
+
+    <section id="admin" class="screen">
+      <div class="hero"><h2>管理与导出</h2><p>离线演示只展示入口，不做真实权限和文件导出。</p></div>
+      <div class="admin-grid">
+        <div class="card big-action"><div class="icon">👤</div><div><b>人员权限控制台</b><div class="muted">待审核、角色权限、操作员绑定厂家、启用/禁用</div></div></div>
+        <div class="card big-action"><div class="icon">🏭</div><div><b>厂家协作控制台</b><div class="muted">厂家状态、协作范围、外协节点关系</div></div></div>
+        <div class="card big-action"><div class="icon">📊</div><div><b>报表导出中心</b><div class="muted">订单流转、接收发出、异常退件、厂家绩效</div></div></div>
+      </div>
+      <div class="divider"></div>
+      <button class="btn full" onclick="toast('离线演示：已模拟生成 Excel 报表')">模拟导出报表</button>
+      <p class="footer-note">生产系统基线：baseline-h5-scan-2026-06-16</p>
+    </section>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="home" onclick="go('home')"><b>🏠</b>工作台</button>
+      <button class="tab" data-tab="kanban" onclick="go('kanban')"><b>📍</b>看板</button>
+      <button class="tab" data-tab="scan" onclick="go('scan')"><b>▣</b>扫码</button>
+      <button class="tab" data-tab="notice" onclick="go('notice')"><b>🔔</b>通知</button>
+      <button class="tab" data-tab="admin" onclick="go('admin')"><b>⚙️</b>管理</button>
+    </nav>
+    <div id="toast" class="toast"></div>
+  </main>
+
+  <script>
+    const orders=[
+      {id:'DEMO-2026-001',part:'主轴壳体',qty:120,progress:55,status:'当前卡点：首道精加工待接收',risk:'正常',riskCls:'green'},
+      {id:'DEMO-2026-002',part:'阀体组件',qty:80,progress:72,status:'热处理已接收，待发出',risk:'关注',riskCls:'orange'},
+      {id:'DEMO-2026-003',part:'导向套',qty:60,progress:35,status:'表面处理排队中',risk:'超期风险',riskCls:'red'}
+    ];
+    const scanSamples={
+      record_DEMO_PENDING_R1:{type:'receive',label:'接收',order:'DEMO-2026-001',process:'首道精加工',factory:'精加工 A 厂',qty:80,max:80,msg:'可接收 80 件'},
+      record_DEMO_RECEIVED_R1:{type:'ship',label:'发出',order:'DEMO-2026-002',process:'热处理',factory:'热处理 B 厂',qty:40,max:40,msg:'可发出 40 件'},
+      bad_code:{type:'err',label:'异常',order:'未知订单',process:'无法识别',factory:'-',qty:0,max:0,msg:'二维码无效或无权限'}
+    };
+    let cart=[];let idSeq=1;
+    function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='kanban')renderOrders();}
+    function renderOrders(){const box=document.getElementById('orders');box.innerHTML=orders.map(o=>`<div class="card order" onclick="go('detail')"><div class="order-head"><div><div class="order-id">${o.id}</div><div class="muted">${o.part} · ${o.qty} 件</div></div><span class="tag ${o.riskCls}">${o.risk}</span></div><div class="progress"><div class="bar" style="width:${o.progress}%"></div></div><div class="row"><span class="muted">${o.status}</span><b>${o.progress}%</b></div></div>`).join('')}
+    function mockScan(code){const old=cart.find(i=>i.code===code&&i.status!=='done');if(old){old.flash=true;renderCart();toast('重复扫码，已定位到已有行');setTimeout(()=>{old.flash=false;renderCart()},1300);return}const s=scanSamples[code]||scanSamples.bad_code;cart.unshift({id:idSeq++,code,...s,status:s.type==='err'?'err':'ready'});if(navigator.vibrate)navigator.vibrate(60);toast(s.type==='err'?'异常码已放入异常区':'已加入清单：'+s.label+' '+s.qty);renderCart();}
+    function renderCart(){const ok=cart.filter(i=>i.status==='ready'&&i.type!=='err');const err=cart.filter(i=>i.type==='err'||i.status==='err');const recv=cart.filter(i=>i.type==='receive').reduce((a,b)=>a+Number(b.qty||0),0);const ship=cart.filter(i=>i.type==='ship').reduce((a,b)=>a+Number(b.qty||0),0);document.getElementById('sAll').textContent=cart.length;document.getElementById('sOk').textContent=ok.length;document.getElementById('sErr').textContent=err.length;document.getElementById('sQty').textContent=recv+'/'+ship;document.getElementById('errCount').textContent=err.length;document.getElementById('submitBtn').textContent='提交可录入记录 '+ok.length+' 条';document.getElementById('emptyCart').classList.toggle('hidden',cart.length>0);document.getElementById('cart').innerHTML=cart.map(i=>`<div class="cart-row ${i.type==='ship'?'ship':''} ${i.type==='err'||i.status==='err'?'err':''} ${i.status==='done'?'done':''} ${i.flash?'flash':''}"><div class="cart-main"><div><b>${i.label}</b> <span class="tag ${i.type==='ship'?'green':i.type==='err'?'red':''}">${i.status==='done'?'已提交':i.factory}</span><div class="muted">${i.code}</div><div class="muted">${i.order} · ${i.process} · ${i.msg}</div></div><button class="btn ghost" onclick="removeItem(${i.id})">删</button></div>${i.type!=='err'?`<div class="qty"><button onclick="adjustQty(${i.id},-1)">-</button><input value="${i.qty}" onchange="setQty(${i.id},this.value)"><button onclick="adjustQty(${i.id},1)">+</button><button onclick="setQty(${i.id},${i.max})">全部</button></div>`:`<div class="qty"><button onclick="retryItem(${i.id})">重试</button></div>`}</div>`).join('');document.getElementById('errList').innerHTML=err.length?err.map(i=>`<div class="row"><div><b>${i.code}</b><div class="muted">${i.msg}</div></div><span class="tag red">异常</span></div>`).join(''):'暂无异常'}
+    function adjustQty(id,delta){const i=cart.find(x=>x.id===id);if(!i)return;setQty(id,Number(i.qty)+delta)}
+    function setQty(id,val){const i=cart.find(x=>x.id===id);if(!i)return;let v=Math.max(1,Number(val)||1);if(v>i.max){toast(i.type==='receive'?'不能超过可接收 '+i.max:'不能超过可发出 '+i.max);v=i.max}i.qty=v;renderCart()}
+    function removeItem(id){cart=cart.filter(i=>i.id!==id);renderCart();toast('已删除该行')}
+    function retryItem(id){const i=cart.find(x=>x.id===id);if(!i)return;toast('重试后仍不可提交：二维码无效或无权限')}
+    function submitCart(){let n=0;cart.forEach(i=>{if(i.status==='ready'&&i.type!=='err'){i.status='done';i.msg='提交成功';n++}});renderCart();toast(n?'提交完成：成功 '+n+' 条':'没有可提交记录')}
+    function clearDone(){cart=cart.filter(i=>i.status!=='done');renderCart();toast('已清空已完成')}
+    function toggleDrawer(id){document.getElementById(id).classList.toggle('open')}
+    let timer;function toast(msg){clearTimeout(timer);const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');timer=setTimeout(()=>el.classList.remove('show'),1800)}
+    renderOrders();renderCart();
+  </script>
+</body>
+</html>

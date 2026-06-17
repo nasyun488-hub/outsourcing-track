@@ -43,13 +43,18 @@
         </div>
       </div>
 
-      <div class="next-step-card">
+      <div class="next-step-card" :class="riskCardClass">
         <div class="section-title-row compact">
           <div>
             <div class="section-title">下一步建议</div>
             <div class="section-subtitle">先处理可操作工序，减少现场判断成本</div>
           </div>
           <van-tag v-if="primaryAction" :type="primaryAction.type" plain>{{ primaryAction.badge }}</van-tag>
+          <van-tag v-else-if="riskLevel !== 'normal'" :type="riskTagType" plain>{{ riskLevelText }}</van-tag>
+        </div>
+        <div v-if="bottleneckProcess" class="bottleneck-strip">
+          <div class="bottleneck-title">当前卡点：{{ bottleneckProcess.process_name || bottleneckProcess.process_id }}</div>
+          <div class="bottleneck-desc">{{ riskReason || bottleneckProcess.risk_reason || '请关注该工序流转进度' }}</div>
         </div>
         <div class="advice-main">
           <van-icon :name="primaryAction ? 'todo-list-o' : 'passed'" />
@@ -173,12 +178,26 @@ const visibleProcesses = computed(() => {
   return order.value.processes
 })
 
-const receiveReadyProcesses = computed(() => visibleProcesses.value.filter(process => availableReceiveOf(process) > 0))
-const shipReadyProcesses = computed(() => visibleProcesses.value.filter(process => availableShipOf(process) > 0))
+const receiveReadyProcesses = computed(() => visibleProcesses.value.filter(process => Boolean(process.can_receive)))
+const shipReadyProcesses = computed(() => visibleProcesses.value.filter(process => Boolean(process.can_ship)))
 const waitingProcesses = computed(() => visibleProcesses.value.filter(isWaitingPrev))
 const receiveReadyCount = computed(() => receiveReadyProcesses.value.length)
 const shipReadyCount = computed(() => shipReadyProcesses.value.length)
 const waitingPrevCount = computed(() => waitingProcesses.value.length)
+const detailMeta = computed(() => order.value?.detailMeta)
+const riskLevel = computed(() => detailMeta.value?.risk_level || 'normal')
+const riskReason = computed(() => detailMeta.value?.risk_reason || '')
+const bottleneckProcess = computed(() => {
+  const bottleneckId = detailMeta.value?.current_bottleneck_record_id
+  if (bottleneckId) return visibleProcesses.value.find(process => process.record_id === bottleneckId) || null
+  return visibleProcesses.value.find(process => process.is_bottleneck) || null
+})
+const riskTagType = computed(() => riskLevel.value === 'high' ? 'danger' : 'warning')
+const riskLevelText = computed(() => riskLevel.value === 'high' ? '高风险' : '需关注')
+const riskCardClass = computed(() => ({
+  'risk-high': riskLevel.value === 'high',
+  'risk-medium': riskLevel.value === 'medium'
+}))
 
 const primaryAction = computed(() => {
   const receiveProcess = receiveReadyProcesses.value[0]
@@ -207,6 +226,8 @@ const primaryAction = computed(() => {
 const nextStepAdvice = computed(() => {
   if (primaryAction.value?.kind === 'receive') return `建议先接收第 ${processOrderText(receiveReadyProcesses.value[0])} 道工序，本次可接收 ${primaryAction.value.qty}`
   if (primaryAction.value?.kind === 'ship') return `建议先发出第 ${processOrderText(shipReadyProcesses.value[0])} 道工序，本次可发出 ${primaryAction.value.qty}`
+  const readOnlyReadyCount = visibleProcesses.value.filter(process => !process.can_operate && (availableReceiveOf(process) > 0 || availableShipOf(process) > 0)).length
+  if (readOnlyReadyCount > 0) return `相邻厂家有 ${readOnlyReadyCount} 道工序可处理，你当前仅可查看，不能代操作。`
   if (waitingPrevCount.value > 0) return `当前有 ${waitingPrevCount.value} 道工序等待上道发出，可联系上道厂家推进。`
   return '暂无待操作工序，订单流转状态稳定。'
 })
@@ -240,8 +261,10 @@ function processOrderText(process?: Process) {
 function timelineClass(process: Process) {
   return {
     waiting: isWaitingPrev(process),
-    receivable: availableReceiveOf(process) > 0,
-    shippable: availableShipOf(process) > 0,
+    receivable: Boolean(process.can_receive),
+    shippable: Boolean(process.can_ship),
+    bottleneck: Boolean(process.is_bottleneck),
+    risk: process.risk_level === 'high',
     done: receiveQtyOf(process) > 0 && shipQtyOf(process) >= receiveQtyOf(process)
   }
 }
@@ -356,6 +379,37 @@ function getStatusText(status: string) {
 
 .next-step-card {
   border: 1px solid #e8f3ff;
+}
+
+.next-step-card.risk-high {
+  border-color: #ffccc7;
+  background: linear-gradient(180deg, #fff7f6 0%, #fff 58%);
+}
+
+.next-step-card.risk-medium {
+  border-color: #ffe1b3;
+  background: linear-gradient(180deg, #fffaf2 0%, #fff 58%);
+}
+
+.bottleneck-strip {
+  margin-bottom: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: #fff7e8;
+  border-left: 4px solid #ff976a;
+}
+
+.bottleneck-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #663c00;
+}
+
+.bottleneck-desc {
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #8a5a12;
 }
 
 .section-title-row {
@@ -490,6 +544,8 @@ function getStatusText(status: string) {
 .timeline-shell.waiting .timeline-marker { background: #ff976a; }
 .timeline-shell.receivable .timeline-marker { background: #1989fa; }
 .timeline-shell.shippable .timeline-marker { background: #07c160; }
+.timeline-shell.bottleneck .timeline-marker { box-shadow: 0 0 0 4px rgba(255, 151, 106, 0.18); }
+.timeline-shell.risk .timeline-marker { background: #ee0a24; }
 .timeline-shell.done .timeline-marker { background: #969799; }
 
 .empty-tip {

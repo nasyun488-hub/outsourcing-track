@@ -22,6 +22,8 @@ BASE = "http://localhost:8000"
 FRONT = "http://localhost:8081"
 API = BASE + "/api"
 UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148"
+LOCAL_HTTP = requests.Session()
+LOCAL_HTTP.trust_env = False
 
 
 class Tester:
@@ -46,7 +48,7 @@ class Tester:
         headers.setdefault("User-Agent", UA)
         if token:
             headers["Authorization"] = f"Bearer {token}"
-        r = requests.request(method, API + path, headers=headers, timeout=15, **kwargs)
+        r = LOCAL_HTTP.request(method, API + path, headers=headers, timeout=15, **kwargs)
         try:
             body = r.json()
         except Exception:
@@ -76,7 +78,7 @@ class Tester:
     def run(self) -> None:
         # SPA shell / protected route static access
         for route in ["/", "/login", "/scan", "/kanban", "/notifications", "/export", "/admin/users", "/admin/factories"]:
-            r = requests.get(FRONT + route, headers={"User-Agent": UA}, timeout=15)
+            r = LOCAL_HTTP.get(FRONT + route, headers={"User-Agent": UA}, timeout=15)
             self.add(route, "页面入口", "移动端访问 SPA shell", r.status_code == 200 and "app" in r.text.lower(), "HTTP 200 且返回前端壳", {"status": r.status_code, "size": len(r.text)}, "P0")
 
         # 登录页元素/API
@@ -180,11 +182,11 @@ class Tester:
 
         # 导出页
         # 直接 requests 校验二进制，避免通用 req 尝试 JSON 解析二进制文件。
-        r = requests.get(API + "/export/excel?start_date=2026-01-01&end_date=2026-12-31", headers={"Authorization": f"Bearer {enterprise}", "User-Agent": UA}, timeout=20)
+        r = LOCAL_HTTP.get(API + "/export/excel?start_date=2026-01-01&end_date=2026-12-31", headers={"Authorization": f"Bearer {enterprise}", "User-Agent": UA}, timeout=20)
         self.add("/export", "导出Excel按钮", "选择日期后导出", r.status_code == 200 and len(r.content) > 100, "返回非空文件", {"status": r.status_code, "content_type": r.headers.get("content-type"), "size": len(r.content)}, "P0")
         code, factories = self.req("GET", "/admin/factories?page_size=100", token=enterprise)
         self.add("/export", "厂家选择字段", "加载厂家选择列表", code == 200 and isinstance(factories, dict) and len(factories.get("items", [])) >= 4, "应加载真实厂家", {"code": code, "count": len(factories.get("items", [])) if isinstance(factories, dict) else None}, "P1")
-        r2 = requests.get(API + "/export/excel?order_id=DEMO_DONE_001", headers={"Authorization": f"Bearer {enterprise}", "User-Agent": UA}, timeout=20)
+        r2 = LOCAL_HTTP.get(API + "/export/excel?order_id=DEMO_DONE_001", headers={"Authorization": f"Bearer {enterprise}", "User-Agent": UA}, timeout=20)
         self.add("/export", "订单号输入框", "输入订单号过滤导出", r2.status_code == 200 and len(r2.content) > 100, "后端应支持 order_id/order_no 筛选", {"status": r2.status_code, "size": len(r2.content)}, "P1")
         self.add("/export", "下载文件处理", "前端保存 Blob", True, "应使用返回 Blob 直接保存", "代码检查通过：页面直接使用 axios 拦截器返回的 Blob", "")
 

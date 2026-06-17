@@ -44,12 +44,23 @@ export interface ProcessKanbanItem {
   current_ship_qty?: number
   available_receive_qty?: number
   available_ship_qty?: number
+  can_receive?: boolean
+  can_ship?: boolean
+  can_operate?: boolean
+  disabled_reason?: string | null
+  next_action?: 'receive' | 'ship' | null
+  is_bottleneck?: boolean
+  risk_level?: 'normal' | 'medium' | 'high'
+  risk_reason?: string | null
 }
 
 export interface ProcessKanbanListResponse {
   order_id: string
   order_no: string
   items: ProcessKanbanItem[]
+  current_bottleneck_record_id?: string | null
+  risk_level?: 'normal' | 'medium' | 'high'
+  risk_reason?: string | null
 }
 
 export interface KanbanStatsResponse {

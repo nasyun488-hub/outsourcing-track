@@ -34,6 +34,13 @@ required_snippets = {
     "photo fallback input": "accept=\"image/*\"",
     "photo capture mobile": "capture=\"environment\"",
     "photo decoder": "decodeFromImageUrl",
+    "explicit getUserMedia permission": "navigator.mediaDevices?.getUserMedia",
+    "decode from granted stream": "decodeFromStream(",
+    "camera permission denied handling": "NotAllowedError",
+    "camera error card": "camera-error-card",
+    "camera status": "cameraStatus",
+    "camera permission guidance": "请在浏览器地址栏允许摄像头权限",
+    "rear camera constraint": "facingMode: { ideal: 'environment' }",
     "no auto route on submit scan": "addScanToCart(qrCode, 'gun')",
     "operator wording": "像超市收银一样连续扫码",
     # Plan phase 2/3 interaction details
@@ -56,6 +63,7 @@ required_snippets = {
     "exception toggle": "查看异常",
     "retry row": "retryCartItem",
     "clear completed": "清空已完成",
+    "operator batch wording": "离线扫码导入",
 }
 
 missing = [name for name, snippet in required_snippets.items() if snippet not in content]
@@ -64,5 +72,6 @@ assert not missing, "ScanPage missing required scan-cart UX snippets: " + ", ".j
 assert "export const receive" in api and "export const ship" in api and "export const getRecordDetail" in api
 assert "routeByResult(result)" not in content, "scan page should not auto-jump after each scan in cart mode"
 assert "scanBatch(" not in content, "scan cart mode should add editable rows, not only parse batch codes"
+assert "批量粘贴" not in content, "scan page should avoid confusing operator wording 批量粘贴"
 
 print("✅ scan cart UI contract validated")

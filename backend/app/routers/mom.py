@@ -1,74 +1,82 @@
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Any, Literal, Optional
+
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
-from typing import Optional, List, Any
 
 from app.database import get_db
+from app.middleware.auth import get_current_user
+from app.models.user import User
 from app.services.mom_service import MOMService
 
 router = APIRouter(prefix="/api/mom", tags=["mom"])
 
 
-class MOMSyncRequest(BaseModel):
-    """MOM同步请求基类"""
-    pass
+class MOMProcessItem(BaseModel):
+    process_id: Optional[str] = None
+    process_seq: str
+    process_name: str
+    factory_id: str
+    process_order: Optional[int] = None
 
 
-class MOMOrdersSyncRequest(MOMSyncRequest):
-    """拉取MOM派工单请求"""
-    factory_id: Optional[int] = None
-    start_date: Optional[str] = None
-    end_date: Optional[str] = None
+class MOMOrderItem(BaseModel):
+    order_id: str
+    primary_factory_id: str
+    product_name: Optional[str] = None
+    product_code: Optional[str] = None
+    spec: Optional[str] = None
+    unit: Optional[str] = None
+    delivery_date: Optional[str] = None
+    part_no: Optional[str] = None
+    total_qty: int = 0
+    mom_created_at: Optional[str] = None
+    processes: list[MOMProcessItem] = Field(default_factory=list)
 
 
-class MOMRecordsSyncRequest(MOMSyncRequest):
-    """推送流转记录到MOM请求"""
-    order_id: int
-    process_id: int
-    record_data: Optional[dict] = None
+class MOMImportRequest(BaseModel):
+    source_type: Literal["mom_json", "standard_file"] = "standard_file"
+    batch_no: Optional[str] = None
+    dry_run: bool = False
+    orders: list[MOMOrderItem]
 
 
-class MOMSyncResponse(BaseModel):
-    """MOM同步响应"""
+class MOMImportResponse(BaseModel):
     success: bool
     message: str
-    data: Optional[Any] = None
-    retry_count: int = 0
+    source_type: str
+    created_orders: int
+    updated_orders: int
+    created_processes: int
+    updated_processes: int
+    created_records: int
+    skipped_records: int
+    action_log_id: Optional[str] = None
+    errors: list[str] = Field(default_factory=list)
 
 
-@router.post("/orders/sync", response_model=MOMSyncResponse)
-def sync_mom_orders(
-    request: MOMOrdersSyncRequest,
+def require_import_permission(user: User) -> None:
+    if user.role not in {"enterprise_admin", "primary_admin"}:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="仅企业管理员或主厂管理员可导入MOM标准文件",
+        )
+
+
+@router.post("/orders/import", response_model=MOMImportResponse)
+def import_mom_orders(
+    payload: MOMImportRequest,
+    request: Request,
     db: Session = Depends(get_db),
-):
-    """
-    从MOM拉取派工单
-    - 失败重试3次，间隔5分钟
-    - 3次失败触发sync_error通知
-    """
+    current_user: User = Depends(get_current_user),
+) -> dict[str, Any]:
+    require_import_permission(current_user)
     service = MOMService(db)
-    result = service.sync_orders_from_mom(
-        factory_id=request.factory_id,
-        start_date=request.start_date,
-        end_date=request.end_date,
-    )
-    return result
-
-
-@router.post("/records/sync", response_model=MOMSyncResponse)
-def sync_mom_records(
-    request: MOMRecordsSyncRequest,
-    db: Session = Depends(get_db),
-):
-    """
-    推送流转记录到MOM
-    - 失败重试3次，间隔5分钟
-    - 3次失败触发sync_error通知
-    """
-    service = MOMService(db)
-    result = service.sync_record_to_mom(
-        order_id=request.order_id,
-        process_id=request.process_id,
-        record_data=request.record_data,
-    )
-    return result
+    try:
+        return service.import_orders(
+            payload=payload.model_dump(),
+            user=current_user,
+            ip_address=request.client.host if request.client else None,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc

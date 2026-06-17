@@ -1,5 +1,5 @@
 <template>
-  <div class="process-card" :class="{ overdue: process.is_overdue, active: hasAction }">
+  <div class="process-card" :class="{ overdue: process.risk_level === 'high', active: hasAction }">
     <div class="process-header">
       <div class="title-wrap">
         <span class="sequence-badge">第 {{ processOrderText }} 道</span>
@@ -78,9 +78,9 @@
       </div>
     </div>
 
-    <div v-if="process.is_overdue" class="overdue-warning">
+    <div v-if="process.risk_level === 'high'" class="overdue-warning">
       <van-icon name="warning-o" />
-      <span>该工序已超期，请优先处理</span>
+      <span>{{ process.risk_reason || '该工序已超期，请优先处理' }}</span>
     </div>
   </div>
 </template>
@@ -108,9 +108,10 @@ const currentReceiveQty = computed(() => clampQty(props.process.current_receive_
 const currentShipQty = computed(() => clampQty(props.process.current_ship_qty ?? shipQty.value, currentReceiveQty.value))
 const availableReceive = computed(() => clampQty(props.process.available_receive_qty ?? (prevShipQty.value - receiveQty.value), prevShipQty.value - receiveQty.value))
 const availableShip = computed(() => clampQty(props.process.available_ship_qty ?? (receiveQty.value - shipQty.value), receiveQty.value - shipQty.value))
-const canReceive = computed(() => availableReceive.value > 0)
-const canShip = computed(() => availableShip.value > 0)
-const hasAction = computed(() => canReceive.value || canShip.value)
+const canReceive = computed(() => Boolean(props.process.can_receive))
+const canShip = computed(() => Boolean(props.process.can_ship))
+const canOperate = computed(() => Boolean(props.process.can_operate || canReceive.value || canShip.value))
+const hasAction = computed(() => canOperate.value)
 const processOrderText = computed(() => props.process.process_order || '-')
 
 const progressBase = computed(() => Math.max(receiveQty.value, prevShipQty.value, 0))
@@ -120,6 +121,8 @@ const progressPercent = computed(() => {
 })
 
 const receiveDisabledReason = computed(() => {
+  if (props.process.disabled_reason) return props.process.disabled_reason
+  if (availableReceive.value > 0 && !canReceive.value) return '仅可查看相邻工序，无权操作该厂家工序'
   if (prevShipQty.value <= 0 && props.process.prev_process_id) return '等待上道发出'
   if (availableReceive.value <= 0 && receiveQty.value > 0) return '暂无可接收余量'
   if (availableReceive.value <= 0) return '不可接收'
@@ -127,6 +130,8 @@ const receiveDisabledReason = computed(() => {
 })
 
 const shipDisabledReason = computed(() => {
+  if (props.process.disabled_reason) return props.process.disabled_reason
+  if (availableShip.value > 0 && !canShip.value) return '仅可查看相邻工序，无权操作该厂家工序'
   if (receiveQty.value <= 0) return '需先接收'
   if (availableShip.value <= 0 && shipQty.value >= receiveQty.value) return '已全部发出'
   if (availableShip.value <= 0) return '暂无可发出余量'
@@ -141,6 +146,7 @@ const statusTag = computed(() => {
 })
 
 const statusTip = computed(() => {
+  if (props.process.disabled_reason && (availableReceive.value > 0 || availableShip.value > 0)) return props.process.disabled_reason
   if (canReceive.value && canShip.value) return `可接收 ${availableReceive.value}，可发出 ${availableShip.value}`
   if (canReceive.value) return `上道已发，可接收 ${availableReceive.value}`
   if (canShip.value) return `已接收待发出，可发出 ${availableShip.value}`

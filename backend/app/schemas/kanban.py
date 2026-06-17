@@ -92,6 +92,14 @@ class ProcessKanbanResponse(ProcessKanbanBase):
     current_ship_qty: int = 0
     available_receive_qty: int = 0
     available_ship_qty: int = 0
+    can_receive: bool = False
+    can_ship: bool = False
+    can_operate: bool = False
+    disabled_reason: Optional[str] = None
+    next_action: Optional[str] = None
+    is_bottleneck: bool = False
+    risk_level: str = "normal"
+    risk_reason: Optional[str] = None
     created_at: datetime
     updated_at: datetime
 
@@ -104,6 +112,9 @@ class ProcessKanbanListResponse(BaseModel):
     order_id: str
     order_no: str
     items: List[ProcessKanbanResponse]
+    current_bottleneck_record_id: Optional[str] = None
+    risk_level: str = "normal"
+    risk_reason: Optional[str] = None
 
 
 # ============ 统计 ============

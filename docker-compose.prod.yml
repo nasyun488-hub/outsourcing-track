@@ -1,0 +1,65 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set in .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-outsourcing_track}
+      MYSQL_USER: ${MYSQL_USER:-outsourcing_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?set in .env}
+    volumes:
+      - mysql_prod_data:/var/lib/mysql
+      - ./backend/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$${MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [prod-network]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: ${MYSQL_USER:-outsourcing_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?set in .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-outsourcing_track}
+      SECRET_KEY: ${SECRET_KEY:?set in .env}
+      SMS_PROVIDER: ${SMS_PROVIDER:-mock}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)\" || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks: [prod-network]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks: [prod-network]
+
+volumes:
+  mysql_prod_data:
+
+networks:
+  prod-network:
+    driver: bridge

@@ -9,6 +9,8 @@ from app.routers.kanban import router as kanban_router
 from app.routers.notifications import router as notifications_router
 from app.routers.export import router as export_router
 from app.routers.admin import router as admin_router
+from app.routers.mom import router as mom_router
+from app.routers.audit import router as audit_router
 
 # 配置日志
 logging.basicConfig(
@@ -33,6 +35,8 @@ app.include_router(kanban_router)
 app.include_router(notifications_router)
 app.include_router(export_router)
 app.include_router(admin_router)
+app.include_router(mom_router)
+app.include_router(audit_router)
 
 
 @app.get("/health")

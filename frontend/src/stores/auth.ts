@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { sendSms, login as loginApi, fetchMe, type UserInfo } from '@/api/auth'
+import { sendSms, login as loginApi, passwordLogin as passwordLoginApi, fetchMe, type UserInfo } from '@/api/auth'
 import { showToast } from 'vant'
 import router from '@/router'
 
@@ -25,15 +25,28 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const res = await sendSms(phone)
       showToast('验证码已发送' + (res.code ? '（' + res.code + '）' : ''))
-      return true
+      return res
     } catch {
-      return false
+      return null
     }
   }
 
   const login = async (phone: string, code: string) => {
     try {
       const res = await loginApi({ phone, code })
+      token.value = res.access_token
+      localStorage.setItem('token', res.access_token)
+      await fetchUserInfo()
+      showToast('登录成功')
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  const passwordLogin = async (account: string, password: string) => {
+    try {
+      const res = await passwordLoginApi({ account, password })
       token.value = res.access_token
       localStorage.setItem('token', res.access_token)
       await fetchUserInfo()
@@ -70,6 +83,7 @@ export const useAuthStore = defineStore('auth', () => {
     initFromStorage,
     sendCode,
     login,
+    passwordLogin,
     logout,
     fetchUserInfo
   }

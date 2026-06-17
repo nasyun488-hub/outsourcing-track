@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 
 from jose import jwt
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from app.config import settings
@@ -132,4 +133,54 @@ def authenticate_phone(db: Session, phone: str, code: str) -> Optional[User]:
     db.commit()
 
     logger.info(f"[LOGIN] 用户登录成功 | user_id: {user.user_id} | phone: {phone}")
+    return user
+
+
+def verify_demo_password(password_hash: str, password: str) -> bool:
+    """
+    演示环境兼容密码校验。
+
+    注意：当前项目演示数据只存 demo_hash 或明文占位值，不引入真实密钥/哈希方案。
+    - 输入明文等于 password_hash 时通过
+    - password_hash=demo_hash 时，demo_hash / 123456 / admin123 通过
+    """
+    if password == password_hash:
+        return True
+    if password_hash == "demo_hash" and password in {"demo_hash", "123456", "admin123"}:
+        return True
+    return False
+
+
+def authenticate_password(db: Session, account: str, password: str) -> Optional[User]:
+    """
+    手机号/账号+密码登录认证。
+    account 可匹配 phone、user_id 或 name；认证成功后更新 last_login。
+    """
+    normalized_account = account.strip()
+    if not normalized_account or not password:
+        return None
+
+    user = (
+        db.query(User)
+        .filter(
+            or_(
+                User.phone == normalized_account,
+                User.user_id == normalized_account,
+                User.name == normalized_account,
+            )
+        )
+        .first()
+    )
+    if not user:
+        logger.warning("[PASSWORD LOGIN] 用户不存在 | account: %s", normalized_account)
+        return None
+
+    if not verify_demo_password(user.password_hash, password):
+        logger.warning("[PASSWORD LOGIN] 密码错误 | user_id: %s", user.user_id)
+        return None
+
+    user.last_login = datetime.utcnow()
+    db.commit()
+
+    logger.info("[PASSWORD LOGIN] 用户登录成功 | user_id: %s", user.user_id)
     return user

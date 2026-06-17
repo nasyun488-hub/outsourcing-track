@@ -1,0 +1,178 @@
+{
+  "started_at": "2026-06-17T22:40:33",
+  "order_id": "P1P3_API_001",
+  "summary": {
+    "total": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "后端健康检查",
+      "pass": true,
+      "expected": "HTTP 200",
+      "actual": 200
+    },
+    {
+      "name": "企业管理员导入MOM标准文件",
+      "pass": true,
+      "expected": "200且创建1订单/3记录",
+      "actual": {
+        "code": 200,
+        "body": {
+          "success": true,
+          "message": "导入完成",
+          "source_type": "standard_file",
+          "created_orders": 1,
+          "updated_orders": 0,
+          "created_processes": 3,
+          "updated_processes": 0,
+          "created_records": 3,
+          "skipped_records": 0,
+          "action_log_id": "LOG-bae3c619370545e4be147bced6ea097c",
+          "errors": []
+        }
+      }
+    },
+    {
+      "name": "普通操作员禁止导入",
+      "pass": true,
+      "expected": "HTTP 403",
+      "actual": {
+        "code": 403,
+        "body": {
+          "detail": "仅企业管理员或主厂管理员可导入MOM标准文件"
+        }
+      }
+    },
+    {
+      "name": "主厂管理员允许导入DryRun",
+      "pass": true,
+      "expected": "HTTP 200",
+      "actual": {
+        "code": 200,
+        "body": {
+          "success": true,
+          "message": "导入完成",
+          "source_type": "standard_file",
+          "created_orders": 0,
+          "updated_orders": 1,
+          "created_processes": 0,
+          "updated_processes": 3,
+          "created_records": 0,
+          "skipped_records": 3,
+          "action_log_id": null,
+          "errors": []
+        }
+      }
+    },
+    {
+      "name": "DB回查订单/工序/记录/审计日志",
+      "pass": true,
+      "expected": "订单1/工序3/记录3/日志MOM_IMPORT",
+      "actual": "1\n3\n3\nMOM_IMPORT\torders\tP1P3-BATCH-001\nREC-P1P3_PROC_010\t010\tpending\tnone\t0\t0\nREC-P1P3_PROC_020\t020\tpending\tnone\t0\t0\nREC-P1P3_PROC_030\t030\tpending\tnone\t0\t0"
+    },
+    {
+      "name": "审计日志接口可查MOM导入",
+      "pass": true,
+      "expected": "HTTP 200且total>=1",
+      "actual": {
+        "code": 200,
+        "body": {
+          "total": 1,
+          "page": 1,
+          "page_size": 5,
+          "items": [
+            {
+              "log_id": "LOG-bae3c619370545e4be147bced6ea097c",
+              "user_id": "U001",
+              "user_name": "企业管理员",
+              "role": "enterprise_admin",
+              "action_type": "MOM_IMPORT",
+              "target_table": "orders",
+              "target_id": "P1P3-BATCH-001",
+              "old_value": null,
+              "new_value": {
+                "errors": [],
+                "source_type": "standard_file",
+                "created_orders": 1,
+                "updated_orders": 0,
+                "created_records": 3,
+                "created_processes": 3
+              },
+              "ip_address": "172.28.0.1",
+              "created_at": "2026-06-17T14:40:38"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "审计汇总接口可统计",
+      "pass": true,
+      "expected": "HTTP 200且total_logs>=1",
+      "actual": {
+        "code": 200,
+        "body": {
+          "total_logs": 76,
+          "action_type_counts": {
+            "DEMO_DATA_RESET": 1,
+            "MOM_IMPORT": 1,
+            "RECEIVE": 5,
+            "RETURN": 25,
+            "SHIP": 5,
+            "UPDATE": 36,
+            "UPDATE_ORDER_STATUS": 2,
+            "UPGRADE_LOCK": 1
+          },
+          "user_counts": [
+            {
+              "user_id": "U001",
+              "user_name": "企业管理员",
+              "count": 2
+            },
+            {
+              "user_id": "U003",
+              "user_name": "A厂操作员",
+              "count": 9
+            },
+            {
+              "user_id": "U004",
+              "user_name": "A厂发运员",
+              "count": 9
+            },
+            {
+              "user_id": "U005",
+              "user_name": "B厂操作员",
+              "count": 56
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "审计Excel导出",
+      "pass": true,
+      "expected": "HTTP 200且xlsx非空",
+      "actual": {
+        "code": 200,
+        "size": 5149,
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      }
+    },
+    {
+      "name": "普通操作员禁止访问审计API",
+      "pass": true,
+      "expected": "HTTP 403",
+      "actual": {
+        "code": 403,
+        "body": {
+          "detail": "无权访问操作审计报表"
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "db_snapshot": "1\n3\n3\nMOM_IMPORT\torders\tP1P3-BATCH-001\nREC-P1P3_PROC_010\t010\tpending\tnone\t0\t0\nREC-P1P3_PROC_020\t020\tpending\tnone\t0\t0\nREC-P1P3_PROC_030\t030\tpending\tnone\t0\t0",
+  "note": "飞书接入已取消；本验证仅覆盖MOM/标准文件导入、权限、DB与审计报表。"
+}

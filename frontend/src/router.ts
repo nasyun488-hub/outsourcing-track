@@ -71,6 +71,12 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresRole: 'enterprise_admin' }
     },
     {
+      path: '/audit',
+      name: 'AuditReport',
+      component: () => import('@/views/AuditReportPage.vue'),
+      meta: { requiresAuth: true, allowedRoles: ['enterprise_admin', 'primary_admin'] }
+    },
+    {
       path: '/export',
       name: 'Export',
       component: () => import('@/views/ExportPage.vue'),
@@ -92,6 +98,15 @@ router.beforeEach((to, _from, next) => {
     // 检查角色权限
     const userRole = authStore.userInfo?.role
     if (userRole !== to.meta.requiresRole) {
+      showToast('无权限访问')
+      next('/')
+    } else {
+      next()
+    }
+  } else if (to.meta.allowedRoles) {
+    const userRole = authStore.userInfo?.role
+    const allowedRoles = to.meta.allowedRoles as string[]
+    if (!userRole || !allowedRoles.includes(userRole)) {
       showToast('无权限访问')
       next('/')
     } else {

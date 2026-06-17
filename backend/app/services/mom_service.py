@@ -1,191 +1,168 @@
-from sqlalchemy.orm import Session
-from typing import Optional, Any, Dict
-import time
+from __future__ import annotations
 
+from datetime import datetime
+from typing import Any, Optional
+from uuid import uuid4
+
+from sqlalchemy.orm import Session
+
+from app.models.action_log import ActionLog
 from app.models.order import Order
 from app.models.process import Process
-from app.models.notification import Notification, NotificationType
-from app.services.notification_service import NotificationService
+from app.models.record import ProcessRecord
+from app.models.user import User
 
 
 class MOMService:
-    """MOM集成服务（Mock实现）"""
-
-    # 重试配置
-    MAX_RETRIES = 3
-    RETRY_INTERVAL_SECONDS = 5 * 60  # 5分钟
+    """MOM标准文件/JSON导入服务。"""
 
     def __init__(self, db: Session):
         self.db = db
-        self.notification_service = NotificationService(db)
 
-    def sync_orders_from_mom(
+    def import_orders(
         self,
-        factory_id: Optional[int] = None,
-        start_date: Optional[str] = None,
-        end_date: Optional[str] = None,
-    ) -> Dict[str, Any]:
-        """
-        从MOM拉取派工单
-        - 失败重试3次，间隔5分钟
-        - 3次失败触发sync_error通知
-        """
-        retry_count = 0
-        last_error = None
+        payload: dict[str, Any],
+        user: User,
+        ip_address: Optional[str] = None,
+    ) -> dict[str, Any]:
+        source_type = payload.get("source_type") or "standard_file"
+        if source_type not in {"mom_json", "standard_file"}:
+            raise ValueError("source_type仅支持mom_json或standard_file")
 
-        while retry_count < self.MAX_RETRIES:
-            try:
-                # Mock API调用 - 模拟成功
-                result = self._mock_fetch_orders_from_mom(factory_id, start_date, end_date)
+        orders = payload.get("orders") or []
+        if not isinstance(orders, list) or not orders:
+            raise ValueError("orders不能为空")
 
-                if result.get("success"):
-                    return {
-                        "success": True,
-                        "message": "同步成功",
-                        "data": result.get("data"),
-                        "retry_count": retry_count,
-                    }
-            except Exception as e:
-                last_error = str(e)
+        created_orders = 0
+        updated_orders = 0
+        created_processes = 0
+        updated_processes = 0
+        created_records = 0
+        skipped_records = 0
+        errors: list[str] = []
 
-            retry_count += 1
-            if retry_count < self.MAX_RETRIES:
-                # 等待后重试
-                time.sleep(self.RETRY_INTERVAL_SECONDS)
+        for order_data in orders:
+            order_id = str(order_data.get("order_id") or "").strip()
+            primary_factory_id = str(order_data.get("primary_factory_id") or "").strip()
+            if not order_id or not primary_factory_id:
+                errors.append("订单缺少order_id或primary_factory_id")
+                continue
 
-        # 3次失败，触发通知
-        self._notify_sync_error(
-            factory_id=factory_id,
-            sync_type="orders",
-            error_message=last_error or "未知错误",
-        )
+            order = self.db.query(Order).filter(Order.order_id == order_id).first()
+            order_values = {
+                "primary_factory_id": primary_factory_id,
+                "product_name": order_data.get("product_name"),
+                "product_code": order_data.get("product_code"),
+                "spec": order_data.get("spec"),
+                "unit": order_data.get("unit"),
+                "delivery_date": self._parse_dt(order_data.get("delivery_date")),
+                "part_no": order_data.get("part_no"),
+                "total_qty": int(order_data.get("total_qty") or 0),
+                "mom_created_at": self._parse_dt(order_data.get("mom_created_at")),
+            }
+            if order is None:
+                order = Order(order_id=order_id, **order_values)
+                self.db.add(order)
+                created_orders += 1
+            else:
+                for key, value in order_values.items():
+                    setattr(order, key, value)
+                updated_orders += 1
 
-        return {
-            "success": False,
-            "message": f"同步失败，已重试{self.MAX_RETRIES}次",
-            "error": last_error,
-            "retry_count": retry_count,
-        }
+            processes = order_data.get("processes") or []
+            for index, process_data in enumerate(processes, start=1):
+                process_seq = str(process_data.get("process_seq") or "").strip()
+                process_name = str(process_data.get("process_name") or "").strip()
+                factory_id = str(process_data.get("factory_id") or "").strip()
+                if not process_seq or not process_name or not factory_id:
+                    errors.append(f"订单{order_id}存在不完整工序")
+                    continue
 
-    def sync_record_to_mom(
-        self,
-        order_id: int,
-        process_id: int,
-        record_data: Optional[Dict] = None,
-    ) -> Dict[str, Any]:
-        """
-        推送流转记录到MOM
-        - 失败重试3次，间隔5分钟
-        - 3次失败触发sync_error通知
-        """
-        retry_count = 0
-        last_error = None
-
-        while retry_count < self.MAX_RETRIES:
-            try:
-                # Mock API调用 - 模拟成功
-                result = self._mock_push_record_to_mom(order_id, process_id, record_data)
-
-                if result.get("success"):
-                    # 更新process的mom_record_id
-                    process = self.db.query(Process).filter(Process.id == process_id).first()
-                    if process:
-                        process.mom_record_id = result.get("mom_record_id")
-                        self.db.commit()
-
-                    return {
-                        "success": True,
-                        "message": "同步成功",
-                        "data": result.get("data"),
-                        "retry_count": retry_count,
-                    }
-            except Exception as e:
-                last_error = str(e)
-
-            retry_count += 1
-            if retry_count < self.MAX_RETRIES:
-                time.sleep(self.RETRY_INTERVAL_SECONDS)
-
-        # 3次失败，触发通知
-        self._notify_sync_error(
-            factory_id=None,
-            sync_type="records",
-            error_message=last_error or "未知错误",
-            order_id=order_id,
-        )
-
-        return {
-            "success": False,
-            "message": f"同步失败，已重试{self.MAX_RETRIES}次",
-            "error": last_error,
-            "retry_count": retry_count,
-        }
-
-    def _mock_fetch_orders_from_mom(
-        self,
-        factory_id: Optional[int],
-        start_date: Optional[str],
-        end_date: Optional[str],
-    ) -> Dict[str, Any]:
-        """
-        Mock: 从MOM拉取派工单
-        实际项目中这里应该是真实的API调用
-        """
-        # 模拟返回成功
-        return {
-            "success": True,
-            "data": [
-                {
-                    "mom_work_order_id": f"MOM-WO-{int(time.time())}",
-                    "order_no": f"SO{int(time.time())}",
-                    "product_name": "Mock Product",
-                    "quantity": 100,
+                process_id = process_data.get("process_id") or f"{order_id}-{process_seq}"
+                process = self.db.query(Process).filter(Process.process_id == process_id).first()
+                process_values = {
+                    "order_id": order_id,
+                    "process_seq": process_seq,
+                    "process_name": process_name,
                     "factory_id": factory_id,
+                    "process_order": int(process_data.get("process_order") or index),
                 }
-            ],
-        }
+                if process is None:
+                    process = Process(process_id=process_id, **process_values)
+                    self.db.add(process)
+                    created_processes += 1
+                else:
+                    for key, value in process_values.items():
+                        setattr(process, key, value)
+                    updated_processes += 1
 
-    def _mock_push_record_to_mom(
-        self,
-        order_id: int,
-        process_id: int,
-        record_data: Optional[Dict],
-    ) -> Dict[str, Any]:
-        """
-        Mock: 推送流转记录到MOM
-        实际项目中这里应该是真实的API调用
-        """
-        # 模拟返回成功
+                record_id = f"REC-{process_id}"
+                record = self.db.query(ProcessRecord).filter(ProcessRecord.record_id == record_id).first()
+                if record is None:
+                    self.db.add(
+                        ProcessRecord(
+                            record_id=record_id,
+                            order_id=order_id,
+                            process_id=process_id,
+                            factory_id=factory_id,
+                            record_status="pending",
+                            lock_type="none",
+                            total_receive_qty=0,
+                            total_ship_qty=0,
+                        )
+                    )
+                    created_records += 1
+                else:
+                    skipped_records += 1
+
+        if payload.get("dry_run"):
+            self.db.rollback()
+            action_log_id = None
+        else:
+            action_log_id = f"LOG-{uuid4().hex}"
+            self.db.add(
+                ActionLog(
+                    log_id=action_log_id,
+                    user_id=user.user_id,
+                    action_type="MOM_IMPORT",
+                    target_table="orders",
+                    target_id=payload.get("batch_no") or "mom_import",
+                    old_value=None,
+                    new_value={
+                        "source_type": source_type,
+                        "created_orders": created_orders,
+                        "updated_orders": updated_orders,
+                        "created_processes": created_processes,
+                        "created_records": created_records,
+                        "errors": errors,
+                    },
+                    ip_address=ip_address,
+                )
+            )
+            self.db.commit()
+
         return {
-            "success": True,
-            "mom_record_id": f"MOM-REC-{int(time.time())}",
-            "data": {
-                "order_id": order_id,
-                "process_id": process_id,
-                "synced_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-            },
+            "success": not errors,
+            "message": "导入完成" if not errors else "导入完成，存在部分错误",
+            "source_type": source_type,
+            "created_orders": created_orders,
+            "updated_orders": updated_orders,
+            "created_processes": created_processes,
+            "updated_processes": updated_processes,
+            "created_records": created_records,
+            "skipped_records": skipped_records,
+            "action_log_id": action_log_id,
+            "errors": errors,
         }
 
-    def _notify_sync_error(
-        self,
-        factory_id: Optional[int],
-        sync_type: str,
-        error_message: str,
-        order_id: Optional[int] = None,
-    ):
-        """触发同步错误通知"""
-        # 通知该厂家的管理员或相关用户
-        # 这里简化处理，实际应该查询该厂家的管理员用户
-        admin_user_id = 1  # 默认管理员
-
-        title = f"MOM{sync_type}同步失败"
-        content = f"同步类型: {sync_type}，错误信息: {error_message}。已重试{self.MAX_RETRIES}次均失败，请检查网络或联系管理员。"
-
-        self.notification_service.create_notification(
-            user_id=admin_user_id,
-            notif_type=NotificationType.SYNC_ERROR,
-            title=title,
-            content=content,
-            related_id=order_id,
-            related_type="mom_sync",
-        )
+    @staticmethod
+    def _parse_dt(value: Any) -> Optional[datetime]:
+        if not value:
+            return None
+        if isinstance(value, datetime):
+            return value
+        text = str(value).replace("Z", "+00:00")
+        try:
+            return datetime.fromisoformat(text)
+        except ValueError:
+            return datetime.strptime(str(value), "%Y-%m-%d")

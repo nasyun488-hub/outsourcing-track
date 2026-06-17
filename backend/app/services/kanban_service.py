@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 from app.models.order import Order, OrderStatus
 from app.models.process import Process
 from app.models.record import ProcessRecord, ReturnRecord
+from app.models.user import User
+from app.models.notification import Notification, NotificationType
 from app.schemas.kanban import (
     OrderKanbanListResponse,
     OrderKanbanResponse,
@@ -172,6 +174,142 @@ class KanbanService:
         """数量展示防御：不小于0，也不超过上游/本工序可供上限。"""
         return min(max(int(value or 0), 0), max(int(upper or 0), 0))
 
+    @staticmethod
+    def _is_factory_scoped_user(current_user) -> bool:
+        """厂家角色只能操作本厂工序；企业管理员可跨厂操作。"""
+        role = getattr(current_user, "role", None)
+        return role in {
+            "primary_admin", "primary_operator",
+            "cooperative_admin", "cooperative_operator",
+            "factory_admin", "factory_operator", "operator",
+        }
+
+    def _action_state_for_process(
+        self,
+        record: ProcessRecord,
+        current_user,
+        available_receive_qty: int,
+        available_ship_qty: int,
+    ) -> dict:
+        """统一计算看板动作权限，避免前端按可用数量误推荐跨厂操作。"""
+        user_factory_id = getattr(current_user, "factory_id", None) if current_user else None
+        role = getattr(current_user, "role", None) if current_user else None
+
+        owns_process = bool(record.factory_id) and str(record.factory_id) == str(user_factory_id)
+        can_cross_factory = role == "enterprise_admin"
+        can_operate_factory = can_cross_factory or owns_process
+
+        raw_can_receive = available_receive_qty > 0
+        raw_can_ship = available_ship_qty > 0
+        can_receive = can_operate_factory and raw_can_receive
+        can_ship = can_operate_factory and raw_can_ship
+        next_action = "receive" if can_receive else ("ship" if can_ship else None)
+
+        disabled_reason = None
+        if not can_operate_factory:
+            disabled_reason = "仅可查看相邻工序，无权操作该厂家工序"
+        elif raw_can_receive or raw_can_ship:
+            disabled_reason = None
+        elif available_receive_qty <= 0 and int(record.total_receive_qty or 0) <= 0:
+            disabled_reason = "等待上道发出"
+        else:
+            disabled_reason = "暂无可操作数量"
+
+        return {
+            "can_receive": can_receive,
+            "can_ship": can_ship,
+            "can_operate": can_receive or can_ship,
+            "disabled_reason": disabled_reason,
+            "next_action": next_action,
+        }
+
+    @staticmethod
+    def _risk_state_for_process(
+        record: ProcessRecord,
+        process: Optional[Process],
+        factory_name: str,
+        diff_hours: int,
+        is_overdue: bool,
+        available_receive_qty: int,
+        available_ship_qty: int,
+    ) -> dict:
+        """按工序状态、可操作数量和超期小时数输出风险等级与原因。"""
+        process_name = process.process_name if process else (record.process_id or "未知工序")
+        if is_overdue and (available_receive_qty > 0 or available_ship_qty > 0):
+            return {
+                "risk_level": "high",
+                "risk_reason": f"{process_name}（{factory_name}）已停留 {diff_hours} 小时，超过48小时阈值",
+            }
+        if record.record_status == "pending" and available_receive_qty > 0:
+            return {
+                "risk_level": "medium",
+                "risk_reason": f"{process_name}（{factory_name}）待接收，可能成为当前卡点",
+            }
+        if record.record_status == "received" and available_ship_qty > 0:
+            return {
+                "risk_level": "medium",
+                "risk_reason": f"{process_name}（{factory_name}）已接收未发出，需跟进发出",
+            }
+        return {"risk_level": "normal", "risk_reason": None}
+
+    @staticmethod
+    def _pick_bottleneck(items: list[ProcessKanbanResponse]) -> Optional[ProcessKanbanResponse]:
+        """当前卡点优先级：超期高风险 > 可操作待处理 > 中风险等待 > 首个未完成。"""
+        for item in items:
+            if item.risk_level == "high":
+                return item
+        for item in items:
+            if item.can_operate:
+                return item
+        for item in items:
+            if item.risk_level == "medium":
+                return item
+        for item in items:
+            if item.status not in {"shipped", "completed"}:
+                return item
+        return None
+
+    def _create_risk_notification_once(self, order_id: str, bottleneck: Optional[ProcessKanbanResponse], current_user=None) -> None:
+        """给卡点所属厂家未读用户生成幂等风险提醒；同一订单同一用户未读提醒只保留一条。"""
+        if not bottleneck or bottleneck.risk_level != "high" or not bottleneck.factory_id:
+            return
+
+        target_users = self.db.query(User).filter(
+            User.factory_id == bottleneck.factory_id,
+            User.status == "active",
+        ).all()
+        title = f"订单 {order_id} 存在超期风险"
+        content = bottleneck.risk_reason or "工序停留超过48小时，请及时处理。"
+        for user in target_users:
+            exists = self.db.query(Notification).filter(
+                Notification.user_id == user.user_id,
+                Notification.related_id == order_id,
+                Notification.related_type == "order",
+                Notification.title == title,
+                Notification.is_read == "0",
+            ).first()
+            if exists:
+                continue
+            notification = Notification(
+                notif_id=self._generate_notification_id(),
+                user_id=user.user_id,
+                notif_type=NotificationType.TRANSFER,
+                title=title,
+                content=content,
+                related_id=order_id,
+                related_type="order",
+                jump_url=f"/kanban/{order_id}",
+                is_read="0",
+            )
+            self.db.add(notification)
+        self.db.commit()
+
+    @staticmethod
+    def _generate_notification_id() -> str:
+        import time
+        import random
+        return f"notif_{int(time.time()*1000)}_{random.randint(1000,9999)}"
+
     def get_processes_kanban(self, order_id: str, current_user=None) -> ProcessKanbanListResponse:
         """
         获取工序流转看板
@@ -211,6 +349,7 @@ class KanbanService:
             process = record.process
             factory = record.factory
             is_overdue = False
+            diff_hours = 0
             if record.record_status == 'pending':
                 # pending：created_at超过48h未处理
                 result = self.db.execute(
@@ -241,6 +380,22 @@ class KanbanService:
                 "receive_qty": display_receive_qty,
                 "ship_qty": display_ship_qty,
             })
+            action_state = self._action_state_for_process(
+                record,
+                current_user,
+                available_receive_qty,
+                available_ship_qty,
+            )
+            factory_name = factory.factory_name if factory else record.factory_id
+            risk_state = self._risk_state_for_process(
+                record,
+                process,
+                factory_name,
+                int(diff_hours or 0),
+                is_overdue,
+                available_receive_qty,
+                available_ship_qty,
+            )
 
             items.append(ProcessKanbanResponse(
                 record_id=record.record_id,
@@ -263,14 +418,30 @@ class KanbanService:
                 current_ship_qty=display_ship_qty,
                 available_receive_qty=available_receive_qty,
                 available_ship_qty=available_ship_qty,
+                can_receive=action_state["can_receive"],
+                can_ship=action_state["can_ship"],
+                can_operate=action_state["can_operate"],
+                disabled_reason=action_state["disabled_reason"],
+                next_action=action_state["next_action"],
+                is_bottleneck=False,
+                risk_level=risk_state["risk_level"],
+                risk_reason=risk_state["risk_reason"],
                 created_at=record.created_at,
                 updated_at=record.updated_at,
             ))
+
+        bottleneck = self._pick_bottleneck(items)
+        if bottleneck:
+            bottleneck.is_bottleneck = True
+        self._create_risk_notification_once(order.order_id, bottleneck, current_user=current_user)
 
         return ProcessKanbanListResponse(
             order_id=order.order_id,
             order_no=order.order_id,
             items=items,
+            current_bottleneck_record_id=bottleneck.record_id if bottleneck else None,
+            risk_level=bottleneck.risk_level if bottleneck else "normal",
+            risk_reason=bottleneck.risk_reason if bottleneck else None,
         )
 
     def get_kanban_stats(self, factory_id: Optional[str] = None) -> KanbanStatsResponse:
