@@ -62,7 +62,8 @@ jobs:
       
       - name: 运行 pytest 测试
         run: |
-          pytest backend/tests/ -v --tb=short
+          cd backend
+          pytest tests/ -v --tb=short
         env:
           DATABASE_URL: mysql+pymysql://root:test123456@127.0.0.1:3306/outsourcing_test
           SECRET_KEY: github-ci-test-secret-key-${{ github.run_id }}
