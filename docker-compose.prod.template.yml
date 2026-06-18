@@ -1,0 +1,84 @@
+# ==========================================
+# 生产环境 Docker Compose 配置模板
+# 使用方式：
+#   1. 复制为 docker-compose.prod.yml
+#   2. 修改环境变量与密码
+#   3. 启动: docker compose -f docker-compose.prod.yml up -d
+# ==========================================
+
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: outsourcing-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change_this_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-outsourcing_track}
+      TZ: Asia/Shanghai
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-change_this_password}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - outsourcing-network
+
+  # 后端 API 服务
+  backend:
+    image: ghcr.io/${GITHUB_USERNAME:-your-username}/outsourcing-track-backend:latest
+    container_name: outsourcing-backend
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      TZ: Asia/Shanghai
+      DATABASE_URL: mysql+pymysql://root:${MYSQL_ROOT_PASSWORD:-change_this_password}@mysql:3306/${MYSQL_DATABASE:-outsourcing_track}
+      SECRET_KEY: ${SECRET_KEY:-your-production-secret-key-change-this}
+      ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - outsourcing-network
+
+  # 前端 H5 页面
+  frontend:
+    image: ghcr.io/${GITHUB_USERNAME:-your-username}/outsourcing-track-frontend:latest
+    container_name: outsourcing-frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "${FRONTEND_PORT:-8081}:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - outsourcing-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  outsourcing-network:
+    driver: bridge
