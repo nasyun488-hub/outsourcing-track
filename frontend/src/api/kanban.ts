@@ -79,6 +79,7 @@ export function fetchKanbanOrders(params?: {
   order_no?: string
   factory_id?: string
   status?: string
+  quick?: string
 }) {
   return request.get<OrderKanbanListResponse>('/kanban/orders', { params })
 }
@@ -136,6 +137,7 @@ export function exportExcel(params?: {
   end_date?: string
   factory_id?: string
   order_id?: string
+  report_type?: string
   status?: string
 }) {
   return request.get('/export/excel', {
@@ -182,6 +184,8 @@ export function fetchUsers(params?: {
   page?: number
   page_size?: number
   role?: string
+  keyword?: string
+  status?: string
 }) {
   return request.get<UserListResponse>('/admin/users', { params })
 }
@@ -202,6 +206,7 @@ export function reviewOperatorApplication(userId: string, approved: boolean) {
 export function fetchFactories(params?: {
   page?: number
   page_size?: number
+  keyword?: string
   status?: string
 }) {
   return request.get<FactoryListResponse>('/admin/factories', { params })

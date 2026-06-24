@@ -15,7 +15,53 @@
       <van-icon name="description-o" size="34" />
     </section>
 
-    <section class="common-reports">
+    <section class="desktop-only pc-toolbar export-workbench-toolbar">
+      <div>
+        <h3>导出工作台</h3>
+        <p>桌面端先选报表、日期与厂家，再一键生成外协流转 Excel。</p>
+      </div>
+      <div class="pc-actions">
+        <input v-model="orderKeyword" class="pc-input" placeholder="订单号快速输入" />
+        <select v-model="selectedFactoryId" class="pc-input">
+          <option value="">全部厂家</option>
+          <option v-for="factory in factoryList" :key="factory.id || factory.factory_id" :value="String(factory.id || factory.factory_id)">
+            {{ factory.name || factory.factory_name }}
+          </option>
+        </select>
+        <button type="button" :class="{ active: activeReport === 'flow' }" @click="selectReport('flow')">外协流转明细</button>
+        <button type="button" :class="{ active: activeReport === 'exception' }" @click="selectReport('exception')">异常逾期报表</button>
+        <button type="button" @click="setDateRange('today')">今天</button>
+        <button type="button" @click="setDateRange('week')">本周</button>
+        <button type="button" @click="setDateRange('month')">本月</button>
+        <button type="button" class="primary" :disabled="!canExport || exporting" @click="handleExport">一键导出</button>
+      </div>
+    </section>
+
+    <section class="desktop-only pc-data-table export-workbench-table">
+      <div class="table-title">导出参数确认</div>
+      <table>
+        <thead>
+          <tr>
+            <th>报表类型</th>
+            <th>时间范围</th>
+            <th>厂家</th>
+            <th>订单</th>
+            <th>状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ activeReportName }}</td>
+            <td>{{ datePreview }}</td>
+            <td>{{ selectedFactoryName || filterForm.factory_name || '全部厂家' }}</td>
+            <td>{{ orderKeyword || filterForm.order_id || '全部订单' }}</td>
+            <td>{{ canExport ? '可导出' : '请选择日期范围' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="common-reports mobile-only">
       <div class="section-title">常用报表</div>
       <div class="report-grid">
         <button type="button" :class="{ active: activeReport === 'flow' }" @click="selectReport('flow')">
@@ -29,7 +75,7 @@
       </div>
     </section>
 
-    <div class="filter-form">
+    <div class="filter-form mobile-only">
       <van-cell-group inset>
         <van-field
           v-model="filterForm.start_date"
@@ -70,7 +116,7 @@
       </van-cell-group>
     </div>
 
-    <div class="quick-dates">
+    <div class="quick-dates mobile-only">
       <span class="quick-label">快捷选择:</span>
       <van-button size="small" :type="quickRange === 'today' ? 'primary' : 'default'" @click="setDateRange('today')">今天</van-button>
       <van-button size="small" :type="quickRange === 'week' ? 'primary' : 'default'" @click="setDateRange('week')">本周</van-button>
@@ -78,7 +124,7 @@
       <van-button size="small" @click="clearDateRange">清除</van-button>
     </div>
 
-    <section class="preview-card">
+    <section class="preview-card mobile-only">
       <div class="section-title">导出预览</div>
       <div class="preview-line">
         <span>报表类型</span>
@@ -98,7 +144,7 @@
       </div>
     </section>
 
-    <section class="file-contains">
+    <section class="file-contains mobile-only">
       <div class="section-title">导出文件包含</div>
       <div class="contains-tags">
         <van-tag plain type="primary">订单号</van-tag>
@@ -110,7 +156,7 @@
       </div>
     </section>
 
-    <div class="export-btn-wrap">
+    <div class="export-btn-wrap mobile-only">
       <van-button
         type="primary"
         block
@@ -178,6 +224,8 @@ const filterForm = ref({
 
 const activeReport = ref<'flow' | 'exception'>('flow')
 const quickRange = ref<'today' | 'week' | 'month' | ''>('')
+const orderKeyword = ref('')
+const selectedFactoryId = ref('')
 
 const showStartDatePicker = ref(false)
 const showEndDatePicker = ref(false)
@@ -202,6 +250,10 @@ const canExport = computed(() => {
 })
 
 const activeReportName = computed(() => activeReport.value === 'flow' ? '外协流转明细' : '异常逾期报表')
+const selectedFactoryName = computed(() => {
+  const found = factoryList.value.find(f => String(f.id || f.factory_id) === selectedFactoryId.value)
+  return found ? (found.name || found.factory_name) : ''
+})
 const datePreview = computed(() => {
   if (!filterForm.value.start_date || !filterForm.value.end_date) return '请选择日期范围'
   return `${filterForm.value.start_date} 至 ${filterForm.value.end_date}`
@@ -308,12 +360,12 @@ async function handleExport() {
       report_type: activeReport.value
     }
     
-    if (filterForm.value.order_id) {
-      params.order_id = filterForm.value.order_id
+    if (orderKeyword.value || filterForm.value.order_id) {
+      params.order_id = orderKeyword.value || filterForm.value.order_id
     }
     
-    if (filterForm.value.factory_id) {
-      params.factory_id = filterForm.value.factory_id
+    if (selectedFactoryId.value || filterForm.value.factory_id) {
+      params.factory_id = selectedFactoryId.value || filterForm.value.factory_id
     }
 
     const blob: any = await exportExcel(params)
@@ -491,5 +543,28 @@ fetchFactoryList()
 .export-tip :deep(.van-icon) {
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+.pc-toolbar,
+.pc-data-table { margin: 16px 24px; padding: 18px; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(31, 45, 61, 0.08); }
+.pc-toolbar { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.pc-toolbar h3 { margin: 0 0 6px; font-size: 20px; color: #1f2937; }
+.pc-toolbar p { margin: 0; color: #667085; font-size: 13px; }
+.pc-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.pc-actions button,
+.pc-input { border: 1px solid #d0d5dd; background: #fff; border-radius: 8px; padding: 8px 12px; color: #344054; cursor: pointer; }
+.pc-actions button.active,
+.pc-actions button.primary { color: #fff; border-color: #1e63ff; background: #1e63ff; }
+.pc-actions button:disabled { opacity: 0.55; cursor: not-allowed; }
+.table-title { margin-bottom: 12px; font-weight: 800; color: #1f2937; }
+.pc-data-table table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.pc-data-table th,
+.pc-data-table td { padding: 12px; border-bottom: 1px solid #eef2f7; text-align: left; }
+.pc-data-table th { color: #667085; background: #f8fafc; font-weight: 700; }
+@media (max-width: 900px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block; }
 }
 </style>

@@ -23,6 +23,15 @@ class KanbanService:
     def __init__(self, db: Session):
         self.db = db
 
+    def _visible_orders_query(self, current_user=None):
+        """按当前用户权限返回可见订单查询，订单列表和首页统计必须共用同一口径。"""
+        query = self.db.query(Order).options(joinedload(Order.primary_factory))
+        if current_user and getattr(current_user, "role", None) != "enterprise_admin":
+            user_factory_id = getattr(current_user, "factory_id", None)
+            order_ids = self.db.query(ProcessRecord.order_id).filter(ProcessRecord.factory_id == user_factory_id)
+            query = query.filter(or_(Order.primary_factory_id == user_factory_id, Order.order_id.in_(order_ids)))
+        return query
+
     def get_orders_kanban(
         self,
         page: int = 1,
@@ -32,19 +41,14 @@ class KanbanService:
         primary_factory_id: Optional[str] = None,
         status: Optional[str] = None,
         order_no: Optional[str] = None,
+        quick: Optional[str] = None,
         current_user=None,
     ) -> OrderKanbanListResponse:
         """
         获取订单看板列表
         - 支持分页、过滤
         """
-        query = self.db.query(Order).options(joinedload(Order.primary_factory))
-
-        # 数据权限：企业管理员可看全量；其他角色只能看本厂作为主厂或承接厂参与的订单
-        if current_user and getattr(current_user, "role", None) != "enterprise_admin":
-            user_factory_id = getattr(current_user, "factory_id", None)
-            order_ids = self.db.query(ProcessRecord.order_id).filter(ProcessRecord.factory_id == user_factory_id)
-            query = query.filter(or_(Order.primary_factory_id == user_factory_id, Order.order_id.in_(order_ids)))
+        query = self._visible_orders_query(current_user)
 
         # 过滤条件
         if start_date:
@@ -63,6 +67,15 @@ class KanbanService:
             ))
         if status:
             query = query.filter(Order.order_status == status)
+        if quick in {"overdue", "todo", "soon", "receive", "ship"}:
+            query = query.join(ProcessRecord, ProcessRecord.order_id == Order.order_id)
+            if quick == "overdue":
+                query = query.filter(ProcessRecord.record_status.in_(["pending", "received"]))
+            elif quick in {"todo", "receive", "ship"}:
+                query = query.filter(Order.order_status.in_([OrderStatus.PENDING.value, OrderStatus.IN_PROGRESS.value]))
+            elif quick == "soon":
+                query = query.filter(Order.order_status == OrderStatus.IN_PROGRESS.value)
+            query = query.distinct()
 
         # 总数
         total = query.count()
@@ -444,13 +457,13 @@ class KanbanService:
             risk_reason=bottleneck.risk_reason if bottleneck else None,
         )
 
-    def get_kanban_stats(self, factory_id: Optional[str] = None) -> KanbanStatsResponse:
+    def get_kanban_stats(self, factory_id: Optional[str] = None, current_user=None) -> KanbanStatsResponse:
         """
         获取看板统计
         - 全部/待处理/进行中/已完成订单数
         - 超期工序数
         """
-        query = self.db.query(Order)
+        query = self._visible_orders_query(current_user)
         if factory_id:
             query = query.filter(Order.primary_factory_id == factory_id)
 
@@ -458,6 +471,8 @@ class KanbanService:
         pending = query.filter(Order.order_status == OrderStatus.PENDING.value).count()
         in_progress = query.filter(Order.order_status == OrderStatus.IN_PROGRESS.value).count()
         completed = query.filter(Order.order_status == OrderStatus.COMPLETED.value).count()
+
+        visible_order_ids = [row[0] for row in query.with_entities(Order.order_id).all()]
 
         # 超期工序数
         # 使用 MySQL UTC_TIMESTAMP() 避免 Python/MySQL 时区不一致
@@ -468,6 +483,10 @@ class KanbanService:
         pending_overdue = self.db.query(ProcessRecord).filter(
             ProcessRecord.record_status == 'pending',
         )
+        if visible_order_ids:
+            pending_overdue = pending_overdue.filter(ProcessRecord.order_id.in_(visible_order_ids))
+        else:
+            pending_overdue = pending_overdue.filter(False)
         if factory_id:
             pending_overdue = pending_overdue.filter(ProcessRecord.factory_id == factory_id)
 
@@ -485,6 +504,10 @@ class KanbanService:
             ProcessRecord.record_status == 'received',
             ProcessRecord.last_receive_time.isnot(None),
         )
+        if visible_order_ids:
+            received_overdue = received_overdue.filter(ProcessRecord.order_id.in_(visible_order_ids))
+        else:
+            received_overdue = received_overdue.filter(False)
         if factory_id:
             received_overdue = received_overdue.filter(ProcessRecord.factory_id == factory_id)
 

@@ -23,6 +23,8 @@ def list_users(
     page: int = Query(1, ge=1),
     page_size: int = Query(100, ge=1, le=200),
     role: Optional[str] = None,
+    status: Optional[str] = None,
+    keyword: Optional[str] = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -30,6 +32,16 @@ def list_users(
     query = db.query(User)
     if role:
         query = query.filter(User.role == role)
+    if status:
+        normalized_status = "inactive" if status == "disabled" else status
+        query = query.filter(User.status == normalized_status)
+    if keyword:
+        pattern = f"%{keyword}%"
+        query = query.filter(
+            (User.name.like(pattern))
+            | (User.phone.like(pattern))
+            | (User.user_id.like(pattern))
+        )
     total = query.count()
     users = query.order_by(User.created_at.desc()).offset((page - 1) * page_size).limit(page_size).all()
     return {
@@ -104,13 +116,23 @@ def list_factories(
     page: int = Query(1, ge=1),
     page_size: int = Query(100, ge=1, le=200),
     status: Optional[str] = None,
+    keyword: Optional[str] = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     require_enterprise_admin(current_user)
     query = db.query(Factory)
     if status:
-        query = query.filter(Factory.status == status)
+        normalized_status = "inactive" if status == "disabled" else status
+        query = query.filter(Factory.status == normalized_status)
+    if keyword:
+        pattern = f"%{keyword}%"
+        query = query.filter(
+            (Factory.factory_name.like(pattern))
+            | (Factory.factory_phone.like(pattern))
+            | (Factory.factory_address.like(pattern))
+            | (Factory.factory_id.like(pattern))
+        )
     total = query.count()
     factories = query.order_by(Factory.created_at.desc()).offset((page - 1) * page_size).limit(page_size).all()
     return {

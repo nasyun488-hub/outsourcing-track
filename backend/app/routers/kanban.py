@@ -53,6 +53,7 @@ def get_orders_kanban(
     order_no: Optional[str] = None,
     factory_id: Optional[str] = None,
     status: Optional[str] = None,
+    quick: Optional[str] = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -70,6 +71,7 @@ def get_orders_kanban(
         primary_factory_id=factory_id,
         status=status,
         order_no=order_no,
+        quick=quick,
         current_user=current_user,
     )
     return result
@@ -108,5 +110,5 @@ def get_kanban_stats(
     - 超期工序数
     """
     service = KanbanService(db)
-    result = service.get_kanban_stats(factory_id=factory_id)
+    result = service.get_kanban_stats(factory_id=factory_id, current_user=current_user)
     return result

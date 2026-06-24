@@ -30,7 +30,7 @@
       </div>
     </section>
 
-    <section class="role-guide">
+    <section class="role-guide mobile-only">
       <div class="section-title">角色权限说明</div>
       <div class="guide-grid">
         <div>企业管理员：维护厂家、审核人员、导出报表</div>
@@ -39,7 +39,7 @@
       </div>
     </section>
 
-    <section class="pending-section compact">
+    <section class="pending-section compact mobile-only">
       <div class="section-title">待审核队列</div>
       <template v-if="pendingApplications.length > 0">
         <div
@@ -64,7 +64,64 @@
       <van-empty v-else image-size="56" description="暂无待审核人员" />
     </section>
 
-    <div class="filter-section">
+    <section class="desktop-only pc-toolbar user-toolbar">
+      <div>
+        <h3>人员清单表</h3>
+        <p>桌面端集中查看人员、角色、厂家绑定与审核状态。</p>
+      </div>
+      <div class="pc-actions">
+        <input v-model="keyword" class="pc-input" placeholder="搜索姓名/手机号/用户ID" @keyup.enter="onRoleChange" />
+        <select v-model="filterStatus" class="pc-input" @change="onRoleChange">
+          <option value="">全部状态</option>
+          <option value="pending">待审核</option>
+          <option value="active">已启用</option>
+          <option value="disabled">已禁用</option>
+        </select>
+        <button type="button" :class="{ active: filterRole === '' }" @click="filterRole = ''; onRoleChange()">全部</button>
+        <button type="button" :class="{ active: filterRole === 'enterprise_admin' }" @click="filterRole = 'enterprise_admin'; onRoleChange()">企业管理员</button>
+        <button type="button" :class="{ active: filterRole === 'factory_admin' }" @click="filterRole = 'factory_admin'; onRoleChange()">厂家管理员</button>
+        <button type="button" :class="{ active: filterRole === 'operator' }" @click="filterRole = 'operator'; onRoleChange()">操作员</button>
+        <button type="button" :disabled="selectedUserIds.length === 0" @click="batchApproveSelected(true)">批量通过</button>
+        <button type="button" :disabled="selectedUserIds.length === 0" @click="batchApproveSelected(false)">批量拒绝</button>
+        <button type="button" class="primary" @click="showAddForm = true">新增人员</button>
+      </div>
+    </section>
+
+    <section class="desktop-only pc-data-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选择</th>
+            <th>用户名</th>
+            <th>角色</th>
+            <th>厂家</th>
+            <th>状态</th>
+            <th>审核</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in userList" :key="getUserId(user)">
+            <td><input type="checkbox" :checked="selectedUserIds.includes(getUserId(user))" @change="toggleUserSelection(getUserId(user))" /></td>
+            <td>{{ user.username || user.name }}</td>
+            <td>{{ getRoleText(user.role) }}</td>
+            <td>{{ user.factory_name || (user.role === 'operator' ? '未绑定厂家' : '-') }}</td>
+            <td>{{ user.status === 'pending' ? '待审核' : (isUserActive(user) ? '已启用' : '已禁用') }}</td>
+            <td>
+              <template v-if="user.status === 'pending'">
+                <button type="button" class="link-btn" @click="handleReview(getUserId(user), true)">通过</button>
+                <button type="button" class="link-btn danger" @click="handleReview(getUserId(user), false)">拒绝</button>
+              </template>
+              <span v-else>-</span>
+            </td>
+            <td><button type="button" class="link-btn" @click="handleToggleStatus(user)">启用/禁用</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <van-empty v-if="userList.length === 0 && !loading" description="暂无用户" />
+    </section>
+
+    <div class="filter-section mobile-only">
       <van-tabs v-model:active="filterRole" @change="onRoleChange">
         <van-tab title="全部" name="" />
         <van-tab title="企业管理员" name="enterprise_admin" />
@@ -73,7 +130,7 @@
       </van-tabs>
     </div>
 
-    <div class="user-list">
+    <div class="user-list mobile-only">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
           v-model:loading="loading"
@@ -116,7 +173,7 @@
       <van-empty v-if="userList.length === 0 && !loading" description="暂无用户" />
     </div>
 
-    <div class="add-btn-wrap">
+    <div class="add-btn-wrap mobile-only">
       <van-button type="primary" block round @click="showAddForm = true">
         添加用户
       </van-button>
@@ -211,6 +268,9 @@ const currentPage = ref(1)
 const pageSize = 10
 
 const filterRole = ref('')
+const filterStatus = ref('')
+const keyword = ref('')
+const selectedUserIds = ref<string[]>([])
 
 const showAddForm = ref(false)
 const showRolePicker = ref(false)
@@ -246,7 +306,9 @@ async function fetchUserList() {
     const res: any = await fetchUsers({
       page: currentPage.value,
       page_size: pageSize,
-      role: filterRole.value || undefined
+      role: normalizeRoleFilter(filterRole.value) || undefined,
+      status: filterStatus.value || undefined,
+      keyword: keyword.value || undefined
     })
     const data = normalizeList(res)
     
@@ -300,7 +362,38 @@ async function onRoleChange() {
   currentPage.value = 1
   hasMore.value = true
   finished.value = false
+  selectedUserIds.value = []
   await fetchUserList()
+}
+
+function normalizeRoleFilter(role: string): string {
+  const roleMap: Record<string, string> = {
+    factory_admin: 'cooperative_admin',
+    operator: 'cooperative_operator'
+  }
+  return roleMap[role] || role
+}
+
+function toggleUserSelection(userId: string) {
+  selectedUserIds.value = selectedUserIds.value.includes(userId)
+    ? selectedUserIds.value.filter(id => id !== userId)
+    : [...selectedUserIds.value, userId]
+}
+
+async function batchApproveSelected(approved: boolean) {
+  const ids = [...selectedUserIds.value]
+  if (ids.length === 0) return
+  try {
+    await showConfirmDialog({ title: '批量审核', message: `确定要批量${approved ? '通过' : '拒绝'} ${ids.length} 人吗？` })
+    for (const userId of ids) {
+      await reviewOperatorApplication(userId, approved)
+    }
+    selectedUserIds.value = []
+    showToast('批量审核完成')
+    await onRefresh()
+  } catch (e) {
+    // 用户取消或单条失败
+  }
 }
 
 async function handleAddUser() {
@@ -622,5 +715,28 @@ onMounted(async () => {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
+}
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+.pc-toolbar,
+.pc-data-table { margin: 16px 24px; padding: 18px; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(31, 45, 61, 0.08); }
+.pc-toolbar { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.pc-toolbar h3 { margin: 0 0 6px; font-size: 20px; color: #1f2937; }
+.pc-toolbar p { margin: 0; color: #667085; font-size: 13px; }
+.pc-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.pc-actions button,
+.pc-input,
+.link-btn { border: 1px solid #d0d5dd; background: #fff; border-radius: 8px; padding: 8px 12px; color: #344054; cursor: pointer; }
+.pc-actions button.active,
+.pc-actions button.primary { color: #fff; border-color: #1e63ff; background: #1e63ff; }
+.pc-data-table table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.pc-data-table th,
+.pc-data-table td { padding: 12px; border-bottom: 1px solid #eef2f7; text-align: left; }
+.pc-data-table th { color: #667085; background: #f8fafc; font-weight: 700; }
+.link-btn { padding: 6px 10px; color: #1e63ff; border-color: #bfdbfe; }
+.link-btn.danger { color: #d92d20; border-color: #fecaca; }
+@media (max-width: 900px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block; }
 }
 </style>

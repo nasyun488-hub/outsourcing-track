@@ -134,7 +134,7 @@ class TestKanban:
         for i, status in enumerate(statuses):
             order = Order(
                 order_id=f"stats_order_{i}",
-                primary_factory_id="factory_stats",
+                primary_factory_id="factory_001",
                 total_qty=100,
                 order_status=status,
             )

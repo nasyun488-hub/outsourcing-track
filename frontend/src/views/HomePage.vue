@@ -161,6 +161,10 @@ const unreadCount = computed(() => notificationStore.unreadCount)
 
 const roleMap: Record<string, string> = {
   enterprise_admin: '企业管理员',
+  primary_admin: '主厂管理员',
+  primary_operator: '主厂操作员',
+  cooperative_admin: '协作厂管理员',
+  cooperative_operator: '协作厂操作员',
   factory_admin: '厂家管理员',
   factory_operator: '厂家操作员',
   operator: '操作员',
@@ -183,8 +187,7 @@ const greeting = computed(() => {
 onMounted(() => {
   authStore.initFromStorage()
   notificationStore.fetchNotificationList()
-  const factoryId = authStore.userInfo?.role !== 'enterprise_admin' ? authStore.userInfo?.factory_id : undefined
-  kanbanStore.fetchStats(factoryId)
+  kanbanStore.fetchStats()
 })
 
 const goToScan = () => {

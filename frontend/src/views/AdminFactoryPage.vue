@@ -30,7 +30,7 @@
       </div>
     </section>
 
-    <section class="pending-section">
+    <section class="pending-section mobile-only">
       <div class="section-title">厂家审核队列</div>
       <template v-if="pendingApplications.length > 0">
         <div
@@ -55,13 +55,68 @@
       <van-empty v-else image-size="56" description="暂无待审核厂家" />
     </section>
 
-    <section class="cooperation-tip">
+    <section class="cooperation-tip mobile-only">
       <div class="section-title">合作状态</div>
       <div class="tip-text">启用代表可参与订单流转；禁用后仅保留历史追踪。新增厂家后可分配人员，请到人员权限控制台绑定操作员。</div>
       <van-button size="small" type="primary" plain @click="router.push('/admin/users')">去分配人员</van-button>
     </section>
 
-    <div class="factory-list">
+    <section class="desktop-only pc-toolbar factory-toolbar">
+      <div>
+        <h3>厂家清单表</h3>
+        <p>桌面端集中管理厂家合作状态、联系人与审核队列。</p>
+      </div>
+      <div class="pc-actions">
+        <input v-model="keyword" class="pc-input" placeholder="搜索厂家/联系人/手机号" @keyup.enter="onRefresh" />
+        <select v-model="filterStatus" class="pc-input" @change="onRefresh">
+          <option value="">全部状态</option>
+          <option value="pending">待审核</option>
+          <option value="active">合作中</option>
+          <option value="disabled">已停用</option>
+        </select>
+        <button type="button" :disabled="selectedFactoryIds.length === 0" @click="batchApproveSelected(true)">批量通过</button>
+        <button type="button" :disabled="selectedFactoryIds.length === 0" @click="batchApproveSelected(false)">批量拒绝</button>
+        <button type="button" class="primary" @click="showAddForm = true">新增厂家</button>
+        <button type="button" @click="router.push('/admin/users')">去分配人员</button>
+        <button type="button" @click="onRefresh">刷新</button>
+      </div>
+    </section>
+
+    <section class="desktop-only pc-data-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选择</th>
+            <th>厂家名称</th>
+            <th>联系人</th>
+            <th>手机号</th>
+            <th>状态</th>
+            <th>审核</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="factory in factoryList" :key="getFactoryId(factory)">
+            <td><input type="checkbox" :checked="selectedFactoryIds.includes(getFactoryId(factory))" @change="toggleFactorySelection(getFactoryId(factory))" /></td>
+            <td>{{ factory.name || factory.factory_name }}</td>
+            <td>{{ factory.contact || '未维护联系人' }}</td>
+            <td>{{ factory.phone || '未维护手机号' }}</td>
+            <td>{{ factory.status === 'pending' ? '待审核' : getCooperationText(factory) }}</td>
+            <td>
+              <template v-if="factory.status === 'pending'">
+                <button type="button" class="link-btn" @click="handleReview(getFactoryId(factory), true)">通过</button>
+                <button type="button" class="link-btn danger" @click="handleReview(getFactoryId(factory), false)">拒绝</button>
+              </template>
+              <span v-else>-</span>
+            </td>
+            <td><button type="button" class="link-btn" @click="router.push('/admin/users')">分配人员</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <van-empty v-if="factoryList.length === 0 && !loading" description="暂无厂家" />
+    </section>
+
+    <div class="factory-list mobile-only">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
           v-model:loading="loading"
@@ -95,7 +150,7 @@
       <van-empty v-if="factoryList.length === 0 && !loading" description="暂无厂家" />
     </div>
 
-    <div class="add-btn-wrap">
+    <div class="add-btn-wrap mobile-only">
       <van-button type="primary" block round @click="showAddForm = true">
         添加厂家
       </van-button>
@@ -160,6 +215,9 @@ const refreshing = ref(false)
 const hasMore = ref(true)
 const currentPage = ref(1)
 const pageSize = 10
+const keyword = ref('')
+const filterStatus = ref('')
+const selectedFactoryIds = ref<string[]>([])
 
 const showAddForm = ref(false)
 const addForm = ref({
@@ -174,7 +232,9 @@ async function fetchFactoryList() {
   try {
     const res: any = await fetchFactories({
       page: currentPage.value,
-      page_size: pageSize
+      page_size: pageSize,
+      keyword: keyword.value || undefined,
+      status: filterStatus.value || undefined
     })
     const data = normalizeList(res)
     
@@ -211,6 +271,7 @@ async function onRefresh() {
   currentPage.value = 1
   hasMore.value = true
   finished.value = false
+  selectedFactoryIds.value = []
   await fetchFactoryList()
   refreshing.value = false
 }
@@ -239,6 +300,28 @@ async function handleReview(factoryId: string, approved: boolean) {
     factoryList.value = factoryList.value.map(factory => getFactoryId(factory) === factoryId ? { ...factory, status: approved ? 'active' : 'disabled' } : factory)
   } catch (e) {
     // 用户取消
+  }
+}
+
+function toggleFactorySelection(factoryId: string) {
+  selectedFactoryIds.value = selectedFactoryIds.value.includes(factoryId)
+    ? selectedFactoryIds.value.filter(id => id !== factoryId)
+    : [...selectedFactoryIds.value, factoryId]
+}
+
+async function batchApproveSelected(approved: boolean) {
+  const ids = [...selectedFactoryIds.value]
+  if (ids.length === 0) return
+  try {
+    await showConfirmDialog({ title: '批量审核', message: `确定要批量${approved ? '通过' : '拒绝'} ${ids.length} 家厂家吗？` })
+    for (const factoryId of ids) {
+      await reviewFactoryAdminApplication(factoryId, approved)
+    }
+    selectedFactoryIds.value = []
+    showToast('批量审核完成')
+    await onRefresh()
+  } catch (e) {
+    // 用户取消或单条失败
   }
 }
 
@@ -471,5 +554,27 @@ onMounted(async () => {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
+}
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+.pc-toolbar,
+.pc-data-table { margin: 16px 24px; padding: 18px; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(31, 45, 61, 0.08); }
+.pc-toolbar { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.pc-toolbar h3 { margin: 0 0 6px; font-size: 20px; color: #1f2937; }
+.pc-toolbar p { margin: 0; color: #667085; font-size: 13px; }
+.pc-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.pc-actions button,
+.pc-input,
+.link-btn { border: 1px solid #d0d5dd; background: #fff; border-radius: 8px; padding: 8px 12px; color: #344054; cursor: pointer; }
+.pc-actions button.primary { color: #fff; border-color: #1e63ff; background: #1e63ff; }
+.pc-data-table table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.pc-data-table th,
+.pc-data-table td { padding: 12px; border-bottom: 1px solid #eef2f7; text-align: left; }
+.pc-data-table th { color: #667085; background: #f8fafc; font-weight: 700; }
+.link-btn { padding: 6px 10px; color: #1e63ff; border-color: #bfdbfe; }
+.link-btn.danger { color: #d92d20; border-color: #fecaca; }
+@media (max-width: 900px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block; }
 }
 </style>

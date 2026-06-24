@@ -63,7 +63,7 @@ export const useKanbanStore = defineStore('kanban', () => {
   const stats = ref({ total: 0, pending: 0, in_progress: 0, completed: 0, overdue_count: 0 })
 
   // 获取订单列表
-  async function fetchOrders(params?: { status?: string; factory_id?: string; order_no?: string; start_date?: string; end_date?: string }) {
+  async function fetchOrders(params?: { status?: string; factory_id?: string; order_no?: string; start_date?: string; end_date?: string; quick?: string }) {
     loading.value = true
     try {
       const res = await fetchKanbanOrders(params)

@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="radar-panel">
+    <div class="radar-panel mobile-only">
       <div class="radar-panel-title">快捷筛选</div>
       <div class="quick-chip-row">
         <van-tag
@@ -49,14 +49,14 @@
       </div>
     </div>
 
-    <van-tabs v-model:active="filterStatus" class="filter-tabs" line-width="22" @change="reload">
+    <van-tabs v-model:active="filterStatus" class="filter-tabs mobile-only" line-width="22" @change="reload">
       <van-tab title="全部" name="" />
       <van-tab title="待处理" name="pending" />
       <van-tab title="进行中" name="in_progress" />
       <van-tab title="已完成" name="completed" />
     </van-tabs>
 
-    <div class="filter-panel">
+    <div class="filter-panel mobile-only">
       <div class="filter-panel-header" @click="filterExpanded = !filterExpanded">
         <div class="filter-title">
           <van-icon name="filter-o" /> 筛选条件
@@ -88,7 +88,67 @@
       </div>
     </div>
 
-    <div class="order-list">
+    <section class="desktop-only pc-toolbar kanban-pc-toolbar">
+      <div>
+        <h3>订单流转工作台</h3>
+        <p>集中筛选订单状态、厂家与风险，支持卡片 / 表格双视图巡检。</p>
+      </div>
+      <div class="pc-actions">
+        <input v-model="keyword" class="pc-input" placeholder="订单号、制件、件号" @keyup.enter="reload" />
+        <input v-if="isEnterpriseAdmin" v-model="factoryKeyword" class="pc-input" placeholder="厂家ID" @keyup.enter="reload" />
+        <button type="button" :class="{ active: filterStatus === '' }" @click="selectStatus('')">全部</button>
+        <button type="button" :class="{ active: filterStatus === 'pending' }" @click="selectStatus('pending')">待处理</button>
+        <button type="button" :class="{ active: filterStatus === 'in_progress' }" @click="selectStatus('in_progress')">进行中</button>
+        <button type="button" :class="{ active: filterStatus === 'completed' }" @click="selectStatus('completed')">已完成</button>
+        <button type="button" @click="viewMode = 'card'" :class="{ active: viewMode === 'card' }">卡片视图</button>
+        <button type="button" class="table-view" @click="viewMode = 'table'" :class="{ active: viewMode === 'table' }">表格视图</button>
+        <button type="button" class="primary" @click="reload">刷新</button>
+      </div>
+    </section>
+
+    <section v-if="viewMode === 'table'" class="desktop-only pc-data-table">
+      <div class="table-title">订单流转表</div>
+      <table>
+        <thead>
+          <tr>
+            <th>订单号</th>
+            <th>产品</th>
+            <th>厂家</th>
+            <th>状态</th>
+            <th>数量</th>
+            <th>进度</th>
+            <th>风险</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="order in filteredOrders" :key="order.order_id">
+            <td>{{ order.order_no }}</td>
+            <td>{{ order.product_name || order.part_no || order.product_code || '-' }}</td>
+            <td>{{ order.factory_name || order.factory_id || '-' }}</td>
+            <td><span class="pc-status">{{ getStatusText(order.status) }}</span></td>
+            <td>{{ order.quantity }}{{ order.unit || '件' }}</td>
+            <td>{{ getProgressText(order) }}</td>
+            <td>{{ getRiskText(order) }}</td>
+            <td><button type="button" class="link-btn" @click="goToDetail(order.order_id)">查看详情</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <van-empty v-if="filteredOrders.length === 0 && !loading" description="暂无匹配订单" />
+    </section>
+
+    <div v-else class="desktop-only pc-data-table pc-card-board">
+      <div class="table-title">订单卡片视图</div>
+      <div class="pc-card-grid">
+        <div v-for="order in filteredOrders" :key="order.order_id" class="pc-order-card" @click="goToDetail(order.order_id)">
+          <strong>{{ order.order_no }}</strong>
+          <span>{{ order.product_name || order.part_no || '-' }}</span>
+          <small>{{ getCurrentCheckpoint(order) }}</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-list mobile-only">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
           v-model:loading="loading"
@@ -188,6 +248,7 @@ const loading = ref(false)
 const finished = ref(false)
 const refreshing = ref(false)
 const activeQuick = ref<string>((route.query.quick as string) || '')
+const viewMode = ref<'card' | 'table'>('table')
 
 const quickFilters: Array<{ label: string; value: string; type: 'primary' | 'success' | 'warning' | 'danger' }> = [
   { label: '我厂相关', value: 'mine', type: 'primary' },
@@ -221,6 +282,10 @@ const filterParams = computed(() => {
     params.factory_id = factoryId
   } else if (factoryKeyword.value.trim()) {
     params.factory_id = factoryKeyword.value.trim()
+  }
+
+  if (activeQuick.value) {
+    params.quick = activeQuick.value
   }
 
   return params
@@ -272,7 +337,7 @@ async function onLoad() {
 async function onRefresh() {
   await Promise.all([
     kanbanStore.fetchOrders(filterParams.value),
-    kanbanStore.fetchStats(filterParams.value.factory_id)
+    kanbanStore.fetchStats()
   ])
   refreshing.value = false
 }
@@ -282,7 +347,7 @@ async function reload() {
   finished.value = false
   await Promise.all([
     kanbanStore.fetchOrders(filterParams.value),
-    kanbanStore.fetchStats(filterParams.value.factory_id)
+    kanbanStore.fetchStats()
   ])
   loading.value = false
   finished.value = true
@@ -293,8 +358,9 @@ async function selectStatus(status: string) {
   await reload()
 }
 
-function selectQuick(value: string) {
+async function selectQuick(value: string) {
   activeQuick.value = activeQuick.value === value ? '' : value
+  await reload()
 }
 
 async function resetFilters() {
@@ -732,5 +798,42 @@ function getStatusText(status: string) {
   top: 50%;
   transform: translateY(-50%);
   color: #c8d0dc;
+}
+
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+.pc-toolbar,
+.pc-data-table {
+  margin: 16px 24px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(31, 45, 61, 0.08);
+}
+.pc-toolbar { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.pc-toolbar h3 { margin: 0 0 6px; font-size: 20px; color: #1f2937; }
+.pc-toolbar p { margin: 0; color: #667085; font-size: 13px; }
+.pc-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.pc-actions button,
+.link-btn { border: 1px solid #d0d5dd; background: #fff; border-radius: 8px; padding: 8px 12px; color: #344054; cursor: pointer; }
+.pc-actions button.active,
+.pc-actions button.primary { color: #fff; border-color: #1e63ff; background: #1e63ff; }
+.pc-input { min-width: 180px; border: 1px solid #d0d5dd; border-radius: 8px; padding: 8px 10px; }
+.table-title { margin-bottom: 12px; font-weight: 800; color: #1f2937; }
+.pc-data-table table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.pc-data-table th,
+.pc-data-table td { padding: 12px; border-bottom: 1px solid #eef2f7; text-align: left; }
+.pc-data-table th { color: #667085; background: #f8fafc; font-weight: 700; }
+.pc-status { padding: 3px 8px; border-radius: 999px; background: #eef4ff; color: #1e63ff; }
+.link-btn { padding: 6px 10px; color: #1e63ff; border-color: #bfdbfe; }
+.pc-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.pc-order-card { padding: 14px; border: 1px solid #eef2f7; border-radius: 12px; cursor: pointer; }
+.pc-order-card strong,
+.pc-order-card span,
+.pc-order-card small { display: block; margin-bottom: 6px; }
+
+@media (max-width: 900px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block; }
 }
 </style>

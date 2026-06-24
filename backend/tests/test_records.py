@@ -141,13 +141,12 @@ class TestRecords:
         assert data["record"]["total_receive_qty"] == 70  # 30 + 40
         assert data["record"]["partial_receive"] == 1  # Partial receive flag
 
-    @pytest.mark.skip(reason="Bug: total_ship_qty not updated correctly after return - need fix in business logic")
     def test_return_goods(self, client, test_db, auth_header, test_factory, test_order, test_processes):
         """
         Test return goods flow:
         1. Create from_record with shipped qty and to_record with received qty
         2. Perform return
-        3. Assert return record is created and quantities are reduced
+        3. Assert return record is created and effective quantities are reduced while gross totals stay auditable
         """
         from app.models.record import ProcessRecord, ReturnRecord
 
@@ -196,9 +195,15 @@ class TestRecords:
         assert data["return_record"]["return_qty"] == 10
         assert data["return_record"]["return_reason"] == "质量不良"
 
-        # Verify quantities reduced
-        assert data["from_record"]["total_ship_qty"] == 70  # 80 - 10
-        assert data["to_record"]["total_receive_qty"] == 40  # 50 - 10
+        # Verify gross totals remain auditable and effective quantities reflect the return
+        assert data["from_record"]["total_ship_qty"] == 80
+        assert data["from_record"]["gross_ship_qty"] == 80
+        assert data["from_record"]["returned_out_qty"] == 10
+        assert data["from_record"]["current_ship_qty"] == 70  # 80 - 10 effective shipped
+        assert data["to_record"]["total_receive_qty"] == 50
+        assert data["to_record"]["gross_receive_qty"] == 50
+        assert data["to_record"]["returned_in_qty"] == 10
+        assert data["to_record"]["current_receive_qty"] == 40  # 50 - 10 effective received
 
     def test_cannot_receive_without_prev_ship(self, client, test_db, auth_header, test_factory, test_order, test_processes):
         """

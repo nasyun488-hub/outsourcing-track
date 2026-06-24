@@ -1,5 +1,5 @@
 {
-  "started_at": "2026-06-17T22:40:33",
+  "started_at": "2026-06-23T20:58:44",
   "order_id": "P1P3_API_001",
   "summary": {
     "total": 9,
@@ -29,7 +29,7 @@
           "updated_processes": 0,
           "created_records": 3,
           "skipped_records": 0,
-          "action_log_id": "LOG-bae3c619370545e4be147bced6ea097c",
+          "action_log_id": "LOG-05bbeadcd93247fd9f579407aabeeb2c",
           "errors": []
         }
       }
@@ -84,7 +84,7 @@
           "page_size": 5,
           "items": [
             {
-              "log_id": "LOG-bae3c619370545e4be147bced6ea097c",
+              "log_id": "LOG-05bbeadcd93247fd9f579407aabeeb2c",
               "user_id": "U001",
               "user_name": "企业管理员",
               "role": "enterprise_admin",
@@ -100,8 +100,8 @@
                 "created_records": 3,
                 "created_processes": 3
               },
-              "ip_address": "172.28.0.1",
-              "created_at": "2026-06-17T14:40:38"
+              "ip_address": "172.19.0.1",
+              "created_at": "2026-06-23T12:58:47"
             }
           ]
         }
@@ -114,12 +114,12 @@
       "actual": {
         "code": 200,
         "body": {
-          "total_logs": 76,
+          "total_logs": 78,
           "action_type_counts": {
             "DEMO_DATA_RESET": 1,
             "MOM_IMPORT": 1,
             "RECEIVE": 5,
-            "RETURN": 25,
+            "RETURN": 27,
             "SHIP": 5,
             "UPDATE": 36,
             "UPDATE_ORDER_STATUS": 2,
@@ -144,7 +144,7 @@
             {
               "user_id": "U005",
               "user_name": "B厂操作员",
-              "count": 56
+              "count": 58
             }
           ]
         }
