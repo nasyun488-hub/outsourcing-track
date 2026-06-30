@@ -77,10 +77,28 @@ const router = createRouter({
       meta: { requiresAuth: true, allowedRoles: ['enterprise_admin', 'primary_admin'] }
     },
     {
-      path: '/export',
-      name: 'Export',
-      component: () => import('@/views/ExportPage.vue'),
+      path: '/settings',
+      name: 'Settings',
+      component: () => import('@/views/SettingsPage.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/account',
+      name: 'Account',
+      component: () => import('@/views/AccountPage.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/password',
+      name: 'Password',
+      component: () => import('@/views/PasswordPage.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/permissions',
+      name: 'Permissions',
+      component: () => import('@/views/PermissionsPage.vue'),
+      meta: { requiresAuth: true, allowedRoles: ['super_admin', 'factory_admin'] }
     }
   ]
 })

@@ -190,6 +190,10 @@ def get_order_records(
     service = RecordService(db)
     records = service.get_order_records(order_id)
 
+    # 数据隔离：非企业管理员只返回本厂工序记录
+    if current_user.role != "enterprise_admin":
+        records = [r for r in records if r.factory_id == current_user.factory_id]
+
     return OrderRecordsResponse(
         order_id=order_id,
         records=[RecordStatusResponse.model_validate(r) for r in records]

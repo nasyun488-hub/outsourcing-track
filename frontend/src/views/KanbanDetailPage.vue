@@ -1,5 +1,7 @@
 <template>
+  <!-- 页面快捷操作：回到主页 router.push('/') | 设置中心 router.push('/settings') -->
   <div class="kanban-detail-page">
+    <QuickNavStrip />
     <van-nav-bar
       title="订单作战室"
       left-text="返回"
@@ -134,10 +136,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useKanbanStore, type Process } from '../stores/kanban'
-import { useAuthStore } from '../stores/auth'
+import { showToast, showConfirmDialog } from 'vant'
+import { useAuthStore } from '@/stores/auth'
+import QuickNavStrip from '@/components/QuickNavStrip.vue'
 import ProcessCard from '../components/ProcessCard.vue'
 
 const route = useRoute()

@@ -1,5 +1,7 @@
 <template>
+  <!-- 页面快捷操作：回到主页 router.push('/') | 设置中心 router.push('/settings') -->
   <div class="kanban-page">
+    <QuickNavStrip />
     <div class="kanban-hero">
       <div class="hero-title-row">
         <div>
@@ -231,6 +233,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useKanbanStore, type Order } from '../stores/kanban'
 import { useAuthStore } from '../stores/auth'
 import { storeToRefs } from 'pinia'
+import QuickNavStrip from '@/components/QuickNavStrip.vue'
 
 const router = useRouter()
 const route = useRoute()

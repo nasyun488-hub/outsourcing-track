@@ -1,5 +1,7 @@
 <template>
+  <!-- 页面快捷操作：回到主页 router.push('/') | 设置中心 router.push('/settings') -->
   <div class="scan-page">
+    <QuickNavStrip />
     <van-nav-bar title="扫码录入" left-arrow @click-left="goBack" />
 
     <div class="hero">
@@ -205,6 +207,7 @@ import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
 import { BrowserQRCodeReader, type IScannerControls } from '@zxing/browser'
+import QuickNavStrip from '@/components/QuickNavStrip.vue'
 import {
   getRecordDetail,
   receive,

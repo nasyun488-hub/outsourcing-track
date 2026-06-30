@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-16T10:29:20",
+  "generated_at": "2026-06-29T23:37:04",
   "status": "ok",
   "added_bulk_orders": 42,
   "expected_total_orders_min": 40,
-  "verification_raw": "item\tcount\norders\t49\nitem\tcount\nbulk_orders\t42\nitem\tcount\nrecords\t147\nitem\tcount\nfactories_participating\t4\norder_status\tcount\npending\t7\nin_progress\t36\ncompleted\t6\nfactory_id\trecords\nF001\t49\nF002\t49\nF003\t45\nF004\t4\ncheck_name\tbad_count\norder_without_3_processes\t0\ncheck_name\tbad_count\ndownstream_receive_exceeds_prev_ship\t0\ncheck_name\tbad_count\nship_exceeds_receive\t0\ncheck_name\tbad_count\nmojibake_notifications\t0",
+  "verification_raw": "item\tcount\norders\t49\nitem\tcount\nbulk_orders\t42\nitem\tcount\nrecords\t147\nitem\tcount\nfactories_participating\t4\norder_status\tcount\npending\t8\nin_progress\t35\ncompleted\t6\nfactory_id\trecords\nF001\t49\nF002\t49\nF003\t45\nF004\t4\ncheck_name\tbad_count\norder_without_3_processes\t0\ncheck_name\tbad_count\ndownstream_receive_exceeds_prev_ship\t0\ncheck_name\tbad_count\nship_exceeds_receive\t0\ncheck_name\tbad_count\nmojibake_notifications\t0",
   "sample_orders": [
     "BULK_ORDER_001",
     "BULK_ORDER_002",

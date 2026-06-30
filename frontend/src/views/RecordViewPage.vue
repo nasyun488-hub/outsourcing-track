@@ -1,5 +1,7 @@
 <template>
+  <!-- 页面快捷操作：回到主页 router.push('/') | 设置中心 router.push('/settings') -->
   <div class="record-view-page">
+    <QuickNavStrip />
     <van-nav-bar
       title="流转凭证"
       left-arrow
@@ -184,9 +186,10 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { showToast } from 'vant'
 import { getRecordDetail, type RecordInfo } from '@/api/records'
+import QuickNavStrip from '@/components/QuickNavStrip.vue'
 
 const router = useRouter()
 const route = useRoute()

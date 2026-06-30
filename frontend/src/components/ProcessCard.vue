@@ -1,5 +1,5 @@
 <template>
-  <div class="process-card" :class="{ overdue: process.risk_level === 'high', active: hasAction }">
+  <div class="process-card clickable-card" :class="{ overdue: process.risk_level === 'high', active: hasAction }">
     <div class="process-header">
       <div class="title-wrap">
         <span class="sequence-badge">第 {{ processOrderText }} 道</span>

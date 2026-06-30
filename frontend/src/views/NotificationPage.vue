@@ -1,5 +1,7 @@
 <template>
+  <!-- 页面快捷操作：回到主页 router.push('/') | 设置中心 router.push('/settings') -->
   <div class="notification-page">
+    <QuickNavStrip />
     <van-nav-bar
       title="异常队列"
       left-arrow
@@ -83,11 +85,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useNotificationStore } from '../stores/notification'
+import { useNotificationStore } from '@/stores/notification'
+import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
-import { showToast } from 'vant'
+import QuickNavStrip from '@/components/QuickNavStrip.vue'
 
 const router = useRouter()
 const notificationStore = useNotificationStore()

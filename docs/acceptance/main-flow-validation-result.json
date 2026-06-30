@@ -1,5 +1,5 @@
 {
-  "started_at": "2026-06-24T08:59:08",
+  "started_at": "2026-06-29T23:37:07",
   "order_id": "MADM_FLOW_001",
   "results": [
     {
@@ -41,14 +41,14 @@
           "success": true,
           "message": "接收成功",
           "batch": {
-            "batch_id": "8ac389cab2904422874f201af663e6da",
+            "batch_id": "e4ae4699ddf74f7cbc97bda1459489fa",
             "record_id": "MADM_R2",
             "user_id": "U005",
-            "receive_time": "2026-06-24T00:59:19",
+            "receive_time": "2026-06-29T15:37:11",
             "receive_qty": 100,
             "batch_no": 1,
             "return_qty": 0,
-            "created_at": "2026-06-24T00:59:19"
+            "created_at": "2026-06-29T15:37:11"
           },
           "record": {
             "record_id": "MADM_R2",
@@ -73,10 +73,10 @@
             "available_ship_qty": 100,
             "partial_receive": false,
             "partial_ship": false,
-            "last_receive_time": "2026-06-24T00:59:19",
+            "last_receive_time": "2026-06-29T15:37:11",
             "last_ship_time": null,
-            "created_at": "2026-06-24T00:59:12",
-            "updated_at": "2026-06-24T00:59:19"
+            "created_at": "2026-06-29T15:37:07",
+            "updated_at": "2026-06-29T15:37:11"
           }
         }
       },
@@ -91,13 +91,13 @@
           "success": true,
           "message": "退件成功",
           "return_record": {
-            "return_id": "0e26304566df42198790ceee1282f299",
+            "return_id": "26315f1d79b44d419f08170ce30e86c7",
             "from_record_id": "MADM_R1",
             "to_record_id": "MADM_R2",
             "user_id": "U005",
             "return_reason": "MADM验收退件",
             "return_qty": 10,
-            "created_at": "2026-06-24T00:59:19"
+            "created_at": "2026-06-29T15:37:11"
           },
           "from_record": {
             "record_id": "MADM_R1",
@@ -122,10 +122,10 @@
             "available_ship_qty": 10,
             "partial_receive": true,
             "partial_ship": true,
-            "last_receive_time": "2026-06-24T00:59:15",
-            "last_ship_time": "2026-06-24T00:59:17",
-            "created_at": "2026-06-24T00:59:12",
-            "updated_at": "2026-06-24T00:59:19"
+            "last_receive_time": "2026-06-29T15:37:10",
+            "last_ship_time": "2026-06-29T15:37:11",
+            "created_at": "2026-06-29T15:37:07",
+            "updated_at": "2026-06-29T15:37:11"
           },
           "to_record": {
             "record_id": "MADM_R2",
@@ -150,10 +150,10 @@
             "available_ship_qty": 90,
             "partial_receive": true,
             "partial_ship": false,
-            "last_receive_time": "2026-06-24T00:59:19",
+            "last_receive_time": "2026-06-29T15:37:11",
             "last_ship_time": null,
-            "created_at": "2026-06-24T00:59:12",
-            "updated_at": "2026-06-24T00:59:19"
+            "created_at": "2026-06-29T15:37:07",
+            "updated_at": "2026-06-29T15:37:11"
           }
         }
       },
@@ -167,14 +167,14 @@
       "success": true,
       "message": "接收成功",
       "batch": {
-        "batch_id": "ffbf68be66564f7794551b335cfbe6d0",
+        "batch_id": "665706095e7443de8736d8ed08f679fa",
         "record_id": "MADM_R1",
         "user_id": "U004",
-        "receive_time": "2026-06-24T00:59:15",
+        "receive_time": "2026-06-29T15:37:10",
         "receive_qty": 60,
         "batch_no": 2,
         "return_qty": 0,
-        "created_at": "2026-06-24T00:59:15"
+        "created_at": "2026-06-29T15:37:10"
       },
       "record": {
         "record_id": "MADM_R1",
@@ -199,23 +199,23 @@
         "available_ship_qty": 100,
         "partial_receive": true,
         "partial_ship": false,
-        "last_receive_time": "2026-06-24T00:59:15",
+        "last_receive_time": "2026-06-29T15:37:10",
         "last_ship_time": null,
-        "created_at": "2026-06-24T00:59:12",
-        "updated_at": "2026-06-24T00:59:15"
+        "created_at": "2026-06-29T15:37:07",
+        "updated_at": "2026-06-29T15:37:10"
       }
     },
     "ship_r1_response": {
       "success": true,
       "message": "发出成功",
       "batch": {
-        "batch_id": "51f6cbe7879d4e6da51199ed5382c916",
+        "batch_id": "1b7957464c81456594fe0b8cc285d6b3",
         "record_id": "MADM_R1",
         "user_id": "U004",
-        "ship_time": "2026-06-24T00:59:17",
+        "ship_time": "2026-06-29T15:37:11",
         "ship_qty": 100,
         "batch_no": 1,
-        "created_at": "2026-06-24T00:59:17"
+        "created_at": "2026-06-29T15:37:11"
       },
       "record": {
         "record_id": "MADM_R1",
@@ -240,10 +240,10 @@
         "available_ship_qty": 0,
         "partial_receive": true,
         "partial_ship": false,
-        "last_receive_time": "2026-06-24T00:59:15",
-        "last_ship_time": "2026-06-24T00:59:17",
-        "created_at": "2026-06-24T00:59:12",
-        "updated_at": "2026-06-24T00:59:17"
+        "last_receive_time": "2026-06-29T15:37:10",
+        "last_ship_time": "2026-06-29T15:37:11",
+        "created_at": "2026-06-29T15:37:07",
+        "updated_at": "2026-06-29T15:37:11"
       }
     },
     "initial_db_state": "MADM_R1\t1\tpending\tnone\t0\t0\t0\t0\nMADM_R2\t2\tpending\tnone\t0\t0\t0\t0\nMADM_R3\t3\tpending\tnone\t0\t0\t0\t0\npending\n0\n0",
@@ -256,14 +256,14 @@
         "success": true,
         "message": "接收成功",
         "batch": {
-          "batch_id": "8ac389cab2904422874f201af663e6da",
+          "batch_id": "e4ae4699ddf74f7cbc97bda1459489fa",
           "record_id": "MADM_R2",
           "user_id": "U005",
-          "receive_time": "2026-06-24T00:59:19",
+          "receive_time": "2026-06-29T15:37:11",
           "receive_qty": 100,
           "batch_no": 1,
           "return_qty": 0,
-          "created_at": "2026-06-24T00:59:19"
+          "created_at": "2026-06-29T15:37:11"
         },
         "record": {
           "record_id": "MADM_R2",
@@ -288,10 +288,10 @@
           "available_ship_qty": 100,
           "partial_receive": false,
           "partial_ship": false,
-          "last_receive_time": "2026-06-24T00:59:19",
+          "last_receive_time": "2026-06-29T15:37:11",
           "last_ship_time": null,
-          "created_at": "2026-06-24T00:59:12",
-          "updated_at": "2026-06-24T00:59:19"
+          "created_at": "2026-06-29T15:37:07",
+          "updated_at": "2026-06-29T15:37:11"
         }
       }
     }

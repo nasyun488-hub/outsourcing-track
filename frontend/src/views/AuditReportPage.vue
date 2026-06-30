@@ -1,5 +1,7 @@
 <template>
+  <!-- 页面快捷操作：回到主页 router.push('/') | 设置中心 router.push('/settings') -->
   <div class="audit-page">
+    <QuickNavStrip />
     <van-nav-bar title="操作审计报表" left-arrow @click-left="router.back()" />
 
     <section class="summary-card">
@@ -96,6 +98,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import request from '@/api'
+import QuickNavStrip from '@/components/QuickNavStrip.vue'
 
 const router = useRouter()
 const loading = ref(false)

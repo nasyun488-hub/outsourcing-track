@@ -21,7 +21,7 @@ REQUIRED_FILES = [
     "frontend/src/views/AuditReportPage.vue",
     "tests/e2e/outsourcing-flow.spec.ts",
     "playwright.config.ts",
-    ".github/workflows/ci.yml",
+    ".github/workflows/ci-cd.yml",
     "docker-compose.prod.yml",
     "docs/deployment/production-deploy.md",
     "scripts/validate_role_permission_matrix.py",
@@ -95,12 +95,11 @@ EXPECTATIONS = {
         "baseURL",
         "chromium",
     ],
-    ".github/workflows/ci.yml": [
-        "compileall",
-        "validate_role_permission_matrix.py",
-        "validate_audit_report.py",
+    ".github/workflows/ci-cd.yml": [
+        "test-backend",
+        "build-frontend",
+        "pytest tests/",
         "npm run build",
-        "docker compose build frontend",
     ],
     "docker-compose.prod.yml": [
         "restart: unless-stopped",

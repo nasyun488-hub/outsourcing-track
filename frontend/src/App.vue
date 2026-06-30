@@ -1,5 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ 'bottom-nav-hidden': isLoginPage }">
+    <!-- 全局加载指示器 -->
+    <div v-if="loadingStore.isLoading" class="global-loading-mask" />
+    <div v-if="loadingStore.isLoading" class="global-loading">
+      <div class="loading-spinner"></div>
+      <div style="margin-top: 8px; font-size: 14px;">{{ loadingStore.loadingText }}</div>
+    </div>
+
     <router-view v-if="isLoginPage" />
 
     <div v-else class="pc-shell">
@@ -35,7 +42,17 @@
           <div class="topbar-actions">
             <button class="topbar-btn" @click="router.push('/notifications')">通知</button>
             <button class="topbar-btn primary" @click="router.push('/scan')">扫码录入</button>
-            <button class="topbar-user" @click="authStore.logout()">{{ authStore.userInfo?.name || '用户' }}</button>
+            <van-dropdown>
+              <van-dropdown-item>
+                <template #title>
+                  <button class="topbar-user">{{ authStore.userInfo?.name || '用户' }}</button>
+                </template>
+                <van-cell-group>
+                  <van-cell title="系统设置" is-link @click="router.push('/settings')" />
+                  <van-cell title="退出登录" is-link @click="confirmLogout" />
+                </van-cell-group>
+              </van-dropdown-item>
+            </van-dropdown>
           </div>
         </header>
 
@@ -44,17 +61,57 @@
         </main>
       </section>
     </div>
+
+    <!-- 移动端底部导航栏 -->
+    <nav class="bottom-nav">
+      <button
+        v-for="item in mobileNavItems"
+        :key="item.path"
+        class="bottom-nav-item"
+        :class="{ active: isActive(item.path) }"
+        @click="router.push(item.path)"
+      >
+        <span class="bottom-nav-icon">{{ item.icon }}</span>
+        <span class="bottom-nav-label">{{ item.label }}</span>
+      </button>
+    </nav>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useLoadingStore } from '@/stores/loading'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const loadingStore = useLoadingStore()
+const isMobile = ref(typeof window !== 'undefined' ? window.innerWidth < 900 : false)
+
+// 路由跳转时显示loading
+router.beforeEach((to, from, next) => {
+  if (to.path !== from.path) {
+    loadingStore.showLoading('加载中...')
+  }
+  next()
+})
+
+router.afterEach(() => {
+  // 延迟隐藏，避免闪烁
+  setTimeout(() => {
+    loadingStore.hideLoading()
+  }, 300)
+})
+
+onMounted(() => {
+  const checkMobile = () => {
+    isMobile.value = window.innerWidth < 900
+  }
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+})
 
 const isLoginPage = computed(() => route.path === '/login')
 
@@ -81,9 +138,16 @@ const navItems = [
   { path: '/scan', label: '扫码录入', icon: '📷' },
   { path: '/notifications', label: '通知待办', icon: '🔔' },
   { path: '/audit', label: '审计报表', icon: '🧾', roles: ['enterprise_admin', 'primary_admin'] },
-  { path: '/export', label: '数据导出', icon: '📤' },
+  { path: '/settings', label: '设置中心', icon: '⚙️' },
   { path: '/admin/users', label: '人员管理', icon: '👥', roles: ['enterprise_admin'] },
   { path: '/admin/factories', label: '厂家管理', icon: '🏭', roles: ['enterprise_admin'] }
+]
+
+const mobileNavItems = [
+  { path: '/', label: '首页', icon: '🏠' },
+  { path: '/scan', label: '扫码', icon: '📷' },
+  { path: '/notifications', label: '通知', icon: '🔔' },
+  { path: '/settings', label: '设置', icon: '⚙️' }
 ]
 
 const visibleNavItems = computed(() => {
@@ -105,6 +169,12 @@ const currentTitle = computed(() => {
 function isActive(path: string) {
   if (path === '/') return route.path === '/'
   return route.path.startsWith(path)
+}
+
+function confirmLogout() {
+  if (confirm('确定要退出登录吗？')) {
+    authStore.logout()
+  }
 }
 </script>
 
@@ -291,6 +361,71 @@ body,
   .main-content {
     max-width: none;
     padding: 0;
+    padding-bottom: 70px;
+  }
+}
+
+/* 移动端底部导航栏 */
+.bottom-nav {
+  display: none;
+}
+
+/* 登录页隐藏底部导航 */
+body:has(.van-tabbar--fixed) .bottom-nav,
+.login-page + .bottom-nav,
+#app:has(.login-page) .bottom-nav {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    min-height: 56px;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-around;
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+    z-index: 9999;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* 登录页不显示底部导航 */
+  .bottom-nav-hidden .bottom-nav {
+    display: none !important;
+  }
+
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 0;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .bottom-nav-item.active {
+    color: #2f6bff;
+  }
+
+  .bottom-nav-icon {
+    font-size: 20px;
+  }
+
+  .bottom-nav-label {
+    font-size: 11px;
+    font-weight: 500;
   }
 }
 </style>

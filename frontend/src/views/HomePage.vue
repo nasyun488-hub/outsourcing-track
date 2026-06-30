@@ -132,6 +132,7 @@
       </van-cell>
       <van-cell title="操作审计报表" label="审计总览、日志查询与Excel导出" icon="records-o" is-link @click="goToAudit" />
       <van-cell title="数据导出" label="按日期、厂家、状态导出Excel" icon="description" is-link @click="goToExport" />
+      <van-cell title="系统设置" label="账户、密码、权限与偏好设置" icon="setting-o" is-link @click="goToSettings" />
     </div>
 
     <div class="logout-section">
@@ -220,6 +221,10 @@ const goToAudit = () => {
 
 const goToExport = () => {
   router.push('/export')
+}
+
+const goToSettings = () => {
+  router.push('/settings')
 }
 
 const handleLogout = () => {

@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-06-25T00:03:00",
+  "status": "ok",
+  "dataset": "电子行业铝合金结构件多工序订单测试集",
+  "meta": {
+    "orders": 100,
+    "factories": 8,
+    "users": 12,
+    "processes": 602,
+    "records": 602,
+    "receive_batches": 220,
+    "ship_batches": 170,
+    "return_records": 10,
+    "notifications": 44,
+    "contiguous_repeat_orders": 50,
+    "interval_repeat_orders": 34,
+    "scenario_counts": {
+      "首道已接收待发出": 10,
+      "首道已发出下道待接收": 10,
+      "中道已接收待发出": 10,
+      "分批流转部分到达": 10,
+      "全流程已完成": 10,
+      "超期未发出": 10,
+      "二道部分发出": 10,
+      "退件补发中": 10,
+      "后段待发出": 10,
+      "全新待接收": 10
+    },
+    "sample_login_phones": {
+      "enterprise_admin": "13800138000",
+      "cnc_operator": "13800138003",
+      "anodizing_operator": "13800138004",
+      "surface_operator": "13800138007",
+      "final_operator": "13800138006"
+    },
+    "compatible_sample_qr": {
+      "pending_receive": "record_DEMO_PENDING_001_R01",
+      "ship_ready": "record_DEMO_RECEIVED_001_R01",
+      "split_view": "record_DEMO_SPLIT_001_R01",
+      "overdue_ship": "record_DEMO_OVERDUE_001_R01",
+      "done_view": "record_DEMO_DONE_001_R01"
+    }
+  },
+  "verification_raw": "item\tcount\norders\t100\nitem\tcount\nprocesses\t602\nitem\tcount\nrecords\t602\nitem\tcount\ncontiguous_same_factory_orders\t50\nitem\tcount\ninterval_same_factory_orders\t51\norder_status\tcount\npending\t10\nin_progress\t80\ncompleted\t10\nrecord_status\tcount\npending\t402\nreceived\t60\nshipped\t40\ncompleted\t100\ncheck_name\tbad_count\nbad_process_count\t0\ncheck_name\tbad_count\nqty_invalid\t0\ncheck_name\tbad_count\ndownstream_receive_exceeds_prev_ship\t0\norder_id\tproduct_name\torder_status\ttotal_qty\nDEMO_DONE_001\t连接器铝合金屏蔽罩\tin_progress\t110\nDEMO_OVERDUE_001\t笔记本转轴铝合金支座\tcompleted\t90\nDEMO_PENDING_001\t服务器电源铝合金散热底座\tin_progress\t60\nDEMO_RECEIVED_001\t工业相机铝合金前盖\tin_progress\t70\nDEMO_RETURN_001\t消费电子铝合金中框\tin_progress\t100\nDEMO_SPLIT_001\t新能源汽车BMS铝合金支架\tin_progress\t80\nELEC_AL_008\t路由器铝合金散热片\tin_progress\t120\nELEC_AL_009\t无人机云台铝合金支架\tin_progress\t40\nELEC_AL_010\t平板电脑铝合金后盖\tpending\t50\nELEC_AL_011\t光模块铝合金外壳\tin_progress\t60\nELEC_AL_012\t储能控制器铝合金面板\tin_progress\t70\nELEC_AL_013\t车载雷达铝合金安装座\tin_progress\t80"
+}

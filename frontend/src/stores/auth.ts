@@ -76,7 +76,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const setUser = (user: UserInfo) => {
+    userInfo.value = user
+    localStorage.setItem('userInfo', JSON.stringify(user))
+  }
+
   return {
+    user: userInfo,
     userInfo,
     token,
     isLoggedIn,
@@ -85,6 +91,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     passwordLogin,
     logout,
-    fetchUserInfo
+    fetchUserInfo,
+    setUser
   }
 })

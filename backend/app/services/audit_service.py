@@ -59,9 +59,14 @@ class AuditService:
             .group_by(ActionLog.action_type)
             .all()
         )
+        # 当 current_user 不是 enterprise_admin 时，_base_query 已 join User
+        # 重复 join 会导致 SQL JOIN 歧义 (primary_admin 500 bug)
+        if current_user.role == "enterprise_admin":
+            user_query = query.join(User, User.user_id == ActionLog.user_id)
+        else:
+            user_query = query  # User 已在 _base_query 中 join
         by_user = (
-            query.join(User, User.user_id == ActionLog.user_id)
-            .with_entities(ActionLog.user_id, User.name, func.count(ActionLog.log_id))
+            user_query.with_entities(ActionLog.user_id, User.name, func.count(ActionLog.log_id))
             .group_by(ActionLog.user_id, User.name)
             .all()
         )

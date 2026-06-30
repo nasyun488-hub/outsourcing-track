@@ -1,0 +1,910 @@
+{
+  "test_suite": "5角色权限矩阵与数据隔离测试",
+  "test_time": "2026-06-28T18:55:38.026234",
+  "summary": {
+    "total": 91,
+    "passed": 90,
+    "failed": 1,
+    "skipped": 0
+  },
+  "categories": {
+    "MOM导入权限": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "审计报表权限": {
+      "total": 10,
+      "passed": 9,
+      "failed": 1
+    },
+    "人员管理权限": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "厂家管理权限": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "通知数据隔离": {
+      "total": 14,
+      "passed": 14,
+      "failed": 0
+    },
+    "记录数据隔离": {
+      "total": 15,
+      "passed": 15,
+      "failed": 0
+    },
+    "扫码跳转隔离": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "订单详情可见性": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "导出权限": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "前端路由权限匹配": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "未认证访问": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "已识别BUG": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "details": [
+    {
+      "category": "MOM导入权限",
+      "name": "enterprise_admin (13800138000)",
+      "passed": true,
+      "detail": "期望 !403, 实际 200 (OK)",
+      "expected": "!403",
+      "actual": "200",
+      "severity": "error"
+    },
+    {
+      "category": "MOM导入权限",
+      "name": "primary_admin (13800138001)",
+      "passed": true,
+      "detail": "期望 !403, 实际 200 (OK)",
+      "expected": "!403",
+      "actual": "200",
+      "severity": "error"
+    },
+    {
+      "category": "MOM导入权限",
+      "name": "primary_operator (13800138002)",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "MOM导入权限",
+      "name": "cooperative_admin (13800138005)",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "MOM导入权限",
+      "name": "cooperative_operator (13800138004)",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "enterprise_admin 审计日志列表",
+      "passed": true,
+      "detail": "期望 200, 实际 200 (日志数: 137)",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error",
+      "db_verify": "COUNT(*)\n137\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "enterprise_admin 审计摘要",
+      "passed": true,
+      "detail": "期望 200, 实际 200",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "primary_admin 审计日志列表",
+      "passed": true,
+      "detail": "期望 200, 实际 200 (日志数: 99)",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error",
+      "db_verify": "COUNT(*)\n137\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "primary_admin 审计摘要",
+      "passed": false,
+      "detail": "期望 200, 实际 500 (后端BUG: _base_query 已join User, get_summary重复join导致SQL歧义)",
+      "expected": "200",
+      "actual": 500,
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "primary_operator 审计日志列表",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "primary_operator 审计摘要",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "cooperative_admin 审计日志列表",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "cooperative_admin 审计摘要",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "cooperative_operator 审计日志列表",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "审计报表权限",
+      "name": "cooperative_operator 审计摘要",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "enterprise_admin 列出用户",
+      "passed": true,
+      "detail": "期望 200, 实际 200 | 可见厂家数: 8 | 覆盖全部厂家: ✓",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error",
+      "db_verify": "cnt\n14\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "primary_admin 列出用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "primary_operator 列出用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "cooperative_admin 列出用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "cooperative_operator 列出用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "enterprise_admin 创建用户",
+      "passed": true,
+      "detail": "期望 200/201, 实际 200 | 创建用户: PERM_TEST_USER_1782672941",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error",
+      "db_verify": "user_id\tphone\trole\nPERM_TEST_USER_1782672941\t19917826729\tprimary_operator\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "primary_admin 创建用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "primary_operator 创建用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "cooperative_admin 创建用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "人员管理权限",
+      "name": "cooperative_operator 创建用户",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "enterprise_admin 列出厂家",
+      "passed": true,
+      "detail": "期望 200, 实际 200 | 厂家数: 9",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error",
+      "db_verify": "cnt\n9\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "primary_admin 列出厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "primary_operator 列出厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "cooperative_admin 列出厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "cooperative_operator 列出厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "enterprise_admin 创建厂家",
+      "passed": true,
+      "detail": "期望 200/201/400, 实际 200",
+      "expected": "200/201/400",
+      "actual": 200,
+      "severity": "error",
+      "db_verify": "factory_id\tfactory_name\nPERM_TEST_FACTORY_1782672942398\t??????_1782672942398\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "primary_admin 创建厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "primary_operator 创建厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "cooperative_admin 创建厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "厂家管理权限",
+      "name": "cooperative_operator 创建厂家",
+      "passed": true,
+      "detail": "期望 403, 实际 403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "enterprise_admin 通知归属验证(44条)",
+      "passed": true,
+      "detail": "用户U001的通知列表共44条, 全部归属本人: ✓",
+      "expected": "所有通知user_id=U001",
+      "actual": "全部正确",
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "enterprise_admin 标记本人通知已读",
+      "passed": true,
+      "detail": "标记通知ELEC_AL_066_N01: 期望 200/404, 实际 200",
+      "expected": "200/404",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "enterprise_admin 通知状态DB验证",
+      "passed": true,
+      "detail": "通知ELEC_AL_066_N01状态: mysql: [Warning] Using a password on the command line interface can be insecure.",
+      "expected": null,
+      "actual": null,
+      "severity": "error",
+      "db_verify": "mysql: [Warning] Using a password on the command line interface can be insecure.\nERROR 1054 (42S22) at line 1: Unknown column 'notification_id' in 'field list'"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "enterprise_admin通知被primary_admin越权标记",
+      "passed": true,
+      "detail": "primary_admin尝试标记enterprise_admin的通知ELEC_AL_066_N01: 期望404, 实际404",
+      "expected": "404 (无权)",
+      "actual": 404,
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "primary_admin 通知归属验证(0条)",
+      "passed": true,
+      "detail": "用户U002的通知列表共0条, 全部归属本人: ✓",
+      "expected": "所有通知user_id=U002",
+      "actual": "全部正确",
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "primary_operator 通知归属验证(7条)",
+      "passed": true,
+      "detail": "用户U003的通知列表共7条, 全部归属本人: ✓",
+      "expected": "所有通知user_id=U003",
+      "actual": "全部正确",
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "primary_operator 标记本人通知已读",
+      "passed": true,
+      "detail": "标记通知notif_1782670277505_6162: 期望 200/404, 实际 200",
+      "expected": "200/404",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "primary_operator 通知状态DB验证",
+      "passed": true,
+      "detail": "通知notif_1782670277505_6162状态: mysql: [Warning] Using a password on the command line interface can be insecure.",
+      "expected": null,
+      "actual": null,
+      "severity": "error",
+      "db_verify": "mysql: [Warning] Using a password on the command line interface can be insecure.\nERROR 1054 (42S22) at line 1: Unknown column 'notification_id' in 'field list'"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "primary_operator通知被enterprise_admin越权标记",
+      "passed": true,
+      "detail": "enterprise_admin尝试标记primary_operator的通知notif_1782670277505_6162: 期望404, 实际404",
+      "expected": "404 (无权)",
+      "actual": 404,
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "cooperative_admin 通知归属验证(0条)",
+      "passed": true,
+      "detail": "用户U006的通知列表共0条, 全部归属本人: ✓",
+      "expected": "所有通知user_id=U006",
+      "actual": "全部正确",
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "cooperative_operator 通知归属验证(8条)",
+      "passed": true,
+      "detail": "用户U005的通知列表共8条, 全部归属本人: ✓",
+      "expected": "所有通知user_id=U005",
+      "actual": "全部正确",
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "cooperative_operator 标记本人通知已读",
+      "passed": true,
+      "detail": "标记通知BULK_N_004_2: 期望 200/404, 实际 200",
+      "expected": "200/404",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "cooperative_operator 通知状态DB验证",
+      "passed": true,
+      "detail": "通知BULK_N_004_2状态: mysql: [Warning] Using a password on the command line interface can be insecure.",
+      "expected": null,
+      "actual": null,
+      "severity": "error",
+      "db_verify": "mysql: [Warning] Using a password on the command line interface can be insecure.\nERROR 1054 (42S22) at line 1: Unknown column 'notification_id' in 'field list'"
+    },
+    {
+      "category": "通知数据隔离",
+      "name": "cooperative_operator通知被enterprise_admin越权标记",
+      "passed": true,
+      "detail": "enterprise_admin尝试标记cooperative_operator的通知BULK_N_004_2: 期望404, 实际404",
+      "expected": "404 (无权)",
+      "actual": 404,
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "enterprise_admin 查看厂F001记录",
+      "passed": true,
+      "detail": "角色=enterprise_admin(厂F001) 查看厂F001记录(BULK_R_001_3...): 期望200, 实际200",
+      "expected": "200",
+      "actual": "200",
+      "severity": "error",
+      "db_verify": "record_id\tfactory_id\nBULK_R_001_3\tF001\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "enterprise_admin 查看厂F002记录",
+      "passed": true,
+      "detail": "角色=enterprise_admin(厂F001) 查看厂F002记录(BULK_R_001_1...): 期望200, 实际200",
+      "expected": "200",
+      "actual": "200",
+      "severity": "error",
+      "db_verify": "record_id\tfactory_id\nBULK_R_001_1\tF002\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "enterprise_admin 查看厂F003记录",
+      "passed": true,
+      "detail": "角色=enterprise_admin(厂F001) 查看厂F003记录(BULK_R_001_2...): 期望200, 实际200",
+      "expected": "200",
+      "actual": "200",
+      "severity": "error",
+      "db_verify": "record_id\tfactory_id\nBULK_R_001_2\tF003\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "primary_admin 查看厂F001记录",
+      "passed": true,
+      "detail": "角色=primary_admin(厂F001) 查看厂F001记录(BULK_R_001_3...): 期望200, 实际200",
+      "expected": "200",
+      "actual": "200",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "primary_admin 查看厂F002记录",
+      "passed": true,
+      "detail": "角色=primary_admin(厂F001) 查看厂F002记录(BULK_R_001_1...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "primary_admin 查看厂F003记录",
+      "passed": true,
+      "detail": "角色=primary_admin(厂F001) 查看厂F003记录(BULK_R_001_2...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "primary_operator 查看厂F002记录",
+      "passed": true,
+      "detail": "角色=primary_operator(厂F002) 查看厂F002记录(BULK_R_001_1...): 期望200, 实际200",
+      "expected": "200",
+      "actual": "200",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "primary_operator 查看厂F001记录",
+      "passed": true,
+      "detail": "角色=primary_operator(厂F002) 查看厂F001记录(BULK_R_001_3...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "primary_operator 查看厂F003记录",
+      "passed": true,
+      "detail": "角色=primary_operator(厂F002) 查看厂F003记录(BULK_R_001_2...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "cooperative_admin 查看厂F003记录",
+      "passed": true,
+      "detail": "角色=cooperative_admin(厂F003) 查看厂F003记录(BULK_R_001_2...): 期望200, 实际200",
+      "expected": "200",
+      "actual": "200",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "cooperative_admin 查看厂F001记录",
+      "passed": true,
+      "detail": "角色=cooperative_admin(厂F003) 查看厂F001记录(BULK_R_001_3...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "cooperative_admin 查看厂F002记录",
+      "passed": true,
+      "detail": "角色=cooperative_admin(厂F003) 查看厂F002记录(BULK_R_001_1...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "cooperative_operator 查看厂F003记录",
+      "passed": true,
+      "detail": "角色=cooperative_operator(厂F003) 查看厂F003记录(BULK_R_001_2...): 期望200, 实际200",
+      "expected": "200",
+      "actual": "200",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "cooperative_operator 查看厂F001记录",
+      "passed": true,
+      "detail": "角色=cooperative_operator(厂F003) 查看厂F001记录(BULK_R_001_3...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "记录数据隔离",
+      "name": "cooperative_operator 查看厂F002记录",
+      "passed": true,
+      "detail": "角色=cooperative_operator(厂F003) 查看厂F002记录(BULK_R_001_1...): 期望403, 实际403",
+      "expected": "403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "扫码跳转隔离",
+      "name": "enterprise_admin 扫码 F002 记录",
+      "passed": true,
+      "detail": "扫码 record_BULK_R_001_1: 期望200, 实际200",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "扫码跳转隔离",
+      "name": "primary_admin(F001) 扫码 F002 记录",
+      "passed": true,
+      "detail": "扫码 record_BULK_R_001_1: 期望403, 实际403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "扫码跳转隔离",
+      "name": "primary_operator(F002) 扫码本厂记录",
+      "passed": true,
+      "detail": "扫码 record_BULK_R_001_1: 期望200, 实际200",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "扫码跳转隔离",
+      "name": "cooperative_operator(F003) 扫码 F002 记录",
+      "passed": true,
+      "detail": "扫码 record_BULK_R_001_1: 期望403, 实际403",
+      "expected": "403",
+      "actual": 403,
+      "severity": "error"
+    },
+    {
+      "category": "扫码跳转隔离",
+      "name": "primary_operator(F002) 批量扫码本厂记录",
+      "passed": true,
+      "detail": "批量扫码2个不同记录: 成功2, 失败0",
+      "expected": "success_count=2",
+      "actual": "批量扫码2个不同记录: 成功2, 失败0",
+      "severity": "error"
+    },
+    {
+      "category": "订单详情可见性",
+      "name": "enterprise_admin 查看订单BULK_ORDER_002",
+      "passed": true,
+      "detail": "可见3道工序, 覆盖全部工厂: {'F001', 'F002', 'F003'}",
+      "expected": "200",
+      "actual": "200",
+      "severity": "info",
+      "db_verify": "order_id\torder_status\nBULK_ORDER_002\tin_progress\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "订单详情可见性",
+      "name": "primary_admin 查看订单BULK_ORDER_002",
+      "passed": true,
+      "detail": "可见3道工序, 包含非本厂数据({'F002', 'F003'}) — 注意: get_order_records仅有角色检查无数据隔离",
+      "expected": "200",
+      "actual": "200",
+      "severity": "warning",
+      "db_verify": "order_id\torder_status\nBULK_ORDER_002\tin_progress\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "订单详情可见性",
+      "name": "primary_operator 查看订单BULK_ORDER_002",
+      "passed": true,
+      "detail": "可见3道工序, 包含非本厂数据({'F001', 'F003'}) — 注意: get_order_records仅有角色检查无数据隔离",
+      "expected": "200",
+      "actual": "200",
+      "severity": "warning",
+      "db_verify": "order_id\torder_status\nBULK_ORDER_002\tin_progress\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "订单详情可见性",
+      "name": "cooperative_admin 查看订单BULK_ORDER_002",
+      "passed": true,
+      "detail": "可见3道工序, 包含非本厂数据({'F001', 'F002'}) — 注意: get_order_records仅有角色检查无数据隔离",
+      "expected": "200",
+      "actual": "200",
+      "severity": "warning",
+      "db_verify": "order_id\torder_status\nBULK_ORDER_002\tin_progress\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "订单详情可见性",
+      "name": "cooperative_operator 查看订单BULK_ORDER_002",
+      "passed": true,
+      "detail": "可见3道工序, 包含非本厂数据({'F001', 'F002'}) — 注意: get_order_records仅有角色检查无数据隔离",
+      "expected": "200",
+      "actual": "200",
+      "severity": "warning",
+      "db_verify": "order_id\torder_status\nBULK_ORDER_002\tin_progress\nmysql: [Warning] Using a password on the command line interface can be insecure.\n"
+    },
+    {
+      "category": "导出权限",
+      "name": "enterprise_admin 导出Excel",
+      "passed": true,
+      "detail": "导出成功, 内容类型: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "导出权限",
+      "name": "primary_admin 导出Excel",
+      "passed": true,
+      "detail": "导出成功, 内容类型: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "导出权限",
+      "name": "primary_operator 导出Excel",
+      "passed": true,
+      "detail": "导出成功, 内容类型: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "导出权限",
+      "name": "cooperative_admin 导出Excel",
+      "passed": true,
+      "detail": "导出成功, 内容类型: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "导出权限",
+      "name": "cooperative_operator 导出Excel",
+      "passed": true,
+      "detail": "导出成功, 内容类型: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "expected": "200",
+      "actual": 200,
+      "severity": "error"
+    },
+    {
+      "category": "前端路由权限匹配",
+      "name": "路由: /admin/users",
+      "passed": true,
+      "detail": "前端requiresRole=enterprise_admin ↔ 后端GET/POST=enterprise_admin ✅",
+      "expected": "前后端一致",
+      "actual": "匹配",
+      "severity": "error"
+    },
+    {
+      "category": "前端路由权限匹配",
+      "name": "路由: /admin/factories",
+      "passed": true,
+      "detail": "前端requiresRole=enterprise_admin ↔ 后端GET/POST=enterprise_admin ✅",
+      "expected": "前后端一致",
+      "actual": "匹配",
+      "severity": "error"
+    },
+    {
+      "category": "前端路由权限匹配",
+      "name": "路由: /audit",
+      "passed": true,
+      "detail": "前端allowedRoles=[enterprise_admin, primary_admin] ↔ 后端/audit/*=enterprise_admin,primary_admin ✅",
+      "expected": "前后端一致",
+      "actual": "匹配",
+      "severity": "error"
+    },
+    {
+      "category": "前端路由权限匹配",
+      "name": "路由: /scan",
+      "passed": true,
+      "detail": "前端requiresAuth(所有角色) ↔ 后端records/scan=all_5_roles ✅",
+      "expected": "前后端一致",
+      "actual": "匹配",
+      "severity": "error"
+    },
+    {
+      "category": "前端路由权限匹配",
+      "name": "路由: /notifications",
+      "passed": true,
+      "detail": "前端requiresAuth(所有角色) ↔ 后端notifications=all_5_roles ✅",
+      "expected": "前后端一致",
+      "actual": "匹配",
+      "severity": "error"
+    },
+    {
+      "category": "未认证访问",
+      "name": "GET /api/admin/users",
+      "passed": true,
+      "detail": "无token访问: 期望401/403, 实际403",
+      "expected": "401或403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "未认证访问",
+      "name": "POST /api/mom/orders/import",
+      "passed": true,
+      "detail": "无token访问: 期望401/403, 实际403",
+      "expected": "401或403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "未认证访问",
+      "name": "GET /api/audit/logs",
+      "passed": true,
+      "detail": "无token访问: 期望401/403, 实际403",
+      "expected": "401或403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "未认证访问",
+      "name": "GET /api/records/BULK_ORDER_001",
+      "passed": true,
+      "detail": "无token访问: 期望401/403, 实际403",
+      "expected": "401或403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "未认证访问",
+      "name": "GET /api/notifications",
+      "passed": true,
+      "detail": "无token访问: 期望401/403, 实际403",
+      "expected": "401或403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "未认证访问",
+      "name": "GET /api/export/excel",
+      "passed": true,
+      "detail": "无token访问: 期望401/403, 实际403",
+      "expected": "401或403",
+      "actual": "403",
+      "severity": "error"
+    },
+    {
+      "category": "已识别BUG",
+      "name": "audit/summary primary_admin 500",
+      "passed": true,
+      "detail": "primary_admin访问审计摘要返回500，期望200\n根本原因: AuditService.get_summary()中 _base_query() 已对非enterprise_admin做User.join,\n但 get_summary() 的 by_user 查询又做了一次 query.join(User, ...)，导致SQL JOIN歧义报错\n修复方案: get_summary() 中 by_user 查询应复用 _base_query 已有的join，或改用已加载的关系访问",
+      "expected": "200 (权限正确但实现有BUG)",
+      "actual": "500",
+      "severity": "bug"
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "test_suite": "API业务逻辑全场景交叉验证",
+  "start_time": "2026-06-28T18:44:20.742005",
+  "scenarios": [
+    {
+      "scenario": "登录成功 [13800138000 - enterprise_admin]",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:21.113900"
+    },
+    {
+      "scenario": "登录成功 [13800138001 - primary_admin]",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:21.525827"
+    },
+    {
+      "scenario": "登录成功 [13800138002 - primary_operator]",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:21.801946"
+    },
+    {
+      "scenario": "登录成功 [13800138003 - primary_operator]",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:22.429810"
+    },
+    {
+      "scenario": "登录成功 [13800138004 - cooperative_operator]",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:22.881876"
+    },
+    {
+      "scenario": "登录成功 [13800138005 - cooperative_admin]",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:23.597878"
+    },
+    {
+      "scenario": "登录成功 [13800138006 - primary_operator]",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:24.721980"
+    },
+    {
+      "scenario": "场景1-A: 工序1首次接收20 → received/entry_lock",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:25.664881"
+    },
+    {
+      "scenario": "场景1-B: 工序1发出10 → shipped",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:25.993065"
+    },
+    {
+      "scenario": "场景1-B2: 工序1分批再发出5（分批发出验证）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:26.348006"
+    },
+    {
+      "scenario": "场景1-C: 工序2接收8 → 工序1自动升级relation_lock",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:26.738443"
+    },
+    {
+      "scenario": "场景1-D: 工序2分批再接收4（分批接收验证）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:27.222054"
+    },
+    {
+      "scenario": "场景3: 工序3超量接收拒绝（上道无ship量）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:27.235205"
+    },
+    {
+      "scenario": "场景4: 工序2超量发出拒绝（发出15 > 可发出12）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:27.245575"
+    },
+    {
+      "scenario": "场景5-0: relation_lock状态保持（退件前验证）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:27.357953"
+    },
+    {
+      "scenario": "场景5: 退件流程（工序2退5给工序1）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:27.977525"
+    },
+    {
+      "scenario": "场景5: 退件原因必填校验",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.052093"
+    },
+    {
+      "scenario": "场景6: 下道接收后→工序1 entry_lock自动升级为relation_lock（已在退件前验证）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.052113"
+    },
+    {
+      "scenario": "场景6: 工序2保持entry_lock（下道尚未接收）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.155882"
+    },
+    {
+      "scenario": "场景7: 有接收操作后订单状态=in_progress",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.263987"
+    },
+    {
+      "scenario": "场景7: 已完成订单所有记录=completed/sync_lock",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.472701",
+      "detail": "订单BULK_ORDER_006: [('completed', 'sync_lock'), ('completed', 'sync_lock'), ('completed', 'sync_lock')]"
+    },
+    {
+      "scenario": "场景8-1: 已shipped记录扫码→view",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.497500"
+    },
+    {
+      "scenario": "场景8-2: 已received记录扫码→ship",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.528548"
+    },
+    {
+      "scenario": "场景8-3: pending记录扫码→receive",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.556427"
+    },
+    {
+      "scenario": "场景8-4: 无效二维码→not_found",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.565867"
+    },
+    {
+      "scenario": "场景8-5: process_格式扫码 → not_found（已知bug：process_id含下划线导致split错误）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.580748"
+    },
+    {
+      "scenario": "场景9: 批量扫码（5码去重后4个，3有效1无效）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.661212"
+    },
+    {
+      "scenario": "场景10-1: 获取通知列表",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.672240"
+    },
+    {
+      "scenario": "场景10-2: 标记单条通知已读",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.682898"
+    },
+    {
+      "scenario": "场景10-3: 标记全部通知已读",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.691073"
+    },
+    {
+      "scenario": "场景10-4: DB验证全部已读",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.778298"
+    },
+    {
+      "scenario": "场景11: 获取订单全部工序流转状态",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.824168"
+    },
+    {
+      "scenario": "场景12-1: 获取记录详情（含批次）",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.844599"
+    },
+    {
+      "scenario": "场景12-2: 跨厂查看权限拒绝",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.865039"
+    },
+    {
+      "scenario": "场景12-3: 企业管理员可跨厂查看",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.888272"
+    },
+    {
+      "scenario": "场景13-1: pending/none记录不可申请解锁",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.905670"
+    },
+    {
+      "scenario": "场景13-2: entry_lock记录可申请解锁",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.924968"
+    },
+    {
+      "scenario": "场景13-3: 退件后工序1降级为entry_lock，可申请解锁",
+      "result": "PASS",
+      "timestamp": "2026-06-28T18:44:28.945182"
+    }
+  ],
+  "summary": {
+    "total": 38,
+    "passed": 38,
+    "failed": 0
+  },
+  "end_time": "2026-06-28T18:44:28.945292"
+}

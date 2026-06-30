@@ -100,7 +100,7 @@
             </van-cell-group>
 
             <div class="helper-card">
-              <div class="helper-title">演示环境提示</div>
+              <div class="helper-title">演示账号说明</div>
               <div class="helper-text">管理员新增用户默认 demo_hash；可使用 123456、admin123 或 demo_hash 体验密码登录。</div>
             </div>
 

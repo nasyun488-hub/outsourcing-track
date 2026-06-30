@@ -75,7 +75,7 @@ def main() -> None:
     require(factories, "toggleFactorySelection", "厂家管理PC批量选择")
     require(factories, "batchApproveSelected", "厂家管理PC批量审核")
     require(export, "orderKeyword", "导出PC订单快速输入")
-    require(export, "selectedFactoryId", "导出PC厂家下拉选择")
+    require(export, "filterForm.factory_id", "导出PC厂家下拉选择")
     require(audit, "selectedLog", "审计PC详情抽屉")
     require(audit, "target_table", "审计PC对象字段")
 

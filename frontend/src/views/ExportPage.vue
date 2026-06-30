@@ -1,5 +1,7 @@
 <template>
+  <!-- 页面快捷操作：回到主页 router.push('/') | 设置中心 router.push('/settings') -->
   <div class="export-page">
+    <QuickNavStrip />
     <van-nav-bar
       title="报表导出中心"
       left-arrow
@@ -22,7 +24,7 @@
       </div>
       <div class="pc-actions">
         <input v-model="orderKeyword" class="pc-input" placeholder="订单号快速输入" />
-        <select v-model="selectedFactoryId" class="pc-input">
+        <select v-model="filterForm.factory_id" class="pc-input">
           <option value="">全部厂家</option>
           <option v-for="factory in factoryList" :key="factory.id || factory.factory_id" :value="String(factory.id || factory.factory_id)">
             {{ factory.name || factory.factory_name }}
@@ -30,9 +32,9 @@
         </select>
         <button type="button" :class="{ active: activeReport === 'flow' }" @click="selectReport('flow')">外协流转明细</button>
         <button type="button" :class="{ active: activeReport === 'exception' }" @click="selectReport('exception')">异常逾期报表</button>
-        <button type="button" @click="setDateRange('today')">今天</button>
-        <button type="button" @click="setDateRange('week')">本周</button>
-        <button type="button" @click="setDateRange('month')">本月</button>
+        <button type="button" :class="{ active: quickRange === 'today' }" @click="setDateRange('today')">今天</button>
+        <button type="button" :class="{ active: quickRange === 'week' }" @click="setDateRange('week')">本周</button>
+        <button type="button" :class="{ active: quickRange === 'month' }" @click="setDateRange('month')">本月</button>
         <button type="button" class="primary" :disabled="!canExport || exporting" @click="handleExport">一键导出</button>
       </div>
     </section>
@@ -207,11 +209,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
-import { exportExcel, fetchFactories } from '../api/kanban'
-
+import { useAuthStore } from '@/stores/auth'
+import request from '@/api'
+import QuickNavStrip from '@/components/QuickNavStrip.vue'
 const router = useRouter()
 
 const filterForm = ref({
@@ -225,7 +228,6 @@ const filterForm = ref({
 const activeReport = ref<'flow' | 'exception'>('flow')
 const quickRange = ref<'today' | 'week' | 'month' | ''>('')
 const orderKeyword = ref('')
-const selectedFactoryId = ref('')
 
 const showStartDatePicker = ref(false)
 const showEndDatePicker = ref(false)
@@ -251,7 +253,9 @@ const canExport = computed(() => {
 
 const activeReportName = computed(() => activeReport.value === 'flow' ? '外协流转明细' : '异常逾期报表')
 const selectedFactoryName = computed(() => {
-  const found = factoryList.value.find(f => String(f.id || f.factory_id) === selectedFactoryId.value)
+  const factoryId = filterForm.value.factory_id
+  if (!factoryId) return ''
+  const found = factoryList.value.find(f => String(f.id || f.factory_id) === factoryId)
   return found ? (found.name || found.factory_name) : ''
 })
 const datePreview = computed(() => {
@@ -364,8 +368,8 @@ async function handleExport() {
       params.order_id = orderKeyword.value || filterForm.value.order_id
     }
     
-    if (selectedFactoryId.value || filterForm.value.factory_id) {
-      params.factory_id = selectedFactoryId.value || filterForm.value.factory_id
+    if (filterForm.value.factory_id) {
+      params.factory_id = filterForm.value.factory_id
     }
 
     const blob: any = await exportExcel(params)
