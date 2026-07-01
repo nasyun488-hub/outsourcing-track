@@ -6,6 +6,7 @@ from app.schemas.auth import (
     SmsCodeRequest,
     PhoneLoginRequest,
     PasswordLoginRequest,
+    PasswordChangeRequest,
     TokenResponse,
     UserResponse
 )
@@ -13,6 +14,7 @@ from app.services.auth_service import (
     create_sms_code,
     authenticate_phone,
     authenticate_password,
+    verify_demo_password,
     create_access_token
 )
 from app.middleware.auth import get_current_user
@@ -99,3 +101,30 @@ async def get_me(current_user: User = Depends(get_current_user)):
     需要携带有效的JWT Token
     """
     return current_user
+
+
+@router.put("/password", summary="修改密码")
+async def change_password(
+    request: PasswordChangeRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    修改当前用户密码
+    - 验证旧密码
+    - 更新为新密码
+    """
+    if not verify_demo_password(current_user.password_hash, request.old_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="当前密码错误"
+        )
+    if len(request.new_password) < 6:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="新密码长度不能少于6位"
+        )
+    # 演示环境存明文，生产应使用哈希
+    current_user.password_hash = request.new_password
+    db.commit()
+    return {"success": True, "message": "密码修改成功"}

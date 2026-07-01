@@ -254,6 +254,9 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .login-header {

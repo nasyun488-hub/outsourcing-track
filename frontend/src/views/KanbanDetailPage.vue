@@ -140,6 +140,7 @@ import { ref, computed, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { showToast, showConfirmDialog } from 'vant'
 import { useAuthStore } from '@/stores/auth'
+import { useKanbanStore } from '@/stores/kanban'
 import QuickNavStrip from '@/components/QuickNavStrip.vue'
 import ProcessCard from '../components/ProcessCard.vue'
 

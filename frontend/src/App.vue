@@ -35,24 +35,26 @@
 
       <section class="pc-main">
         <header class="topbar">
-          <div>
-            <div class="topbar-title">{{ currentTitle }}</div>
-            <div class="topbar-subtitle">{{ roleText }} · {{ authStore.userInfo?.factory_name || '全部厂家' }}</div>
-          </div>
-          <div class="topbar-actions">
-            <button class="topbar-btn" @click="router.push('/notifications')">通知</button>
-            <button class="topbar-btn primary" @click="router.push('/scan')">扫码录入</button>
-            <van-dropdown>
-              <van-dropdown-item>
-                <template #title>
-                  <button class="topbar-user">{{ authStore.userInfo?.name || '用户' }}</button>
-                </template>
-                <van-cell-group>
-                  <van-cell title="系统设置" is-link @click="router.push('/settings')" />
-                  <van-cell title="退出登录" is-link @click="confirmLogout" />
-                </van-cell-group>
-              </van-dropdown-item>
-            </van-dropdown>
+          <div class="topbar-inner">
+            <div>
+              <div class="topbar-title">{{ currentTitle }}</div>
+              <div class="topbar-subtitle">{{ roleText }} · {{ authStore.userInfo?.factory_name || '全部厂家' }}</div>
+            </div>
+            <div class="topbar-actions">
+              <button class="topbar-btn" @click="router.push('/notifications')">通知</button>
+              <button class="topbar-btn primary" @click="router.push('/scan')">扫码录入</button>
+              <van-dropdown>
+                <van-dropdown-item>
+                  <template #title>
+                    <button class="topbar-user">{{ authStore.userInfo?.name || '用户' }}</button>
+                  </template>
+                  <van-cell-group>
+                    <van-cell title="系统设置" is-link @click="router.push('/settings')" />
+                    <van-cell title="退出登录" is-link @click="confirmLogout" />
+                  </van-cell-group>
+                </van-dropdown-item>
+              </van-dropdown>
+            </div>
           </div>
         </header>
 
@@ -344,8 +346,36 @@ body,
 
 .main-content {
   width: 100%;
-  max-width: 1360px;
+  max-width: 1080px;
+  margin: 0 auto;
   padding: 22px 24px 36px;
+}
+
+.topbar-inner {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* PC端弹窗宽度优化 */
+@media (min-width: 900px) {
+  :root {
+    --van-dialog-width: 480px;
+  }
+  .van-popup--bottom {
+    width: 520px;
+    max-width: 90vw;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border-radius: 12px 12px 0 0;
+  }
+  .van-popup--bottom.van-popup--round {
+    border-radius: 12px 12px 12px 12px;
+  }
 }
 
 @media (max-width: 900px) {

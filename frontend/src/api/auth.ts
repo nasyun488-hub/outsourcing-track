@@ -42,3 +42,7 @@ export const passwordLogin = (data: PasswordLoginParams) => {
 export const fetchMe = () => {
   return request.get<Record<string, any>>('/auth/me')
 }
+
+export const changePassword = (data: { old_password: string; new_password: string }) => {
+  return request.put<{ success: boolean; message: string }>('/auth/password', data)
+}

@@ -90,6 +90,7 @@ import { ref, computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
 import { useAuthStore } from '@/stores/auth'
+import { changePassword } from '@/api/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -139,7 +140,7 @@ const showPasswordModal = () => {
   showPassword.value = true
 }
 
-const handleChangePassword = () => {
+const handleChangePassword = async () => {
   if (!passwordForm.old || !passwordForm.new || !passwordForm.confirm) {
     showToast('请填写完整密码信息')
     return
@@ -148,14 +149,31 @@ const handleChangePassword = () => {
     showToast('两次输入的密码不一致')
     return
   }
-  showToast('密码修改成功')
-  showPassword.value = false
-  passwordForm.old = ''
-  passwordForm.new = ''
-  passwordForm.confirm = ''
+  if (passwordForm.new.length < 6) {
+    showToast('新密码长度不能少于6位')
+    return
+  }
+  try {
+    await changePassword({ old_password: passwordForm.old, new_password: passwordForm.new })
+    showToast('密码修改成功')
+    showPassword.value = false
+    passwordForm.old = ''
+    passwordForm.new = ''
+    passwordForm.confirm = ''
+  } catch (e: any) {
+    showToast(e?.response?.data?.detail || '密码修改失败')
+  }
 }
 
 const saveSettings = () => {
+  // 持久化深色模式
+  if (darkMode.value) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+  localStorage.setItem('settings_darkMode', String(darkMode.value))
+  localStorage.setItem('settings_notifyEnabled', String(notifyEnabled.value))
   showToast('设置已保存')
 }
 
@@ -166,7 +184,18 @@ const logout = () => {
 
 onMounted(() => {
   authStore.initFromStorage()
-  darkMode.value = document.documentElement.classList.contains('dark')
+  // 从localStorage恢复设置
+  const savedDark = localStorage.getItem('settings_darkMode')
+  const savedNotify = localStorage.getItem('settings_notifyEnabled')
+  if (savedDark !== null) {
+    darkMode.value = savedDark === 'true'
+    if (darkMode.value) document.documentElement.classList.add('dark')
+  } else {
+    darkMode.value = document.documentElement.classList.contains('dark')
+  }
+  if (savedNotify !== null) {
+    notifyEnabled.value = savedNotify === 'true'
+  }
 })
 </script>
 

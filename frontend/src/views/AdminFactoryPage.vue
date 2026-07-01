@@ -202,10 +202,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, reactive } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast, showConfirmDialog } from 'vant'
-import request from '@/api'
+import { fetchFactories, createFactory, reviewFactoryAdminApplication } from '@/api/kanban'
 import { useAuthStore } from '@/stores/auth'
 import QuickNavStrip from '@/components/QuickNavStrip.vue'
 const router = useRouter()

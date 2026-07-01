@@ -27,6 +27,12 @@ class TokenResponse(BaseModel):
     expires_in: int = Field(..., description="过期时间（秒）")
 
 
+class PasswordChangeRequest(BaseModel):
+    """修改密码请求"""
+    old_password: str = Field(..., min_length=1, max_length=256, description="当前密码")
+    new_password: str = Field(..., min_length=1, max_length=256, description="新密码")
+
+
 class UserResponse(BaseModel):
     """用户信息响应"""
     user_id: str
