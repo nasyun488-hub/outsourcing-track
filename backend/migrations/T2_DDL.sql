@@ -37,6 +37,7 @@ CREATE TABLE users (
     role          ENUM('enterprise_admin','primary_admin','primary_operator','cooperative_admin','cooperative_operator') NOT NULL COMMENT '5种角色',
     password_hash VARCHAR(256)  NOT NULL COMMENT '密码哈希（JWT场景下可不用，但预留）',
     status        ENUM('active','inactive','pending') NOT NULL DEFAULT 'pending' COMMENT 'pending=待审核',
+    last_login    DATETIME     NULL COMMENT '最后登录时间',
     created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id),

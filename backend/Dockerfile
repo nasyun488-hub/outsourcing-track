@@ -18,7 +18,8 @@ RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PATH="/home/appuser/.local/bin:${PATH}"
+RUN pip install --no-cache-dir -i https://mirrors.cloud.tencent.com/pypi/simple -r requirements.txt
 
 COPY . .
 

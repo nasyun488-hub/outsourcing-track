@@ -692,8 +692,8 @@ class RecordService:
             # process_{process_id}_{factory_id}
             parts = qr_code.split("_")
             if len(parts) >= 3:
-                process_id = parts[1]
-                factory_id = parts[2]
+                process_id = "_".join(parts[1:-1])
+                factory_id = parts[-1]
                 record = self.db.query(ProcessRecord).filter(
                     and_(
                         ProcessRecord.process_id == process_id,
