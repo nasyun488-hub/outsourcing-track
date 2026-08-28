@@ -4,6 +4,7 @@
 覆盖：MOM导入、审计报表、人员管理、厂家管理、通知已读、扫码接收/发出、订单跨厂可见性
 """
 import json
+import os
 import sys
 import requests
 import time
@@ -12,7 +13,10 @@ from datetime import datetime
 # 禁用代理
 requests.trust_env = False
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = os.getenv("API_BASE", "http://localhost:8000")
+# 项目根目录与 MySQL 密码可通过环境变量覆盖，适配不同部署环境
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "rootpassword")
 
 # =============================================================================
 # 测试结果收集
@@ -56,15 +60,15 @@ def record(category: str, name: str, passed: bool, detail: str, expected=None, a
     print(f"  {status} [{category}] {name}: {detail}")
 
 def db_query(sql: str):
-    """通过 docker 执行 MySQL 查询"""
+    """通过 docker 执行 MySQL 查询（密码与项目根目录取自模块级配置，便于跨环境运行）"""
     import subprocess
     cmd = [
         "docker", "compose", "exec", "-T", "mysql",
-        "mysql", "-uroot", "-prootpassword",
+        "mysql", "-uroot", f"-p{MYSQL_PASSWORD}",
         "outsourcing_track", "-e", sql
     ]
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=10, cwd="/home/takemehome/outsourcing-track")
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=10, cwd=REPO_ROOT)
         return r.stdout + r.stderr
     except Exception as e:
         return f"DB_ERROR: {e}"
@@ -678,21 +682,26 @@ def test_unauthenticated_access():
                    expected="401/403", actual=str(e))
 
 def test_audit_detail_bug():
-    """审计摘要500 bug 详情"""
-    print("\n=== 13. 审计摘要500 BUG详情 ===")
+    """审计摘要500 bug 回归检查
+
+    历史BUG: AuditService.get_summary() 中 _base_query() 已对非 enterprise_admin
+    做 User.join，by_user 查询又重复 join 一次，导致 SQL JOIN 歧义报错 500。
+    该缺陷已在代码中修复（非企业管理员复用 _base_query 已有的 join）。
+    回归判定: 返回 200 视为通过（BUG 未复现）；返回 500 视为失败（BUG 复现）。
+    """
+    print("\n=== 13. 审计摘要500 BUG回归检查 ===")
     cat = "已识别BUG"
-    
-    # primary_admin 审计摘要返回500
+
+    # primary_admin 审计摘要
     headers = {"Authorization": f"Bearer {tokens['primary_admin']}"}
     r = requests.get(f"{BASE_URL}/api/audit/summary", headers=headers, timeout=10)
-    
-    bug_found = r.status_code == 500
-    record(cat, "audit/summary primary_admin 500", bug_found,
-           f"primary_admin访问审计摘要返回500，期望200"
-           f"\n根本原因: AuditService.get_summary()中 _base_query() 已对非enterprise_admin做User.join,"
-           f"\n但 get_summary() 的 by_user 查询又做了一次 query.join(User, ...)，导致SQL JOIN歧义报错"
-           f"\n修复方案: get_summary() 中 by_user 查询应复用 _base_query 已有的join，或改用已加载的关系访问",
-           expected="200 (权限正确但实现有BUG)", actual="500",
+
+    # 修复后期望 200；只有重新出现 500 才算失败
+    bug_fixed = r.status_code == 200
+    record(cat, "audit/summary primary_admin 500（回归）", bug_fixed,
+           f"primary_admin访问审计摘要返回{r.status_code}，期望200"
+           f"\n若返回500: _base_query 已 join User，by_user 查询重复 join 导致 SQL JOIN 歧义",
+           expected="200", actual=str(r.status_code),
            severity="bug")
 
 
@@ -775,7 +784,7 @@ def main():
         print(f"   - {w['name']}: {w['detail'][:120]}")
     
     # 写入JSON
-    output_path = "/home/takemehome/outsourcing-track/docs/acceptance/permission-data-isolation-validation.json"
+    output_path = os.path.join(REPO_ROOT, "docs", "acceptance", "permission-data-isolation-validation.json")
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     print(f"\n✅ 结果已写入: {output_path}")

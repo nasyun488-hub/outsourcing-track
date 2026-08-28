@@ -13,7 +13,9 @@ from datetime import datetime
 
 # ============ 配置 ============
 API_BASE = "http://localhost:8000"
-MYSQL_CMD = 'docker exec outsourcing-track-mysql-1 mysql -u root -prootpassword outsourcing_track -e'
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "rootpassword")
+MYSQL_CONTAINER = os.getenv("MYSQL_CONTAINER", "outsourcing-track-mysql-1")
+MYSQL_CMD = f'docker exec {MYSQL_CONTAINER} mysql -u root -p{MYSQL_PASSWORD} outsourcing_track -e'
 
 # 手机号 → 角色映射（实际数据库数据）
 USERS = {
@@ -393,16 +395,16 @@ def run_tests():
     record_test("场景8-4: 无效二维码→not_found", scan_invalid,
                 resp.text[:150] if not scan_invalid else None)
 
-    # process_格式扫码 — 注意：process_id包含下划线时，scan_judge的split逻辑会错误分拆
-    # 实际返回not_found，这是已知bug：process_id含"_"时无法正确解析
+    # process_格式扫码 — process_id含下划线（如 BULK_P1）也应正确解析
+    # 历史缺陷（split("_")分拆错位）已于 b296808 修复：现在应返回对应流转记录
     if processes:
         p = processes[0]
         qr = f"process_{p['process_id']}_{p['factory_id']}"
         resp = api_call("GET", f"/api/records/scan/judge?qr_code={qr}", token_ent_admin)
-        # 目前因split("_")逻辑缺陷返回not_found
-        scan_proc = resp.status_code == 200 and resp.json()["jump_type"] == "not_found"
-        record_test("场景8-5: process_格式扫码 → not_found（已知bug：process_id含下划线导致split错误）",
-                    scan_proc, None)
+        # 修复后应正确解析到记录（jump_type 为 receive/ship/view），而非 not_found
+        scan_proc = resp.status_code == 200 and resp.json()["jump_type"] != "not_found"
+        record_test("场景8-5: process_格式扫码 → 正确解析到流转记录（含下划线process_id）",
+                    scan_proc, resp.text[:150] if not scan_proc else None)
 
     # ================================================================
     # 场景9: 扫码批量提交
@@ -534,7 +536,8 @@ if __name__ == "__main__":
         run_tests()
     finally:
         results["end_time"] = datetime.utcnow().isoformat()
-        output_path = "/home/takemehome/outsourcing-track/docs/acceptance/api-business-logic-validation-result.json"
+        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        output_path = os.path.join(repo_root, "docs", "acceptance", "api-business-logic-validation-result.json")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(results, f, ensure_ascii=False, indent=2, default=str)
