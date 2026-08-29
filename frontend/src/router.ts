@@ -104,7 +104,7 @@ const router = createRouter({
       path: '/permissions',
       name: 'Permissions',
       component: () => import('@/views/PermissionsPage.vue'),
-      meta: { requiresAuth: true, allowedRoles: ['super_admin', 'factory_admin'] }
+      meta: { requiresAuth: true, allowedRoles: ['enterprise_admin', 'primary_admin', 'cooperative_admin'] }
     }
   ]
 })

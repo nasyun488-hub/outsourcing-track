@@ -75,10 +75,19 @@ const currentUser = computed(() => authStore.user)
 
 const roleText = computed(() => {
   const roleMap: Record<string, string> = {
-    'super_admin': '超级管理员',
-    'factory_admin': '工厂管理员',
-    'factory_staff': '工厂员工',
-    'external_factory': '外协厂家',
+    // 规范角色（与后端 user_role_enum 一致）
+    'enterprise_admin': '企业管理员',
+    'primary_admin': '主厂管理员',
+    'primary_operator': '主厂操作员',
+    'cooperative_admin': '协作厂管理员',
+    'cooperative_operator': '协作厂操作员',
+    // 历史别名兜底
+    'super_admin': '企业管理员',
+    'factory_admin': '协作厂管理员',
+    'factory_operator': '协作厂操作员',
+    'operator': '协作厂操作员',
+    'factory_staff': '主厂操作员',
+    'external_factory': '协作厂管理员',
     'guest': '访客'
   }
   return roleMap[currentUser.value?.role] || currentUser.value?.role || ''
@@ -86,59 +95,58 @@ const roleText = computed(() => {
 
 const roleList = [
   {
-    id: 'super_admin',
-    name: '超级管理员',
+    id: 'enterprise_admin',
+    name: '企业管理员',
     level: 5,
     permissions: [
-      '管理所有工厂信息',
       '管理所有用户账号',
-      '查看所有流转记录',
-      '系统配置管理',
+      '管理所有厂家信息',
+      '查看所有流转记录（可跨厂）',
       '导出全部数据',
-      '权限分配与调整',
-      '系统日志审计'
+      '系统日志审计',
+      'MOM 订单导入'
     ]
   },
   {
-    id: 'factory_admin',
-    name: '工厂管理员',
+    id: 'primary_admin',
+    name: '主厂管理员',
     level: 4,
     permissions: [
-      '管理本厂员工账号',
-      '查看本厂所有流转记录',
+      '查看本厂流转记录',
       '本厂数据导出',
-      '外协厂家管理',
-      '本厂配置调整'
+      '审计日志查看',
+      '看板与订单跟踪'
     ]
   },
   {
-    id: 'factory_staff',
-    name: '工厂员工',
+    id: 'primary_operator',
+    name: '主厂操作员',
     level: 3,
     permissions: [
-      '扫码发件操作',
-      '扫码收件操作',
+      '扫码接收/发出',
       '查看本厂流转记录',
-      '创建流转单'
+      '查看记录详情与批次',
+      '退件与解锁申请'
     ]
   },
   {
-    id: 'external_factory',
-    name: '外协厂家',
+    id: 'cooperative_admin',
+    name: '协作厂管理员',
     level: 2,
     permissions: [
-      '扫码收件确认',
+      '本厂扫码接收/发出',
       '查看本厂待处理订单',
-      '填写加工状态'
+      '本厂数据导出'
     ]
   },
   {
-    id: 'guest',
-    name: '访客',
+    id: 'cooperative_operator',
+    name: '协作厂操作员',
     level: 1,
     permissions: [
-      '查看流转进度',
-      '搜索流转记录'
+      '扫码接收确认',
+      '扫码发出',
+      '查看本厂流转记录'
     ]
   }
 ]

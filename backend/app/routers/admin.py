@@ -70,9 +70,13 @@ def create_user(
     current_user: User = Depends(get_current_user),
 ):
     require_enterprise_admin(current_user)
+    # 兼容历史/别名角色名：数据库 user_role_enum 仅支持 5 个规范角色，
+    # 未映射的别名（如 factory_operator/super_admin）会导致 MySQL ENUM 写入失败。
     role_map = {
         "factory_admin": "cooperative_admin",
+        "factory_operator": "cooperative_operator",
         "operator": "cooperative_operator",
+        "super_admin": "enterprise_admin",
     }
     user_id = data.get("user_id") or f"DEMO_USER_{int(datetime.utcnow().timestamp())}"
     if db.query(User).filter(User.user_id == user_id).first():

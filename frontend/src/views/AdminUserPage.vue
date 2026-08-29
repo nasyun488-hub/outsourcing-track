@@ -81,8 +81,10 @@
         </select>
         <button type="button" :class="{ active: filterRole === '' }" @click="filterRole = ''; onRoleChange()">全部</button>
         <button type="button" :class="{ active: filterRole === 'enterprise_admin' }" @click="filterRole = 'enterprise_admin'; onRoleChange()">企业管理员</button>
-        <button type="button" :class="{ active: filterRole === 'factory_admin' }" @click="filterRole = 'factory_admin'; onRoleChange()">厂家管理员</button>
-        <button type="button" :class="{ active: filterRole === 'operator' }" @click="filterRole = 'operator'; onRoleChange()">操作员</button>
+        <button type="button" :class="{ active: filterRole === 'primary_admin' }" @click="filterRole = 'primary_admin'; onRoleChange()">主厂管理员</button>
+        <button type="button" :class="{ active: filterRole === 'primary_operator' }" @click="filterRole = 'primary_operator'; onRoleChange()">主厂操作员</button>
+        <button type="button" :class="{ active: filterRole === 'cooperative_admin' }" @click="filterRole = 'cooperative_admin'; onRoleChange()">协作厂管理员</button>
+        <button type="button" :class="{ active: filterRole === 'cooperative_operator' }" @click="filterRole = 'cooperative_operator'; onRoleChange()">协作厂操作员</button>
         <button type="button" :disabled="selectedUserIds.length === 0" @click="batchApproveSelected(true)">批量通过</button>
         <button type="button" :disabled="selectedUserIds.length === 0" @click="batchApproveSelected(false)">批量拒绝</button>
         <button type="button" class="primary" @click="showAddForm = true">新增人员</button>
@@ -107,7 +109,7 @@
             <td><input type="checkbox" :checked="selectedUserIds.includes(getUserId(user))" @change="toggleUserSelection(getUserId(user))" /></td>
             <td>{{ user.username || user.name }}</td>
             <td>{{ getRoleText(user.role) }}</td>
-            <td>{{ user.factory_name || (user.role === 'operator' ? '未绑定厂家' : '-') }}</td>
+            <td>{{ user.factory_name || (needsFactory(user.role) ? '未绑定厂家' : '-') }}</td>
             <td>{{ user.status === 'pending' ? '待审核' : (isUserActive(user) ? '已启用' : '已禁用') }}</td>
             <td>
               <template v-if="user.status === 'pending'">
@@ -127,8 +129,10 @@
       <van-tabs v-model:active="filterRole" @change="onRoleChange">
         <van-tab title="全部" name="" />
         <van-tab title="企业管理员" name="enterprise_admin" />
-        <van-tab title="厂家管理员" name="factory_admin" />
-        <van-tab title="操作员" name="operator" />
+        <van-tab title="主厂管理员" name="primary_admin" />
+        <van-tab title="主厂操作员" name="primary_operator" />
+        <van-tab title="协作厂管理员" name="cooperative_admin" />
+        <van-tab title="协作厂操作员" name="cooperative_operator" />
       </van-tabs>
     </div>
 
@@ -156,7 +160,7 @@
                     {{ getRoleText(user.role) }}
                   </van-tag>
                   <span v-if="user.factory_name" class="factory-name">{{ user.factory_name }}</span>
-                  <span v-else-if="user.role === 'operator'" class="factory-name danger-text">未绑定厂家</span>
+                  <span v-else-if="needsFactory(user.role)" class="factory-name danger-text">未绑定厂家</span>
                 </div>
               </div>
             </div>
@@ -213,7 +217,7 @@
               :rules="[{ required: true, message: '请选择角色' }]"
             />
             <van-field
-              v-if="addForm.role === 'factory_admin' || addForm.role === 'operator'"
+              v-if="needsFactory(addForm.role)"
               :model-value="factoryText"
               name="factory_id"
               label="厂家"
@@ -221,7 +225,7 @@
               is-link
               placeholder="请选择厂家"
               @click="showFactoryPicker = true"
-              :rules="addForm.role === 'operator' ? [{ required: true, message: '操作员必须绑定厂家' }] : []"
+              :rules="needsFactory(addForm.role) ? [{ required: true, message: '非企业管理员必须绑定厂家' }] : []"
             />
           </van-cell-group>
           <div class="form-submit">
@@ -287,8 +291,10 @@ const addForm = ref({
 
 const roleColumns = [
   { text: '企业管理员', value: 'enterprise_admin' },
-  { text: '厂家管理员', value: 'factory_admin' },
-  { text: '操作员', value: 'operator' }
+  { text: '主厂管理员', value: 'primary_admin' },
+  { text: '主厂操作员', value: 'primary_operator' },
+  { text: '协作厂管理员', value: 'cooperative_admin' },
+  { text: '协作厂操作员', value: 'cooperative_operator' }
 ]
 
 const factoryColumns = computed(() => factoryList.value.map(factory => ({
@@ -369,10 +375,17 @@ async function onRoleChange() {
   await fetchUserList()
 }
 
+/** 企业管理员可跨厂；其余角色均需绑定具体厂家 */
+function needsFactory(role: string): boolean {
+  return !!role && role !== 'enterprise_admin'
+}
+
 function normalizeRoleFilter(role: string): string {
   const roleMap: Record<string, string> = {
     factory_admin: 'cooperative_admin',
-    operator: 'cooperative_operator'
+    factory_operator: 'cooperative_operator',
+    operator: 'cooperative_operator',
+    super_admin: 'enterprise_admin'
   }
   return roleMap[role] || role
 }
@@ -400,8 +413,8 @@ async function batchApproveSelected(approved: boolean) {
 }
 
 async function handleAddUser() {
-  if (addForm.value.role === 'operator' && !addForm.value.factory_id) {
-    showToast('操作员必须绑定厂家')
+  if (needsFactory(addForm.value.role) && !addForm.value.factory_id) {
+    showToast('该角色必须绑定厂家')
     return
   }
   try {
