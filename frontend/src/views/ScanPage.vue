@@ -969,9 +969,11 @@ onUnmounted(stopCamera)
 
 .submit-bar {
   position: fixed;
-  right: 12px;
   bottom: 0;
-  left: 12px;
+  /* 桌面态：底栏对齐右侧浅色内容列（侧边栏232 + 内容居中偏移 + 内容内边距24），
+     避免底栏铺满视口、压在侧边栏上。公式与 App.vue 布局常量保持一致。 */
+  left: calc(232px + max(0px, (100vw - 232px - 1080px) / 2) + 24px);
+  right: calc(max(0px, (100vw - 232px - 1080px) / 2) + 24px);
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -980,6 +982,14 @@ onUnmounted(stopCamera)
   border-radius: 16px 16px 0 0;
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 -4px 18px rgba(16, 24, 40, 0.08);
+}
+
+/* 移动端（≤900px）：无侧边栏、内容通栏，底栏与卡片同 12px 边距 */
+@media (max-width: 900px) {
+  .submit-bar {
+    left: 12px;
+    right: 12px;
+  }
 }
 
 .loading-wrapper {
