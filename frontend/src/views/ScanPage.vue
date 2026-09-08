@@ -969,14 +969,15 @@ onUnmounted(stopCamera)
 
 .submit-bar {
   position: fixed;
-  right: 0;
+  right: 12px;
   bottom: 0;
-  left: 0;
+  left: 12px;
   z-index: 20;
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  border-radius: 16px 16px 0 0;
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 -4px 18px rgba(16, 24, 40, 0.08);
 }
